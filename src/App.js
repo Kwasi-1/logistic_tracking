@@ -43,6 +43,37 @@ function App() {
         .addTo(mapRef.current);
     });
 
+    // Fetch the route from Marker 1 to Marker 3
+    const getRoute = async () => {
+      const start = MARKERS[0]; // Marker 1
+      const end = MARKERS[2];   // Marker 3
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+      const route = data.routes[0].geometry;
+
+      // Add the route to the map
+      mapRef.current.addSource("route", {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: route,
+        },
+      });
+
+      mapRef.current.addLayer({
+        id: "route",
+        type: "line",
+        source: "route",
+        layout: { "line-join": "round", "line-cap": "round" },
+        paint: { "line-color": "#ff0000", "line-width": 4 },
+      });
+    };
+
+    mapRef.current.on("load", getRoute);
+
     mapRef.current.on("move", () => {
       const mapCenter = mapRef.current.getCenter();
       const mapZoom = mapRef.current.getZoom();
