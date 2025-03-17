@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
@@ -19,6 +18,8 @@ function App() {
   const mapContainerRef = useRef();
   const [center, setCenter] = useState(INITIAL_CENTER);
   const [zoom, setZoom] = useState(INITIAL_ZOOM);
+  const [routes, setRoutes] = useState([]);
+  const [selectedRoute, setSelectedRoute] = useState(null);
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -30,7 +31,7 @@ function App() {
       style: "mapbox://styles/mapbox/traffic-day-v2", // Traffic view
       center: center,
       zoom: zoom,
-    });   
+    });
 
     // Add zoom and rotation controls
     mapRef.current.addControl(new mapboxgl.NavigationControl());
@@ -43,24 +44,25 @@ function App() {
         .addTo(mapRef.current);
     });
 
-    // Fetch the route from Marker 1 to Marker 3
-    const getRoute = async () => {
+    // Fetch routes
+    const getRoutes = async () => {
       const start = MARKERS[0]; // Marker 1
-      const end = MARKERS[1];   // Marker 3
-    
+      const end = MARKERS[1];   // Marker 2
+
       const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?geometries=geojson&alternatives=true&steps=true&access_token=${mapboxgl.accessToken}`;
-    
+
       const response = await fetch(url);
       const data = await response.json();
-    
+
       if (data.routes.length === 0) {
         console.error("No routes found");
         return;
       }
-    
+
+      setRoutes(data.routes);
+      setSelectedRoute(0); // Auto-select best route (shortest)
+
       data.routes.forEach((route, index) => {
-        const color = index === 0 ? "#ff0000" : "#00ff00"; // First route red, others green
-    
         mapRef.current.addSource(`route-${index}`, {
           type: "geojson",
           data: {
@@ -69,19 +71,21 @@ function App() {
             geometry: route.geometry,
           },
         });
-    
+
         mapRef.current.addLayer({
           id: `route-${index}`,
           type: "line",
           source: `route-${index}`,
           layout: { "line-join": "round", "line-cap": "round" },
-          paint: { "line-color": color, "line-width": 4 },
+          paint: {
+            "line-color": index === 0 ? "#0000ff" : "transparent", // Best route is blue, others hidden
+            "line-width": 6,
+          },
         });
       });
     };
-    
-    mapRef.current.on("load", getRoute);
-    
+
+    mapRef.current.on("load", getRoutes);
 
     mapRef.current.on("move", () => {
       const mapCenter = mapRef.current.getCenter();
@@ -95,10 +99,24 @@ function App() {
     };
   }, []);
 
+  const selectRoute = (index) => {
+    setSelectedRoute(index);
+
+    routes.forEach((_, i) => {
+      mapRef.current.setPaintProperty(`route-${i}`, "line-color", i === index ? "#0000ff" : "transparent");
+    });
+  };
+
   return (
     <>
       <div className="sidebar">
         Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} | Zoom: {zoom.toFixed(2)}
+        <br />
+        {routes.map((_, index) => (
+          <button key={index} onClick={() => selectRoute(index)} style={{ margin: "5px", padding: "5px" }}>
+            Route {index + 1} {index === 0 ? "(Best)" : ""}
+          </button>
+        ))}
       </div>
       <div id="map-container" ref={mapContainerRef} />
     </>
