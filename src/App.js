@@ -10,7 +10,7 @@ const INITIAL_ZOOM = 14.12;
 // Sample locations for markers
 const MARKERS = [
   { lng: -0.187, lat: 5.6037, title: "Marker 1" },
-  { lng: -0.190, lat: 5.6100, title: "Marker 2" },
+  { lng: -0.121, lat: 5.6100, title: "Marker 2" },
   { lng: -0.185, lat: 5.6000, title: "Marker 3" }
 ];
 
@@ -46,33 +46,42 @@ function App() {
     // Fetch the route from Marker 1 to Marker 3
     const getRoute = async () => {
       const start = MARKERS[0]; // Marker 1
-      const end = MARKERS[2];   // Marker 3
-      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
-
+      const end = MARKERS[1];   // Marker 3
+    
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?geometries=geojson&alternatives=true&steps=true&access_token=${mapboxgl.accessToken}`;
+    
       const response = await fetch(url);
       const data = await response.json();
-      const route = data.routes[0].geometry;
-
-      // Add the route to the map
-      mapRef.current.addSource("route", {
-        type: "geojson",
-        data: {
-          type: "Feature",
-          properties: {},
-          geometry: route,
-        },
-      });
-
-      mapRef.current.addLayer({
-        id: "route",
-        type: "line",
-        source: "route",
-        layout: { "line-join": "round", "line-cap": "round" },
-        paint: { "line-color": "#ff0000", "line-width": 4 },
+    
+      if (data.routes.length === 0) {
+        console.error("No routes found");
+        return;
+      }
+    
+      data.routes.forEach((route, index) => {
+        const color = index === 0 ? "#ff0000" : "#00ff00"; // First route red, others green
+    
+        mapRef.current.addSource(`route-${index}`, {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: route.geometry,
+          },
+        });
+    
+        mapRef.current.addLayer({
+          id: `route-${index}`,
+          type: "line",
+          source: `route-${index}`,
+          layout: { "line-join": "round", "line-cap": "round" },
+          paint: { "line-color": color, "line-width": 4 },
+        });
       });
     };
-
+    
     mapRef.current.on("load", getRoute);
+    
 
     mapRef.current.on("move", () => {
       const mapCenter = mapRef.current.getCenter();
