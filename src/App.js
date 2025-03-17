@@ -27,10 +27,10 @@ function App() {
     // Initialize Map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/traffic-day-v2", // Traffic view
       center: center,
       zoom: zoom,
-    });
+    });   
 
     // Add zoom and rotation controls
     mapRef.current.addControl(new mapboxgl.NavigationControl());
