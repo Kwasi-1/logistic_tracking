@@ -2,9 +2,11 @@ import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
-const INITIAL_CENTER = [-0.187, 5.6037]; // Default center
+const INITIAL_CENTER = [-0.187, 5.6037];
 const INITIAL_ZOOM = 12.12;
+
 const DATA_URL = "http://localhost:8000/foundry-ecosytem"; // API endpoint
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
-
+  
     // Initialize Map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -26,93 +28,114 @@ function App() {
       center: center,
       zoom: zoom,
     });
-
+  
+    mapRef.current.on("load", () => {
+      // Fetch businesses from API
+      fetch(DATA_URL)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Fetched data:", data);
+          setBusinesses(data["foundry-ecosytem"]);
+  
+          // Convert data to GeoJSON format
+          const geojsonData = {
+            type: "FeatureCollection",
+            features: [
+              ...data.wholesalers.map((business) => ({
+                type: "Feature",
+                properties: { name: business.name, icon: "shop" },
+                geometry: { type: "Point", coordinates: [business.location.lng, business.location.lat] },
+              })),
+              ...data.microfinance.map((business) => ({
+                type: "Feature",
+                properties: { name: business.name, icon: "bank" },
+                geometry: { type: "Point", coordinates: [business.location.lng, business.location.lat] },
+              })),
+              ...data.market_businesses.map((business) => ({
+                type: "Feature",
+                properties: { name: business.name, icon: "grocery" },
+                geometry: { type: "Point", coordinates: [business.location.lng, business.location.lat] },
+              })),
+            ],
+          };
+  
+          // Add GeoJSON source
+          mapRef.current.addSource("businesses", {
+            type: "geojson",
+            data: geojsonData,
+          });
+  
+          // Add a symbol layer to use Mapbox built-in icons
+          mapRef.current.addLayer({
+            id: "business-icons",
+            type: "symbol",
+            source: "businesses",
+            layout: {
+              "icon-image": ["get", "icon"], // Use the icon property
+              "icon-size": 2.2,
+              "text-field": ["get", "name"], // Display business name
+              "text-offset": [0, 1.5],
+              "text-anchor": "top",
+            },
+            paint: {
+              "text-color": "#000",
+            },
+          });
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+    });
+  
     mapRef.current.addControl(new mapboxgl.NavigationControl());
-
-    // Get user location
-    getUserLocation();
-
-    // Fetch businesses from API
-    fetch(DATA_URL)
-      .then((response) => response.json())
-      .then((data) => {
-        setBusinesses(data);
-        addMarkers(data);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-
+  
     return () => {
       mapRef.current.remove();
     };
   }, []);
-
-  // Get user location and show marker
-  const getUserLocation = () => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const userLocation = [position.coords.longitude, position.coords.latitude];
-
-          // Add user location marker
-          new mapboxgl.Marker({ color: "black" })
-            .setLngLat(userLocation)
-            .setPopup(new mapboxgl.Popup().setText("You are here"))
-            .addTo(mapRef.current);
-
-          // Update map center and zoom
-          mapRef.current.flyTo({ center: userLocation, zoom: 14 });
-
-          setCenter(userLocation);
-        },
-        (error) => console.error("Error getting location:", error),
-        { enableHighAccuracy: true }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
+  
+  // Function to calculate the total transaction amount
+  const calculateTotalTransactions = (transactions = []) => {
+    return transactions.reduce((total, t) => total + (t.amount || 0), 0);
   };
 
-  // Function to add markers with custom icons
+  // Function to add markers dynamically
   const addMarkers = (data) => {
-    const bounds = new mapboxgl.LngLatBounds();
+    data.wholesalers.forEach((business) => {
+      createMarker(business, "blue");
+    });
 
-    // Helper function to add markers with icons
-    const addBusinessMarkers = (businessList, imageId) => {
-      businessList.forEach((business) => {
-        const { location, name } = business;
-        const iconSize = [40, 40]; // Adjust size as needed
+    data.microfinance.forEach((business) => {
+      createMarker(business, "green");
+    });
 
-        // Create a custom marker element
-        const el = document.createElement("div");
-        el.style.backgroundImage = `url(https://picsum.photos/id/${imageId}/${iconSize[0]}/${iconSize[1]})`;
-        el.style.width = `${iconSize[0]}px`;
-        el.style.height = `${iconSize[1]}px`;
-        el.style.backgroundSize = "cover";
-        el.style.borderRadius = "50%";
-        el.style.cursor = "pointer";
+    data.market_businesses.forEach((business) => {
+      createMarker(business, "red");
+    });
+  };
 
-        // Click event to show business name
-        el.addEventListener("click", () => {
-          setSelectedBusiness(business);
-        });
+  // Function to create markers with name & transaction amount always visible
+  const createMarker = (business, color) => {
+    const { location, name } = business;
+    const totalAmount = calculateTotalTransactions(
+      business.transactions || business.loans || business.financial_transactions
+    );
 
-        // Add marker to map
-        new mapboxgl.Marker(el)
-          .setLngLat([location.lng, location.lat])
-          .addTo(mapRef.current);
+    const markerDiv = document.createElement("div");
+    markerDiv.className = "marker";
+    markerDiv.innerHTML = `<strong>${name}</strong><br/>💰 $${totalAmount} <Icon icon="flat-color-icons:factory" />`;
+    markerDiv.style.color = color;
+    markerDiv.style.background = "white";
+    markerDiv.style.padding = "5px";
+    markerDiv.style.borderRadius = "5px";
+    markerDiv.style.boxShadow = "0px 2px 5px rgba(0, 0, 0, 0.3)";
+    markerDiv.style.fontSize = "12px";
 
-        bounds.extend([location.lng, location.lat]);
-      });
-    };
+    const marker = new mapboxgl.Marker({ element: markerDiv })
+      .setLngLat([location.lng, location.lat])
+      .addTo(mapRef.current);
 
-    // Add different categories with icons
-    addBusinessMarkers(data.wholesalers, 1011); // Image ID for wholesalers
-    addBusinessMarkers(data.microfinance, 870); // Image ID for microfinance
-    addBusinessMarkers(data.market_businesses, 837); // Image ID for market businesses
-
-    if (!bounds.isEmpty()) {
-      mapRef.current.fitBounds(bounds, { padding: 50, maxZoom: 14 });
-    }
+    markerDiv.addEventListener("click", () => {
+      setSelectedBusiness(business);
+    });
   };
 
   return (
@@ -122,28 +145,22 @@ function App() {
           Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} | Zoom: {zoom.toFixed(2)}
         </p>
 
+        {/* Show business details when a marker is clicked */}
         {selectedBusiness && (
           <div className="business-info">
             <h2>{selectedBusiness.name}</h2>
-            <p>
-              <strong>Location:</strong> {selectedBusiness.location.lat}, {selectedBusiness.location.lng}
-            </p>
-            <p>
-              <strong>Total Transactions:</strong> $
-              {selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions
-                ? selectedBusiness.transactions.reduce((sum, t) => sum + (t.amount || 0), 0)
-                : 0}
-            </p>
+            <p><strong>Location:</strong> {selectedBusiness.location.lat}, {selectedBusiness.location.lng}</p>
+            <p><strong>Total Transactions:</strong> ${calculateTotalTransactions(selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions)}</p>
+
+            {/* Display additional details dynamically */}
             {selectedBusiness.products && (
-              <p>
-                <strong>Products:</strong> {selectedBusiness.products.join(", ")}
-              </p>
+              <p><strong>Products:</strong> {selectedBusiness.products.join(", ")}</p>
             )}
             {selectedBusiness.inventory && (
-              <p>
-                <strong>Inventory:</strong>{" "}
-                {selectedBusiness.inventory.map((i) => `${i.product} (${i.quantity})`).join(", ")}
-              </p>
+              <p><strong>Inventory:</strong> {selectedBusiness.inventory.map(i => `${i.product} (${i.quantity})`).join(", ")}</p>
+            )}
+            {selectedBusiness.loans && (
+              <p><strong>Loans:</strong> {selectedBusiness.loans.map(l => `To: ${l.to} - $${l.amount} (${l.status})`).join(", ")}</p>
             )}
           </div>
         )}
