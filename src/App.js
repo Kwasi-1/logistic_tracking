@@ -3,8 +3,10 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
-const INITIAL_CENTER = [-0.187, 5.6037]; // Default center (in case geolocation fails)
+const INITIAL_CENTER = [-0.187, 5.6037]; // Default center
 const INITIAL_ZOOM = 12.12;
+
+const DATA_URL = "http://localhost:8000/foundry-ecosytem"; // API endpoint
 
 function App() {
   const mapRef = useRef();
@@ -28,11 +30,11 @@ function App() {
 
     mapRef.current.addControl(new mapboxgl.NavigationControl());
 
-    // Get user's location
+    // Get user location
     getUserLocation();
 
     // Fetch businesses from API
-    fetch("http://localhost:8000/foundry-ecosytem")
+    fetch(DATA_URL)
       .then((response) => response.json())
       .then((data) => {
         setBusinesses(data);
@@ -45,12 +47,12 @@ function App() {
     };
   }, []);
 
-  // Function to calculate the total transaction amount
+  // Function to calculate total transactions
   const calculateTotalTransactions = (transactions = []) => {
     return transactions.reduce((total, t) => total + (t.amount || 0), 0);
   };
 
-  // Function to get user location and show marker
+  // Get user location and show marker
   const getUserLocation = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -66,7 +68,6 @@ function App() {
           // Update map center and zoom
           mapRef.current.flyTo({ center: userLocation, zoom: 14 });
 
-          // Update state
           setCenter(userLocation);
         },
         (error) => console.error("Error getting location:", error),
@@ -77,14 +78,52 @@ function App() {
     }
   };
 
-  // Function to add markers dynamically and adjust zoom to fit them
+  // Function to animate dots moving along transaction routes
+  const animateDot = (start, end) => {
+    const dot = new mapboxgl.Marker({ color: "yellow" }) // Animated dot color
+      .setLngLat(start)
+      .addTo(mapRef.current);
+
+    let progress = 0;
+    const duration = 3000; // Time in milliseconds
+    const startTime = performance.now();
+
+    function moveDot(timestamp) {
+      const elapsedTime = timestamp - startTime;
+      progress = Math.min(elapsedTime / duration, 1);
+
+      const newLng = start[0] + (end[0] - start[0]) * progress;
+      const newLat = start[1] + (end[1] - start[1]) * progress;
+
+      dot.setLngLat([newLng, newLat]);
+
+      if (progress < 1) {
+        requestAnimationFrame(moveDot);
+      } else {
+        dot.remove(); // Remove dot after reaching destination
+      }
+    }
+
+    requestAnimationFrame(moveDot);
+  };
+
+  // Function to add markers and animate transactions
   const addMarkers = (data) => {
     const bounds = new mapboxgl.LngLatBounds();
+    const businessLocations = {};
 
+    // Helper function to add markers
     const addBusinessMarkers = (businessList, color) => {
       businessList.forEach((business) => {
-        createMarker(business, color);
-        bounds.extend([business.location.lng, business.location.lat]); // Extend bounds for each marker
+        const { location, name, id } = business;
+        businessLocations[id] = [location.lng, location.lat];
+
+        new mapboxgl.Marker({ color })
+          .setLngLat([location.lng, location.lat])
+          .setPopup(new mapboxgl.Popup().setText(name))
+          .addTo(mapRef.current);
+
+        bounds.extend([location.lng, location.lat]);
       });
     };
 
@@ -92,23 +131,42 @@ function App() {
     addBusinessMarkers(data.microfinance, "green");
     addBusinessMarkers(data.market_businesses, "red");
 
+    // Animate transactions
+    const animateTransactions = (businessList) => {
+      businessList.forEach((business) => {
+        if (business.transactions) {
+          business.transactions.forEach((transaction) => {
+            if (businessLocations[transaction.to]) {
+              animateDot(businessLocations[business.id], businessLocations[transaction.to]);
+            }
+          });
+        }
+
+        if (business.loans) {
+          business.loans.forEach((loan) => {
+            if (businessLocations[loan.to]) {
+              animateDot(businessLocations[business.id], businessLocations[loan.to]);
+            }
+          });
+        }
+
+        if (business.financial_transactions) {
+          business.financial_transactions.forEach((transaction) => {
+            if (businessLocations[transaction.from]) {
+              animateDot(businessLocations[transaction.from], businessLocations[business.id]);
+            }
+          });
+        }
+      });
+    };
+
+    animateTransactions(data.wholesalers);
+    animateTransactions(data.microfinance);
+    animateTransactions(data.market_businesses);
+
     if (!bounds.isEmpty()) {
       mapRef.current.fitBounds(bounds, { padding: 50, maxZoom: 14 });
     }
-  };
-
-  // Function to create markers
-  const createMarker = (business, color) => {
-    const { location, name } = business;
-
-    const marker = new mapboxgl.Marker({ color })
-      .setLngLat([location.lng, location.lat])
-      .setPopup(new mapboxgl.Popup().setText(name))
-      .addTo(mapRef.current);
-
-    marker.getElement().addEventListener("click", () => {
-      setSelectedBusiness(business);
-    });
   };
 
   return (
@@ -118,7 +176,6 @@ function App() {
           Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} | Zoom: {zoom.toFixed(2)}
         </p>
 
-        {/* Show business details when a marker is clicked */}
         {selectedBusiness && (
           <div className="business-info">
             <h2>{selectedBusiness.name}</h2>
@@ -130,8 +187,6 @@ function App() {
                 selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions
               )}
             </p>
-
-            {/* Display additional details dynamically */}
             {selectedBusiness.products && (
               <p>
                 <strong>Products:</strong> {selectedBusiness.products.join(", ")}
