@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
-const INITIAL_CENTER = [-0.187, 5.6037];
+const INITIAL_CENTER = [-0.187, 5.6037]; // Default center (in case geolocation fails)
 const INITIAL_ZOOM = 12.12;
 
 function App() {
@@ -28,6 +28,9 @@ function App() {
 
     mapRef.current.addControl(new mapboxgl.NavigationControl());
 
+    // Get user's location
+    getUserLocation();
+
     // Fetch businesses from API
     fetch("http://localhost:8000/foundry-ecosytem")
       .then((response) => response.json())
@@ -47,27 +50,52 @@ function App() {
     return transactions.reduce((total, t) => total + (t.amount || 0), 0);
   };
 
-  // Function to add markers dynamically
-  // Function to add markers dynamically and adjust zoom to fit them
-const addMarkers = (data) => {
-  const bounds = new mapboxgl.LngLatBounds();
+  // Function to get user location and show marker
+  const getUserLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLocation = [position.coords.longitude, position.coords.latitude];
 
-  const addBusinessMarkers = (businessList, color) => {
-    businessList.forEach((business) => {
-      createMarker(business, color);
-      bounds.extend([business.location.lng, business.location.lat]); // Extend bounds for each marker
-    });
+          // Add user location marker
+          new mapboxgl.Marker({ color: "black" })
+            .setLngLat(userLocation)
+            .setPopup(new mapboxgl.Popup().setText("You are here"))
+            .addTo(mapRef.current);
+
+          // Update map center and zoom
+          mapRef.current.flyTo({ center: userLocation, zoom: 14 });
+
+          // Update state
+          setCenter(userLocation);
+        },
+        (error) => console.error("Error getting location:", error),
+        { enableHighAccuracy: true }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
   };
 
-  addBusinessMarkers(data.wholesalers, "blue");
-  addBusinessMarkers(data.microfinance, "green");
-  addBusinessMarkers(data.market_businesses, "red");
+  // Function to add markers dynamically and adjust zoom to fit them
+  const addMarkers = (data) => {
+    const bounds = new mapboxgl.LngLatBounds();
 
-  if (!bounds.isEmpty()) {
-    mapRef.current.fitBounds(bounds, { padding: 50, maxZoom: 14 });
-  }
-};
+    const addBusinessMarkers = (businessList, color) => {
+      businessList.forEach((business) => {
+        createMarker(business, color);
+        bounds.extend([business.location.lng, business.location.lat]); // Extend bounds for each marker
+      });
+    };
 
+    addBusinessMarkers(data.wholesalers, "blue");
+    addBusinessMarkers(data.microfinance, "green");
+    addBusinessMarkers(data.market_businesses, "red");
+
+    if (!bounds.isEmpty()) {
+      mapRef.current.fitBounds(bounds, { padding: 50, maxZoom: 14 });
+    }
+  };
 
   // Function to create markers
   const createMarker = (business, color) => {
@@ -94,18 +122,32 @@ const addMarkers = (data) => {
         {selectedBusiness && (
           <div className="business-info">
             <h2>{selectedBusiness.name}</h2>
-            <p><strong>Location:</strong> {selectedBusiness.location.lat}, {selectedBusiness.location.lng}</p>
-            <p><strong>Total Transactions:</strong> ${calculateTotalTransactions(selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions)}</p>
+            <p>
+              <strong>Location:</strong> {selectedBusiness.location.lat}, {selectedBusiness.location.lng}
+            </p>
+            <p>
+              <strong>Total Transactions:</strong> ${calculateTotalTransactions(
+                selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions
+              )}
+            </p>
 
             {/* Display additional details dynamically */}
             {selectedBusiness.products && (
-              <p><strong>Products:</strong> {selectedBusiness.products.join(", ")}</p>
+              <p>
+                <strong>Products:</strong> {selectedBusiness.products.join(", ")}
+              </p>
             )}
             {selectedBusiness.inventory && (
-              <p><strong>Inventory:</strong> {selectedBusiness.inventory.map(i => `${i.product} (${i.quantity})`).join(", ")}</p>
+              <p>
+                <strong>Inventory:</strong>{" "}
+                {selectedBusiness.inventory.map((i) => `${i.product} (${i.quantity})`).join(", ")}
+              </p>
             )}
             {selectedBusiness.loans && (
-              <p><strong>Loans:</strong> {selectedBusiness.loans.map(l => `To: ${l.to} - $${l.amount} (${l.status})`).join(", ")}</p>
+              <p>
+                <strong>Loans:</strong>{" "}
+                {selectedBusiness.loans.map((l) => `To: ${l.to} - $${l.amount} (${l.status})`).join(", ")}
+              </p>
             )}
           </div>
         )}
