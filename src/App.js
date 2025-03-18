@@ -62,6 +62,8 @@ function App() {
     });
   };
 
+  
+
   // Function to create markers
   const createMarker = (business, color) => {
     const { location, name } = business;
