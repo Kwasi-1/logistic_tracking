@@ -48,21 +48,26 @@ function App() {
   };
 
   // Function to add markers dynamically
-  const addMarkers = (data) => {
-    data.wholesalers.forEach((business) => {
-      createMarker(business, "blue");
-    });
+  // Function to add markers dynamically and adjust zoom to fit them
+const addMarkers = (data) => {
+  const bounds = new mapboxgl.LngLatBounds();
 
-    data.microfinance.forEach((business) => {
-      createMarker(business, "green");
-    });
-
-    data.market_businesses.forEach((business) => {
-      createMarker(business, "red");
+  const addBusinessMarkers = (businessList, color) => {
+    businessList.forEach((business) => {
+      createMarker(business, color);
+      bounds.extend([business.location.lng, business.location.lat]); // Extend bounds for each marker
     });
   };
 
-  
+  addBusinessMarkers(data.wholesalers, "blue");
+  addBusinessMarkers(data.microfinance, "green");
+  addBusinessMarkers(data.market_businesses, "red");
+
+  if (!bounds.isEmpty()) {
+    mapRef.current.fitBounds(bounds, { padding: 50, maxZoom: 14 });
+  }
+};
+
 
   // Function to create markers
   const createMarker = (business, color) => {
