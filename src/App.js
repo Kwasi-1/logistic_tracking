@@ -25,6 +25,9 @@ function App() {
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/kwasi-1/cm8de1mok00pz01s323ie2s7f",
+      pitch: 60, 
+      bearing: -20,
+      antialias: true,
       center: center,
       zoom: zoom,
     });
