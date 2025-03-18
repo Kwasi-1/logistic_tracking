@@ -72,106 +72,43 @@ function App() {
     }
   };
 
-  // Function to animate dots moving continuously through transactions
-  const animateDot = async (routes) => {
-    if (routes.length === 0) return; // No routes to animate
-  
-    let dot = new mapboxgl.Marker({ color: "yellow" })
-      .setLngLat(routes[0][0]) // Start position
-      .addTo(mapRef.current);
-  
-    for (let i = 0; i < routes.length; i++) {
-      const [start, end] = routes[i];
-  
-      let progress = 0;
-      const duration = 3000; // Time in milliseconds
-      const startTime = performance.now();
-  
-      // Move dot smoothly
-      await new Promise((resolve) => {
-        const moveDot = (timestamp) => {
-          const elapsedTime = timestamp - startTime;
-          progress = Math.min(elapsedTime / duration, 1);
-  
-          const newLng = start[0] + (end[0] - start[0]) * progress;
-          const newLat = start[1] + (end[1] - start[1]) * progress;
-  
-          dot.setLngLat([newLng, newLat]);
-  
-          if (progress < 1) {
-            requestAnimationFrame(moveDot);
-          } else {
-            resolve(); // Move to next route after completion
-          }
-        };
-        requestAnimationFrame(moveDot);
-      });
-    }
-  };
-  
-
-  // Function to add markers and animate transactions
+  // Function to add markers with custom icons
   const addMarkers = (data) => {
     const bounds = new mapboxgl.LngLatBounds();
-    const businessLocations = {};
 
-    // Helper function to add markers
-    const addBusinessMarkers = (businessList, color) => {
+    // Helper function to add markers with icons
+    const addBusinessMarkers = (businessList, imageId) => {
       businessList.forEach((business) => {
-        const { location, name, id } = business;
-        businessLocations[id] = [location.lng, location.lat];
+        const { location, name } = business;
+        const iconSize = [40, 40]; // Adjust size as needed
 
-        new mapboxgl.Marker({ color })
+        // Create a custom marker element
+        const el = document.createElement("div");
+        el.style.backgroundImage = `url(https://picsum.photos/id/${imageId}/${iconSize[0]}/${iconSize[1]})`;
+        el.style.width = `${iconSize[0]}px`;
+        el.style.height = `${iconSize[1]}px`;
+        el.style.backgroundSize = "cover";
+        el.style.borderRadius = "50%";
+        el.style.cursor = "pointer";
+
+        // Click event to show business name
+        el.addEventListener("click", () => {
+          setSelectedBusiness(business);
+        });
+
+        // Add marker to map
+        new mapboxgl.Marker(el)
           .setLngLat([location.lng, location.lat])
-          .setPopup(new mapboxgl.Popup().setText(name))
           .addTo(mapRef.current);
 
         bounds.extend([location.lng, location.lat]);
       });
     };
 
-    addBusinessMarkers(data.wholesalers, "blue");
-    addBusinessMarkers(data.microfinance, "green");
-    addBusinessMarkers(data.market_businesses, "red");
-
-    // Animate transactions in sequence
-    const animateTransactions = (businessList) => {
-      businessList.forEach((business) => {
-        let routes = [];
-
-        if (business.transactions) {
-          business.transactions.forEach((transaction) => {
-            if (businessLocations[transaction.to]) {
-              routes.push([businessLocations[business.id], businessLocations[transaction.to]]);
-            }
-          });
-        }
-
-        if (business.loans) {
-          business.loans.forEach((loan) => {
-            if (businessLocations[loan.to]) {
-              routes.push([businessLocations[business.id], businessLocations[loan.to]]);
-            }
-          });
-        }
-
-        if (business.financial_transactions) {
-          business.financial_transactions.forEach((transaction) => {
-            if (businessLocations[transaction.from]) {
-              routes.push([businessLocations[transaction.from], businessLocations[business.id]]);
-            }
-          });
-        }
-
-        if (routes.length > 0) {
-          animateDot(routes); // Start the continuous animation
-        }
-      });
-    };
-
-    animateTransactions(data.wholesalers);
-    animateTransactions(data.microfinance);
-    animateTransactions(data.market_businesses);
+    // Add different categories with icons
+    addBusinessMarkers(data.wholesalers, 1011); // Image ID for wholesalers
+    addBusinessMarkers(data.microfinance, 870); // Image ID for microfinance
+    addBusinessMarkers(data.market_businesses, 837); // Image ID for market businesses
 
     if (!bounds.isEmpty()) {
       mapRef.current.fitBounds(bounds, { padding: 50, maxZoom: 14 });
