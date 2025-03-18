@@ -1,37 +1,26 @@
-#root {
+#map-container {
+  width: 75%;
+  height: 100vh;
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-#map-container {
-  height: 100%;
-  width: 100%;
-  /* temporarily set the background color so we can tell where the map container is positioned */
-  background-color: lightgrey;
 }
 
 .sidebar {
-  background-color: rgb(35 55 75 / 90%);
-  color: #fff;
-  padding: 6px 12px;
-  font-family: monospace;
-  z-index: 1;
+  width: 25%;
+  height: 100vh;
+  background: #f4f4f4;
+  padding: 15px;
+  overflow-y: auto;
   position: absolute;
   top: 0;
   left: 0;
-  margin: 12px;
-  border-radius: 4px;
 }
 
-.reset-button {
-  position: absolute;
-  top: 50px;
-  z-index: 1;
-  left: 12px;
-  padding: 4px 10px;
-  border-radius: 10px;
-  cursor: pointer;
+.business-info {
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
