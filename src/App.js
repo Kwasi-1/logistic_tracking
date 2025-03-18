@@ -5,7 +5,6 @@ import "./App.css";
 
 const INITIAL_CENTER = [-0.187, 5.6037]; // Default center
 const INITIAL_ZOOM = 12.12;
-
 const DATA_URL = "http://localhost:8000/foundry-ecosytem"; // API endpoint
 
 function App() {
@@ -23,7 +22,7 @@ function App() {
     // Initialize Map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: "mapbox://styles/mapbox/traffic-day-v2",
+      style: "mapbox://styles/kwasi-1/cm8de1mok00pz01s323ie2s7f",
       center: center,
       zoom: zoom,
     });
@@ -46,11 +45,6 @@ function App() {
       mapRef.current.remove();
     };
   }, []);
-
-  // Function to calculate total transactions
-  const calculateTotalTransactions = (transactions = []) => {
-    return transactions.reduce((total, t) => total + (t.amount || 0), 0);
-  };
 
   // Get user location and show marker
   const getUserLocation = () => {
@@ -78,34 +72,43 @@ function App() {
     }
   };
 
-  // Function to animate dots moving along transaction routes
-  const animateDot = (start, end) => {
-    const dot = new mapboxgl.Marker({ color: "yellow" }) // Animated dot color
-      .setLngLat(start)
+  // Function to animate dots moving continuously through transactions
+  const animateDot = async (routes) => {
+    if (routes.length === 0) return; // No routes to animate
+  
+    let dot = new mapboxgl.Marker({ color: "yellow" })
+      .setLngLat(routes[0][0]) // Start position
       .addTo(mapRef.current);
-
-    let progress = 0;
-    const duration = 3000; // Time in milliseconds
-    const startTime = performance.now();
-
-    function moveDot(timestamp) {
-      const elapsedTime = timestamp - startTime;
-      progress = Math.min(elapsedTime / duration, 1);
-
-      const newLng = start[0] + (end[0] - start[0]) * progress;
-      const newLat = start[1] + (end[1] - start[1]) * progress;
-
-      dot.setLngLat([newLng, newLat]);
-
-      if (progress < 1) {
+  
+    for (let i = 0; i < routes.length; i++) {
+      const [start, end] = routes[i];
+  
+      let progress = 0;
+      const duration = 3000; // Time in milliseconds
+      const startTime = performance.now();
+  
+      // Move dot smoothly
+      await new Promise((resolve) => {
+        const moveDot = (timestamp) => {
+          const elapsedTime = timestamp - startTime;
+          progress = Math.min(elapsedTime / duration, 1);
+  
+          const newLng = start[0] + (end[0] - start[0]) * progress;
+          const newLat = start[1] + (end[1] - start[1]) * progress;
+  
+          dot.setLngLat([newLng, newLat]);
+  
+          if (progress < 1) {
+            requestAnimationFrame(moveDot);
+          } else {
+            resolve(); // Move to next route after completion
+          }
+        };
         requestAnimationFrame(moveDot);
-      } else {
-        dot.remove(); // Remove dot after reaching destination
-      }
+      });
     }
-
-    requestAnimationFrame(moveDot);
   };
+  
 
   // Function to add markers and animate transactions
   const addMarkers = (data) => {
@@ -131,13 +134,15 @@ function App() {
     addBusinessMarkers(data.microfinance, "green");
     addBusinessMarkers(data.market_businesses, "red");
 
-    // Animate transactions
+    // Animate transactions in sequence
     const animateTransactions = (businessList) => {
       businessList.forEach((business) => {
+        let routes = [];
+
         if (business.transactions) {
           business.transactions.forEach((transaction) => {
             if (businessLocations[transaction.to]) {
-              animateDot(businessLocations[business.id], businessLocations[transaction.to]);
+              routes.push([businessLocations[business.id], businessLocations[transaction.to]]);
             }
           });
         }
@@ -145,7 +150,7 @@ function App() {
         if (business.loans) {
           business.loans.forEach((loan) => {
             if (businessLocations[loan.to]) {
-              animateDot(businessLocations[business.id], businessLocations[loan.to]);
+              routes.push([businessLocations[business.id], businessLocations[loan.to]]);
             }
           });
         }
@@ -153,9 +158,13 @@ function App() {
         if (business.financial_transactions) {
           business.financial_transactions.forEach((transaction) => {
             if (businessLocations[transaction.from]) {
-              animateDot(businessLocations[transaction.from], businessLocations[business.id]);
+              routes.push([businessLocations[transaction.from], businessLocations[business.id]]);
             }
           });
+        }
+
+        if (routes.length > 0) {
+          animateDot(routes); // Start the continuous animation
         }
       });
     };
@@ -183,9 +192,10 @@ function App() {
               <strong>Location:</strong> {selectedBusiness.location.lat}, {selectedBusiness.location.lng}
             </p>
             <p>
-              <strong>Total Transactions:</strong> ${calculateTotalTransactions(
-                selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions
-              )}
+              <strong>Total Transactions:</strong> $
+              {selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions
+                ? selectedBusiness.transactions.reduce((sum, t) => sum + (t.amount || 0), 0)
+                : 0}
             </p>
             {selectedBusiness.products && (
               <p>
@@ -196,12 +206,6 @@ function App() {
               <p>
                 <strong>Inventory:</strong>{" "}
                 {selectedBusiness.inventory.map((i) => `${i.product} (${i.quantity})`).join(", ")}
-              </p>
-            )}
-            {selectedBusiness.loans && (
-              <p>
-                <strong>Loans:</strong>{" "}
-                {selectedBusiness.loans.map((l) => `To: ${l.to} - $${l.amount} (${l.status})`).join(", ")}
               </p>
             )}
           </div>
