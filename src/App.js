@@ -8,12 +8,25 @@ const INITIAL_CENTER = [-0.187, 5.6037];
 const INITIAL_ZOOM = 12.12;
 const DATA_URL = "http://localhost:8000/foundry-ecosytem";
 
+// Truck Route (Simulated GPS Data)
+const truckRoute = [
+  [-0.187, 5.6037],  // Start position
+  [-0.190, 5.6050],  
+  [-0.195, 5.6070],  
+  [-0.200, 5.6090],  
+  [-0.205, 5.6105],  // Midpoint
+  [-0.210, 5.6120],  
+  [-0.215, 5.6140],  
+  [-0.220, 5.6160],  // End position
+];
+
 function App() {
   const mapRef = useRef();
   const mapContainerRef = useRef();
   const geocoderContainerRef = useRef();
   const [businesses, setBusinesses] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [truckIndex, setTruckIndex] = useState(0); // Track truck position
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -85,12 +98,45 @@ function App() {
           });
 
           addGeocoder([...data.wholesalers, ...data.microfinance, ...data.market_businesses]);
+          simulateTruckMovement(); // Start truck simulation
         })
         .catch((error) => console.error("Error fetching data:", error));
     });
 
     return () => mapRef.current.remove();
   }, []);
+
+  // Truck Simulation Function
+  const simulateTruckMovement = () => {
+    if (!mapRef.current) return;
+
+    // Create a truck marker
+    const truckMarker = new mapboxgl.Marker({ color: "red" })
+      .setLngLat(truckRoute[0])
+      .addTo(mapRef.current);
+
+    // Move truck every 2 seconds
+    const interval = setInterval(() => {
+      setTruckIndex((prevIndex) => {
+        const nextIndex = prevIndex + 1;
+        if (nextIndex >= truckRoute.length) return 0; // Loop back to start
+
+        // Move marker smoothly
+        truckMarker.setLngLat(truckRoute[nextIndex]);
+
+        // Make the map follow the truck
+        mapRef.current.flyTo({
+          center: truckRoute[nextIndex],
+          zoom: 14,
+          essential: true,
+        });
+
+        return nextIndex;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  };
 
   // Add the Geocoder
   const addGeocoder = (businessList) => {
@@ -115,7 +161,7 @@ function App() {
 
     geocoder.on("result", (event) => {
       const coords = event.result.center;
-      mapRef.current.flyTo({ center: coords, zoom: 17 });
+      mapRef.current.flyTo({ center: coords, zoom: 17.5 });
     });
 
     if (geocoderContainerRef.current) {
