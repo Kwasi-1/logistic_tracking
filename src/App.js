@@ -1,46 +1,45 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import "./App.css";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"; // Ensure styles load
 
 const INITIAL_CENTER = [-0.187, 5.6037];
 const INITIAL_ZOOM = 12.12;
-
-const DATA_URL = "http://localhost:8000/foundry-ecosytem"; // API endpoint
+const DATA_URL = "http://localhost:8000/foundry-ecosytem";
 
 function App() {
   const mapRef = useRef();
   const mapContainerRef = useRef();
-  const [center, setCenter] = useState(INITIAL_CENTER);
-  const [zoom, setZoom] = useState(INITIAL_ZOOM);
+  const geocoderContainerRef = useRef();
   const [businesses, setBusinesses] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState(null);
 
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
-  
+
     // Initialize Map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/kwasi-1/cm8de1mok00pz01s323ie2s7f",
-      pitch: 60, 
+      pitch: 60,
       bearing: -20,
       antialias: true,
-      center: center,
-      zoom: zoom,
+      center: INITIAL_CENTER,
+      zoom: INITIAL_ZOOM,
     });
-  
+
+    mapRef.current.addControl(new mapboxgl.NavigationControl());
+
     mapRef.current.on("load", () => {
-      // Fetch businesses from API
       fetch(DATA_URL)
         .then((response) => response.json())
         .then((data) => {
           console.log("Fetched data:", data);
-          setBusinesses(data["foundry-ecosytem"]);
-  
-          // Convert data to GeoJSON format
+          setBusinesses([...data.wholesalers, ...data.microfinance, ...data.market_businesses]);
+
+          // Convert business data to GeoJSON format
           const geojsonData = {
             type: "FeatureCollection",
             features: [
@@ -61,20 +60,20 @@ function App() {
               })),
             ],
           };
-  
+
           // Add GeoJSON source
           mapRef.current.addSource("businesses", {
             type: "geojson",
             data: geojsonData,
           });
-  
-          // Add a symbol layer to use Mapbox built-in icons
+
+          // Add a symbol layer for icons
           mapRef.current.addLayer({
             id: "business-icons",
             type: "symbol",
             source: "businesses",
             layout: {
-              "icon-image": ["get", "icon"], // Use the icon property
+              "icon-image": ["get", "icon"], // Use Mapbox built-in icons
               "icon-size": 2.2,
               "text-field": ["get", "name"], // Display business name
               "text-offset": [0, 1.5],
@@ -84,92 +83,63 @@ function App() {
               "text-color": "#000",
             },
           });
+
+          addGeocoder([...data.wholesalers, ...data.microfinance, ...data.market_businesses]);
         })
         .catch((error) => console.error("Error fetching data:", error));
     });
-  
-    mapRef.current.addControl(new mapboxgl.NavigationControl());
-  
-    return () => {
-      mapRef.current.remove();
-    };
+
+    return () => mapRef.current.remove();
   }, []);
-  
-  // Function to calculate the total transaction amount
-  const calculateTotalTransactions = (transactions = []) => {
-    return transactions.reduce((total, t) => total + (t.amount || 0), 0);
-  };
 
-  // Function to add markers dynamically
-  const addMarkers = (data) => {
-    data.wholesalers.forEach((business) => {
-      createMarker(business, "blue");
+  // Add the Geocoder
+  const addGeocoder = (businessList) => {
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      marker: false, // No default marker, we handle our own markers
+      placeholder: "Search for businesses...",
+      localGeocoder: (query) => {
+        return businessList
+          .filter((business) =>
+            business.name.toLowerCase().includes(query.toLowerCase())
+          )
+          .map((business) => ({
+            text: business.name,
+            place_name: business.name,
+            center: [business.location.lng, business.location.lat],
+            properties: { name: business.name },
+          }));
+      },
     });
 
-    data.microfinance.forEach((business) => {
-      createMarker(business, "green");
+    geocoder.on("result", (event) => {
+      const coords = event.result.center;
+      mapRef.current.flyTo({ center: coords, zoom: 17 });
     });
 
-    data.market_businesses.forEach((business) => {
-      createMarker(business, "red");
-    });
-  };
-
-  // Function to create markers with name & transaction amount always visible
-  const createMarker = (business, color) => {
-    const { location, name } = business;
-    const totalAmount = calculateTotalTransactions(
-      business.transactions || business.loans || business.financial_transactions
-    );
-
-    const markerDiv = document.createElement("div");
-    markerDiv.className = "marker";
-    markerDiv.innerHTML = `<strong>${name}</strong><br/>💰 $${totalAmount} <Icon icon="flat-color-icons:factory" />`;
-    markerDiv.style.color = color;
-    markerDiv.style.background = "white";
-    markerDiv.style.padding = "5px";
-    markerDiv.style.borderRadius = "5px";
-    markerDiv.style.boxShadow = "0px 2px 5px rgba(0, 0, 0, 0.3)";
-    markerDiv.style.fontSize = "12px";
-
-    const marker = new mapboxgl.Marker({ element: markerDiv })
-      .setLngLat([location.lng, location.lat])
-      .addTo(mapRef.current);
-
-    markerDiv.addEventListener("click", () => {
-      setSelectedBusiness(business);
-    });
+    if (geocoderContainerRef.current) {
+      geocoderContainerRef.current.appendChild(geocoder.onAdd(mapRef.current));
+    }
   };
 
   return (
     <div className="app">
-      <div className="sidebar">
-        <p>
-          Longitude: {center[0].toFixed(4)} | Latitude: {center[1].toFixed(4)} | Zoom: {zoom.toFixed(2)}
-        </p>
+      {/* Geocoder Container */}
+      <div ref={geocoderContainerRef} style={{ position: "absolute", top: "10px", left: "10px", zIndex: 5, width: "300px" }}></div>
 
-        {/* Show business details when a marker is clicked */}
+      {/* Sidebar to show business details */}
+      <div className="sidebar">
         {selectedBusiness && (
           <div className="business-info">
             <h2>{selectedBusiness.name}</h2>
             <p><strong>Location:</strong> {selectedBusiness.location.lat}, {selectedBusiness.location.lng}</p>
-            <p><strong>Total Transactions:</strong> ${calculateTotalTransactions(selectedBusiness.transactions || selectedBusiness.loans || selectedBusiness.financial_transactions)}</p>
-
-            {/* Display additional details dynamically */}
-            {selectedBusiness.products && (
-              <p><strong>Products:</strong> {selectedBusiness.products.join(", ")}</p>
-            )}
-            {selectedBusiness.inventory && (
-              <p><strong>Inventory:</strong> {selectedBusiness.inventory.map(i => `${i.product} (${i.quantity})`).join(", ")}</p>
-            )}
-            {selectedBusiness.loans && (
-              <p><strong>Loans:</strong> {selectedBusiness.loans.map(l => `To: ${l.to} - $${l.amount} (${l.status})`).join(", ")}</p>
-            )}
           </div>
         )}
       </div>
 
-      <div id="map-container" ref={mapContainerRef} />
+      {/* Map Container */}
+      <div id="map-container" ref={mapContainerRef} style={{ height: "100vh" }} />
     </div>
   );
 }
