@@ -16,18 +16,32 @@ const TruckSimulation = ({ mapRef }) => {
   const [truckIndex, setTruckIndex] = useState(0);
 
   useEffect(() => {
-    if (!mapRef.current) return; // Ensure map exists
+    if (!mapRef.current) return; // Ensure mapRef is assigned
 
     const map = mapRef.current;
-    const truckMarker = new mapboxgl.Marker({ color: "red" });
 
-    map.on("load", () => {
-      truckMarker.setLngLat(truckRoute[0]).addTo(map); // Only add marker when the map is ready
+    // Ensure the map is fully loaded
+    if (!map.isStyleLoaded()) {
+      const waitForLoad = () => {
+        if (map.isStyleLoaded()) {
+          setupTruckSimulation();
+        } else {
+          setTimeout(waitForLoad, 500); // Retry after 500ms
+        }
+      };
+      waitForLoad();
+    } else {
+      setupTruckSimulation();
+    }
 
-      const interval = setInterval(() => {
+    function setupTruckSimulation() {
+      const truckMarker = new mapboxgl.Marker({ color: "red" })
+        .setLngLat(truckRoute[0])
+        .addTo(map);
+
+      let interval = setInterval(() => {
         setTruckIndex((prevIndex) => {
-          const nextIndex = prevIndex + 1;
-          if (nextIndex >= truckRoute.length) return 0;
+          const nextIndex = (prevIndex + 1) % truckRoute.length;
 
           truckMarker.setLngLat(truckRoute[nextIndex]); // Move truck
           map.flyTo({ center: truckRoute[nextIndex], zoom: 14 });
@@ -36,10 +50,11 @@ const TruckSimulation = ({ mapRef }) => {
         });
       }, 2000);
 
-      return () => clearInterval(interval);
-    });
-
-    return () => truckMarker.remove();
+      return () => {
+        clearInterval(interval);
+        truckMarker.remove();
+      };
+    }
   }, [mapRef]);
 
   return null;
