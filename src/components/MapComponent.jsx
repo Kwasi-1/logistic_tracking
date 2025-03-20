@@ -4,6 +4,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import BusinessLayer from "./BusinessLayer";
 import GeocoderComponent from "./GeocoderComponent";
 import TruckSimulation from "./TruckSimulation";
+import DeliveryInfo from "./DeliveryInfo";
+import Navbar from "./Navbar";
 
 const INITIAL_CENTER = [-0.187, 5.6037];
 const INITIAL_ZOOM = 12.12;
@@ -14,7 +16,7 @@ const MapComponent = () => {
   const mapContainerRef = useRef();
   const geocoderContainerRef = useRef();
   const [businesses, setBusinesses] = useState([]);
-  const [selectedBusiness, setSelectedBusiness] = useState(null);
+  const [showGeocoder, setShowGeocoder] = useState(false); // 🔹 State to toggle Geocoder
 
   useEffect(() => {
     mapboxgl.accessToken = "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
@@ -45,11 +47,26 @@ const MapComponent = () => {
   }, []);
 
   return (
-    <div className="map-container">
-      <GeocoderComponent mapRef={mapRef} businesses={businesses} geocoderContainerRef={geocoderContainerRef} />
-      <BusinessLayer mapRef={mapRef} businesses={businesses} />
-      <TruckSimulation mapRef={mapRef} />
-      <div id="map-container" ref={mapContainerRef} style={{ height: "100vh" }} />
+    <div className="h-screen">
+      {/* Pass Search Toggle Function to Navbar */}
+      <Navbar onSearchClick={() => setShowGeocoder(!showGeocoder)} />
+
+      <div className="h-[75vh] mx-10 relative">
+        {/* Show Geocoder when 'showGeocoder' is true */}
+        {showGeocoder && (
+          <GeocoderComponent 
+            mapRef={mapRef} 
+            businesses={businesses} 
+            geocoderContainerRef={geocoderContainerRef} 
+          />
+        )}
+
+        <BusinessLayer mapRef={mapRef} businesses={businesses} />
+        <TruckSimulation mapRef={mapRef} />
+        <div id="map-container" ref={mapContainerRef} className="h-[75vh] my-auto mt" />
+      </div>
+      <DeliveryInfo />
+
     </div>
   );
 };
