@@ -6,6 +6,7 @@ import GeocoderComponent from "./GeocoderComponent";
 import TruckSimulation from "./TruckSimulation";
 import DeliveryInfo from "./DeliveryInfo";
 import Navbar from "./Navbar";
+import Geolocation from "./Geolocation";
 
 const INITIAL_CENTER = [-0.187, 5.6037];
 const INITIAL_ZOOM = 12.12;
@@ -16,7 +17,28 @@ const MapComponent = () => {
   const mapContainerRef = useRef();
   const geocoderContainerRef = useRef();
   const [businesses, setBusinesses] = useState([]);
-  const [showGeocoder, setShowGeocoder] = useState(false); // 🔹 State to toggle Geocoder
+  const [showGeocoder, setShowGeocoder] = useState(false); // 🔹 Toggle Geocoder
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  // 🔹 Toggle Theme & Save to Local Storage
+  const toggleTheme = () => {
+    setIsDarkMode((prev) => {
+      const newTheme = !prev;
+      localStorage.setItem("theme", newTheme ? "dark" : "light");
+      return newTheme;
+    });
+  };
+
+  // 🔹 Apply Theme Class to `html`
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   useEffect(() => {
     mapboxgl.accessToken = "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
@@ -24,7 +46,9 @@ const MapComponent = () => {
     // Initialize Map
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: "mapbox://styles/kwasi-1/cm8de1mok00pz01s323ie2s7f",
+      style: isDarkMode
+        ? "mapbox://styles/mapbox/dark-v11"
+        : "mapbox://styles/mapbox/light-v11",
       pitch: 60,
       bearing: -20,
       antialias: true,
@@ -35,6 +59,25 @@ const MapComponent = () => {
     mapRef.current.addControl(new mapboxgl.NavigationControl());
 
     mapRef.current.on("load", () => {
+
+      mapRef.current.addLayer({
+        id: "3d-buildings",
+        source: "composite",
+        "source-layer": "building",
+        type: "fill-extrusion",
+        minzoom: 15, // 🔹 Only show buildings at zoom level 15+
+        paint: {
+          "fill-extrusion-color": "#aaa",
+          "fill-extrusion-height": [
+            "interpolate", ["linear"], ["zoom"],
+            15, 0,
+            16, ["get", "height"]
+          ],
+          "fill-extrusion-base": ["case", ["has", "min_height"], ["get", "min_height"], 0],
+          "fill-extrusion-opacity": 0.6
+        }
+      });
+
       fetch(DATA_URL)
         .then((response) => response.json())
         .then((data) => {
@@ -44,15 +87,18 @@ const MapComponent = () => {
     });
 
     return () => mapRef.current.remove();
-  }, []);
+  }, [isDarkMode]); // 🔹 Reinitialize map on theme change
 
   return (
-    <div className="h-screen">
-      {/* Pass Search Toggle Function to Navbar */}
-      <Navbar onSearchClick={() => setShowGeocoder(!showGeocoder)} />
+    <div className={`h-screen ${isDarkMode ? "dark bg-black/80 text-gray-200" : "bg-white text-gray-900"}`}>
+      <Navbar 
+        onSearchClick={() => setShowGeocoder(!showGeocoder)} 
+        onToggleTheme={toggleTheme} 
+        isDarkMode={isDarkMode} 
+      />
 
       <div className="h-[75vh] mx-10 relative">
-        {/* Show Geocoder when 'showGeocoder' is true */}
+      <Geolocation onLocationFound={handleLocationFound} />
         {showGeocoder && (
           <GeocoderComponent 
             mapRef={mapRef} 
@@ -63,7 +109,7 @@ const MapComponent = () => {
 
         <BusinessLayer mapRef={mapRef} businesses={businesses} />
         <TruckSimulation mapRef={mapRef} />
-        <div id="map-container" ref={mapContainerRef} className="h-[75vh] my-auto mt" />
+        <div id="map-container" ref={mapContainerRef} className="h-[75vh] my-auto rounded-xl" />
       </div>
       <DeliveryInfo />
 

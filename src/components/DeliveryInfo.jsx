@@ -1,13 +1,15 @@
 const DetailItem = ({ title, value, subtitle, icon, extra, borderColour }) => (
   <div className="flex-1 flex flex-col gap-1">
-    <p className="text-sm text-gray-500">{title}</p>
-    <p className={`text-3xl font-semibold text-black pb-2 border-b-4`} style={{ borderColor: borderColour, width: 'fit-content' }}>
+    <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
+    <p 
+      className={`text-3xl font-semibold text-black dark:text-white pb-2 border-b-4`} 
+      style={{ borderColor: borderColour, width: 'fit-content' }}
+    >
       {icon && <span className="inline-block w-2 h-2 rounded-full mr-1" style={{ backgroundColor: icon }}></span>}
       {value}
     </p>
-    {subtitle && <p className="text-md text-gray-600 mt-1">{subtitle}</p>}
-    {extra && <p className="text-xs text-gray-600 mt-1">{extra}</p>}
-    
+    {subtitle && <p className="text-md text-gray-600 dark:text-gray-400 mt-1">{subtitle}</p>}
+    {extra && <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{extra}</p>}
   </div>
 );
 
@@ -21,9 +23,9 @@ const DeliveryInfo = () => {
 
   return (
     <div className="flex items-center justify-center z-20 absolute bottom-0 inset-x-0 mb-10">
-      <div className="w-[70%] mx-auto bg-white shadow-lg rounded-lg flex justify-between items-start p-8 space-x-6">
+      <div className="w-[70%] mx-auto bg-white dark:bg-gray-900 shadow-lg rounded-lg flex justify-between items-start p-8 space-x-6">
         {Object.values(deliveryData).map((item, index) => (
-          <DetailItem key={index} title={item.title} value={item.value} subtitle={item.subtitle} icon={item.icon} extra={item.extra} borderColour={item.borderColour} />
+          <DetailItem key={index} {...item} />
         ))}
       </div>
     </div>
