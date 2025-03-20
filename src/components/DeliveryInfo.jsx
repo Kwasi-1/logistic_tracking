@@ -1,14 +1,14 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 const DetailItem = ({ title, value, subtitle, icon, extra, borderColour, iconColor }) => (
-  <div className="flex-1">
-    <p className="text-base text-gray-500 font-sans">{title}</p>
-    <p className={`text-2xl font-semibold text-black pb-2 border-b-4`} style={{ borderColor: borderColour, width: 'fit-content' }}>
-      {icon && <Icon icon={icon} className={`inline-block w-11 h-11 rounded-full mr-1 ${iconColor}`}/>}
+  <div className="w-fit">
+    <p className="text-base text-gray-500 font-sans mb-1">{title}</p>
+    <p className={`text-2xl font-semibold text-black pb-2 border-b-4`} style={{ borderColor: borderColour, width: 'full' }}>
+      {icon && <Icon icon={icon} className={`inline-block w-10 h-10 rounded-full mr-1 ${iconColor}`}/>}
       {value}
     </p>
-    {subtitle && <p className="text-lg font-semibold mt-1">{subtitle}</p>}
-    {extra && <p className="text-base text-gray-600 mt-1">{extra}</p>}
+    {subtitle && <p className="text-base font-semibold mt-1">{subtitle}</p>}
+    {extra && <p className="text-sm text-gray-500 mt-1">{extra}</p>}
     
   </div>
 );
@@ -23,7 +23,7 @@ const DeliveryInfo = () => {
 
   return (
     <div className="flex items-center justify-center z-20 absolute bottom-0 inset-x-0 mb-10">
-      <div className="w-[70%] mx-auto bg-white shadow-lg rounded-lg flex justify-between items-start p-8 space-x-6">
+      <div className="w-[60%] mx-auto bg-white shadow-lg rounded-lg flex justify-evenly items-start py-7 px-6 lg:px-0  space-x-6">
         {Object.values(deliveryData).map((item, index) => (
           <DetailItem key={index} title={item.title} value={item.value} subtitle={item.subtitle} icon={item.icon} extra={item.extra} borderColour={item.borderColour} iconColor={item.iconColor} />
         ))}
