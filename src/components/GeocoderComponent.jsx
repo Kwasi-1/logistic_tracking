@@ -14,7 +14,9 @@ const GeocoderComponent = ({ mapRef, businesses, geocoderContainerRef }) => {
       placeholder: "Search for businesses...",
       localGeocoder: (query) => {
         return businesses
-          .filter((business) => business.name.toLowerCase().includes(query.toLowerCase()))
+          .filter((business) =>
+            business.name.toLowerCase().includes(query.toLowerCase())
+          )
           .map((business) => ({
             text: business.name,
             place_name: business.name,
@@ -36,7 +38,19 @@ const GeocoderComponent = ({ mapRef, businesses, geocoderContainerRef }) => {
     };
   }, [mapRef, businesses]);
 
-  return <div ref={geocoderContainerRef} style={{ position: "absolute", top: "1.5vw", right: "6vw", zIndex: 5, width: "300px" }} />;
+  return (
+    <div
+      ref={geocoderContainerRef}
+      style={{
+        position: "absolute",
+        top: "1.5vw",
+        right: "10vw",
+        zIndex: 5,
+        width: "300px",
+      }}
+      className="pl-10"
+    />
+  );
 };
 
 export default GeocoderComponent;

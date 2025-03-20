@@ -145,11 +145,7 @@ const MapComponent = () => {
       )}
 
       <div className="h-[75vh] mx-10 relative">
-        <BusinessLayer
-          mapRef={mapRef}
-          businesses={businesses}
-          isDarkMode={isDarkMode}
-        />
+        <BusinessLayer mapRef={mapRef} businesses={businesses}/>
         <TruckSimulation mapRef={mapRef} />
         <div
           id="map-container"
