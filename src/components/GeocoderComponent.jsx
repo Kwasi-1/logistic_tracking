@@ -36,7 +36,7 @@ const GeocoderComponent = ({ mapRef, businesses, geocoderContainerRef }) => {
     };
   }, [mapRef, businesses]);
 
-  return <div ref={geocoderContainerRef} style={{ position: "absolute", top: "10px", left: "10px", zIndex: 5, width: "300px" }} />;
+  return <div ref={geocoderContainerRef} style={{ position: "absolute", top: "1.5vw", right: "6vw", zIndex: 5, width: "300px" }} />;
 };
 
 export default GeocoderComponent;
