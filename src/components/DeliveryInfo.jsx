@@ -1,9 +1,9 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 const DetailItem = ({ title, value, subtitle, icon, extra, borderColour, iconColor }) => (
-  <div className="flex-1 flex flex-col gap-1">
+  <div className="flex-1">
     <p className="text-base text-gray-500 font-sans">{title}</p>
-    <p className={`text-3xl font-semibold text-black pb-2 border-b-4`} style={{ borderColor: borderColour, width: 'fit-content' }}>
+    <p className={`text-2xl font-semibold text-black pb-2 border-b-4`} style={{ borderColor: borderColour, width: 'fit-content' }}>
       {icon && <Icon icon={icon} className={`inline-block w-11 h-11 rounded-full mr-1 ${iconColor}`}/>}
       {value}
     </p>
