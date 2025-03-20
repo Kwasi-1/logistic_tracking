@@ -23,6 +23,11 @@
           { "to": "MK004", "type": "supply", "product": "Soap", "quantity": 500 },
           { "to": "MK005", "type": "supply", "product": "Bottled Water", "quantity": 300 }
         ]
+      },
+      {
+        "id": "WH003",
+        "name": "Cepodek Wharehouse",
+        "location": { "lat": 5.665552944172566, "lng": -0.20408982912293316 }
       }
     ],
 
