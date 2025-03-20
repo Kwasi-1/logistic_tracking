@@ -8,6 +8,7 @@ import DeliveryInfo from "./DeliveryInfo";
 import Navbar from "./Navbar";
 import Geolocation from "./Geolocation";
 import Directions from "./Directions";
+import { dummy_data } from "../db";
 
 const INITIAL_CENTER = [-0.187, 5.6037];
 const INITIAL_ZOOM = 12.12;
@@ -90,12 +91,14 @@ const MapComponent = () => {
         },
       });
 
-      fetch(DATA_URL)
-        .then((response) => response.json())
-        .then((data) => {
-          setBusinesses([...data.wholesalers, ...data.microfinance, ...data.market_businesses]);
-        })
-        .catch((error) => console.error("Error fetching data:", error));
+      // fetch(DATA_URL)
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     setBusinesses([...data.wholesalers, ...data.microfinance, ...data.market_businesses]);
+      //   })
+      //   .catch((error) => console.error("Error fetching data:", error));
+      const data = {...dummy_data["foundry-ecosytem"]};
+      setBusinesses([...data.wholesalers, ...data.microfinance, ...data.market_businesses])
     });
 
     return () => {
@@ -130,7 +133,7 @@ const MapComponent = () => {
 
         <BusinessLayer mapRef={mapRef} businesses={businesses} />
         <TruckSimulation mapRef={mapRef} />
-        <div id="map-container" ref={mapContainerRef} className="h-[75vh] my-auto rounded-xl" />
+        <div id="map-container" ref={mapContainerRef} className="h-[75vh] my-auto rounded-xl border" />
       </div>
 
       <DeliveryInfo />
