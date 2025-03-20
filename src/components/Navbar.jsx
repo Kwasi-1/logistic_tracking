@@ -1,28 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import logo from "../assets/foundry_logo.png";
 
 // Navigation links array (easier to edit)
 const navLinks = ["Dashboard", "Fleet", "Order Management", "Logistics", "Invoices"];
 
-const Navbar = ({ onSearchClick }) => {
+const Navbar = ({ onSearchClick, onToggleTheme, isDarkMode }) => {
   return (
-    <nav className="bg-white h-[10vh] px-8 w-[90%] mx-auto py-4 flex items-center justify-between">
+    <nav className=" h-[10vh] px-8 py-4 w-[90%] mx-auto flex items-center justify-between ">
+
       {/* Left - Navigation Links */}
-      <ul className="flex space-x-6 text-sm font-medium text-gray-800">
+      <div className="flex items-center space-x-10">
+      <img src={logo} alt="logo" className="w-4 h-5" />
+      <ul className="flex space-x-10 text-sm font-medium ">
         {navLinks.map((link, index) => (
-          <li key={index} className="hover:text-gray-500 cursor-pointer">{link}</li>
+          <li key={index} className="hover:text-gray-500 dark:hover:text-gray-400 cursor-pointer">{link}</li>
         ))}
       </ul>
+      </div>
 
       {/* Right - Icons */}
       <div className="flex space-x-4">
-        <button onClick={onSearchClick}>
-          <Icon icon="carbon:search" className="text-lg cursor-pointer text-gray-700 hover:text-gray-500" />
+        <button onClick={onSearchClick} className={`p-3 rounded-md transition duration-300 ${isDarkMode ? "hover:bg-white" : "hover:bg-gray-100"}`}>
+          <Icon icon="carbon:search" className="text-lg cursor-pointer  hover:text-gray-500" />
         </button>
-        <button>
-          <Icon icon="iconoir:sun-light" className="text-lg cursor-pointer text-gray-700 hover:text-gray-500" />
+        <button onClick={onToggleTheme} className={`p-3 rounded-md transition duration-300 ${isDarkMode ? "hover:bg-white" : "hover:bg-gray-100"}`}>
+          <Icon 
+            icon={isDarkMode ? "mynaui:moon" : "iconoir:sun-light"} 
+            className="text-lg cursor-pointer text-gray-700 hover:text-gray-500" 
+          />
         </button>
       </div>
+      {/* </div> */}
     </nav>
   );
 };
