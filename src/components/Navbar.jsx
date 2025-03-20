@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import logo from "../assets/foundry_logo.png";
+import { NavLink } from "react-router";
 
 // Navigation links array (easier to edit)
-const navLinks = ["Dashboard", "Fleet", "Order Management", "Logistics", "Invoices"];
+// const navLinks = ["Dashboard", ["Fleet", "/fleet" ], "Order Management", "Logistics", "Invoices"];
+
+const navLinks = [
+  { to: '/', label: 'Dashboard' },
+  { to: '/fleet', label: 'fleet' },
+  { to: '/order_Managementg', label: 'Order Management' },
+  { to: '/logistics', label: 'Logistics' },
+  { to: '/invoices', label: 'Invoices' }
+
+];
 
 const Navbar = ({ onSearchClick, onToggleTheme, isDarkMode }) => {
   return (
@@ -14,7 +24,7 @@ const Navbar = ({ onSearchClick, onToggleTheme, isDarkMode }) => {
       <img src={logo} alt="logo" className="w-4 h-5" />
       <ul className="flex space-x-10 text-sm font-medium ">
         {navLinks.map((link, index) => (
-          <li key={index} className="hover:text-gray-500 dark:hover:text-gray-400 cursor-pointer">{link}</li>
+          <NavLink to={link.to} key={index} className="hover:text-gray-500 dark:hover:text-gray-400 cursor-pointer">{link.label}</NavLink>
         ))}
       </ul>
       </div>
@@ -24,6 +34,7 @@ const Navbar = ({ onSearchClick, onToggleTheme, isDarkMode }) => {
         <button onClick={onSearchClick} className={`p-3 rounded-md transition duration-300 ${isDarkMode ? "hover:bg-white" : "hover:bg-gray-100"}`}>
           <Icon icon="carbon:search" className="text-lg cursor-pointer  hover:text-gray-500" />
         </button>
+        
         <button onClick={onToggleTheme} className={`p-3 rounded-md transition duration-300 ${isDarkMode ? "hover:bg-white" : "hover:bg-gray-100"}`}>
           <Icon 
             icon={isDarkMode ? "mynaui:moon" : "iconoir:sun-light"} 

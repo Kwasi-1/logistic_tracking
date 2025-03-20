@@ -114,18 +114,19 @@ const MapComponent = () => {
       />
 
       {/* Geolocation Component Moved Here */}
-      <Geolocation onLocationFound={handleLocationFound} />
+      {/* <Geolocation onLocationFound={handleLocationFound} /> */}
 
       {/* <Directions mapRef={mapRef} /> */}
-
-      <div className="h-[75vh] mx-10 relative">
-        {showGeocoder && (
+      {showGeocoder && (
           <GeocoderComponent 
             mapRef={mapRef} 
             businesses={businesses} 
             geocoderContainerRef={geocoderContainerRef} 
           />
         )}
+
+      <div className="h-[75vh] mx-10 relative">
+        
 
         <BusinessLayer mapRef={mapRef} businesses={businesses} />
         <TruckSimulation mapRef={mapRef} />
