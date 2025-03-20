@@ -11,7 +11,7 @@ import Directions from "./Directions";
 import { dummy_data } from "../db";
 
 const INITIAL_CENTER = [-0.187, 5.6037];
-const INITIAL_ZOOM = 12.12;
+const INITIAL_ZOOM = 15.12;
 const DATA_URL = "http://localhost:8000/foundry-ecosytem";
 
 const MapComponent = () => {
@@ -46,12 +46,15 @@ const MapComponent = () => {
   const handleLocationFound = (location) => {
     if (mapRef.current) {
       mapRef.current.setCenter([location.lng, location.lat]);
-      new mapboxgl.Marker().setLngLat([location.lng, location.lat]).addTo(mapRef.current);
+      new mapboxgl.Marker()
+        .setLngLat([location.lng, location.lat])
+        .addTo(mapRef.current);
     }
   };
 
   useEffect(() => {
-    mapboxgl.accessToken = "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
+    mapboxgl.accessToken =
+      "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
 
     // Initialize Map
     mapRef.current = new mapboxgl.Map({
@@ -86,7 +89,12 @@ const MapComponent = () => {
             16,
             ["get", "height"],
           ],
-          "fill-extrusion-base": ["case", ["has", "min_height"], ["get", "min_height"], 0],
+          "fill-extrusion-base": [
+            "case",
+            ["has", "min_height"],
+            ["get", "min_height"],
+            0,
+          ],
           "fill-extrusion-opacity": 0.6,
         },
       });
@@ -97,8 +105,12 @@ const MapComponent = () => {
       //     setBusinesses([...data.wholesalers, ...data.microfinance, ...data.market_businesses]);
       //   })
       //   .catch((error) => console.error("Error fetching data:", error));
-      const data = {...dummy_data["foundry-ecosytem"]};
-      setBusinesses([...data.wholesalers, ...data.microfinance, ...data.market_businesses])
+      const data = { ...dummy_data["foundry-ecosytem"] };
+      setBusinesses([
+        ...data.wholesalers,
+        ...data.microfinance,
+        ...data.market_businesses,
+      ]);
     });
 
     return () => {
@@ -109,11 +121,15 @@ const MapComponent = () => {
   }, [isDarkMode]); // 🔹 Reinitialize map on theme change
 
   return (
-    <div className={`h-screen ${isDarkMode ? "dark bg-black/80 text-gray-200" : "bg-white text-gray-900"}`}>
-      <Navbar 
-        onSearchClick={() => setShowGeocoder(!showGeocoder)} 
-        onToggleTheme={toggleTheme} 
-        isDarkMode={isDarkMode} 
+    <div
+      className={`h-screen ${
+        isDarkMode ? "dark bg-black/80 text-gray-200" : "bg-white text-gray-900"
+      }`}
+    >
+      <Navbar
+        onSearchClick={() => setShowGeocoder(!showGeocoder)}
+        onToggleTheme={toggleTheme}
+        isDarkMode={isDarkMode}
       />
 
       {/* Geolocation Component Moved Here */}
@@ -121,19 +137,25 @@ const MapComponent = () => {
 
       {/* <Directions mapRef={mapRef} /> */}
       {showGeocoder && (
-          <GeocoderComponent 
-            mapRef={mapRef} 
-            businesses={businesses} 
-            geocoderContainerRef={geocoderContainerRef} 
-          />
-        )}
+        <GeocoderComponent
+          mapRef={mapRef}
+          businesses={businesses}
+          geocoderContainerRef={geocoderContainerRef}
+        />
+      )}
 
       <div className="h-[75vh] mx-10 relative">
-        
-
-        <BusinessLayer mapRef={mapRef} businesses={businesses} />
+        <BusinessLayer
+          mapRef={mapRef}
+          businesses={businesses}
+          isDarkMode={isDarkMode}
+        />
         <TruckSimulation mapRef={mapRef} />
-        <div id="map-container" ref={mapContainerRef} className="h-[75vh] my-auto rounded-xl border" />
+        <div
+          id="map-container"
+          ref={mapContainerRef}
+          className="h-[75vh] my-auto rounded-xl border"
+        />
       </div>
 
       <DeliveryInfo />
