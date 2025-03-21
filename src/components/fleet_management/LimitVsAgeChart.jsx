@@ -1,6 +1,6 @@
 const LimitVsAgeChart = () => {
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
+    <div className="bg-[#e0e6e930] p-4 rounded-lg">
       <h2 className="text-lg font-semibold">
         Limit Requested Vs Age Of Application
       </h2>

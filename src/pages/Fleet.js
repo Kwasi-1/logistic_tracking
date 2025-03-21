@@ -8,24 +8,26 @@ import DateFilter from "../components/fleet_management/DateFilter";
 
 const Fleet = () => {
   return (
-    <div className=" p-6 bg-gray-100 min-h-screen">
+    <div className=" p-6 min-h-screen font-sans">
       <div className="flex justify-between items-center">
   
-      <h1 className="text-2xl font-semibold">Loan</h1>
+      <h1 className="text-2xl">Fleet Management</h1>
       
       
       {/* Date Filter */}
       <DateFilter />
       </div>
 
-      <div className="flex  gap-4 mt-4">
+      <div className="flex gap-4 mt-4">
         <OverallBreakdown />
+        <div className="flex-1 h-full">
         <LoanStats />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-7 gap-4 mt-4">
         <OpenApplications />
-        <div className="flex flex-col gap-4">
+        <div className=" col-span-2 flex flex-col gap-4">
         <OpenApplicationsChart />
         <LimitVsAgeChart />
       </div>

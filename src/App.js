@@ -9,10 +9,12 @@ function App() {
     <BrowserRouter>
     <div className="flex">
     <ShowSidebar/>
+    <div className="flex-1">
     <Routes>
       <Route path="/" element={<Landing/>} />
       <Route path="/fleet" element={<Fleet/>} />
     </Routes>
+    </div>
     </div>
   </BrowserRouter>
   )

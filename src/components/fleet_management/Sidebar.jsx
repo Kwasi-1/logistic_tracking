@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { lowerCase } from "lodash";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/foundry_logo.png";
 
@@ -8,6 +8,10 @@ const SideBar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
+  // State to track active sublink
+  const [activeSublink, setActiveSublink] = useState(null);
+
+  // Function to determine if a parent menu is highlighted
   function highlight(tuple) {
     if (pathname === `/${tuple[0]}`) return true;
     if (pathname.includes(tuple[0]) && !tuple[1]) return true;
@@ -16,19 +20,31 @@ const SideBar = () => {
 
   const currentModule = "";
 
+  // Set first sublink as active when the page loads or route changes
+  useEffect(() => {
+    const firstActiveSublink = MenuItems(currentModule, [])
+      .flatMap((item) => item.sublinks)
+      .find((sub) => pathname.includes(sub.link));
+
+    if (firstActiveSublink) {
+      setActiveSublink(firstActiveSublink.link);
+    }
+  }, [pathname]);
+
   return (
     <div className="w-[15%] h-screen py-4 px-2 border-r">
+      {/* Logo and title */}
       <div
         onClick={() => navigate("/dashboard")}
         className="grid grid-cols-[2rem,1fr] gap-x-2 pt-2 place-items-center hover:cursor-pointer"
       >
         <img src={logo} className="w-[50%]" alt="Logo" />
-
         <div className="flex flex-col mr-auto text-gray-600">
           <h1 className="font-medium capitalize">Foundry</h1>
         </div>
       </div>
 
+      {/* Sidebar menu */}
       <div className="flex flex-col w-full h-[calc(100%-1rem)] mx-auto py-8 text-sm">
         {MenuItems(currentModule, []).map((item, index) => {
           const isHighlighted = highlight(item.parent);
@@ -41,6 +57,7 @@ const SideBar = () => {
                 isHighlighted ? "bg-gray-200/40" : "h-12"
               } rounded-xl p-1 overflow-y-hidden duration-300`}
             >
+              {/* Parent Menu Item */}
               <button
                 onClick={() => navigate(item.link)}
                 className={`${
@@ -53,19 +70,19 @@ const SideBar = () => {
                   icon={item.icon}
                   className={`text-[19px] flex-shrink-0 ${item?.iconStyle}`}
                 />
-
                 <p className="mt-[2px] whitespace-nowrap">{item.title}</p>
               </button>
 
-              <div className="flex flex-col pl-4 ">
+              {/* Sublinks */}
+              <div className="flex flex-col pl-4">
                 {item.sublinks.map((sublink, subIndex) => {
-                  const isHighlighted = highlight(sublink.parent);
+                  const isHighlighted = activeSublink === sublink.link;
                   const has_access = true;
 
                   return has_access ? (
                     <button
                       key={subIndex}
-                      onClick={() => navigate(sublink.link)}
+                      onClick={() => setActiveSublink(sublink.link)}
                       className={`${
                         isHighlighted
                           ? "text-black bg-white shadow"
@@ -76,8 +93,7 @@ const SideBar = () => {
                         icon={sublink.icon}
                         className={`text-[19px] flex-shrink-0 ${sublink?.iconStyle}`}
                       />
-
-                      <p className="mt-[2px] whitespace-nowrap ">
+                      <p className="mt-[2px] whitespace-nowrap">
                         {sublink.title}
                       </p>
                     </button>
@@ -88,6 +104,7 @@ const SideBar = () => {
           ) : null;
         })}
 
+        {/* Logout Button */}
         <button
           onClick={() => {}}
           className="text-standard w-full flex items-center p-2 rounded-lg mt-auto gap-x-2 text-gray-600 hover:text-white transition-all duration-500 hover:bg-red-600"
@@ -142,8 +159,8 @@ const MenuItems = (currentModule, permissions = [""]) => {
         {
           title: "Order Management",
           icon: "hugeicons:document-validation",
-          link: "/order_Managementg",
-          parent: ["order_Managementg", false],
+          link: "/order_Management",
+          parent: ["order_Management", false],
           permitted_roles: [],
           sublinks: [],
         },

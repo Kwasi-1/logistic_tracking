@@ -1,28 +1,113 @@
 import { useState } from "react";
 
-const applications = [
+const driverData = [
   {
-    id: "APP-1121",
-    name: "KORANG CECILIA",
-    product: "FAST SME LOAN",
-    amount: "€10,000.00",
-    date: "20/03/2025 13:39 PM",
-    status: "Open",
+    id: "DRV-101",
+    name: "John Doe",
+    license: "A12345",
+    experience: "5 years",
+    status: "Active",
   },
   {
-    id: "APP-1120",
-    name: "APPIAH DORIS",
-    product: "FAST SME LOAN",
-    amount: "€10,000.00",
-    date: "20/03/2025 13:23 PM",
-    status: "Open",
+    id: "DRV-102",
+    name: "Jane Smith",
+    license: "B67890",
+    experience: "3 years",
+    status: "Inactive",
+  },
+];
+
+const vehicleData = [
+  {
+    id: "VEH-201",
+    driverId: "DRV-102",
+    model: "Volvo FH16",
+    plate: "GT-1234-22",
+    capacity: "25 Tons",
+    status: "Operational",
+  },
+  {
+    id: "VEH-202",
+    driverId: "DRV-101",
+    model: "Ford Transit",
+    plate: "BA-5678-19",
+    capacity: "3 Tons",
+    status: "Maintenance",
+  },
+];
+
+const shipmentData = [
+  {
+    id: "SHP-301",
+    order: "ORD-789",
+    pickup: "Accra",
+    destination: "Kumasi",
+    date: "20/03/2025",
+    status: "In Transit",
+  },
+  {
+    id: "SHP-302",
+    order: "ORD-456",
+    pickup: "Tema",
+    destination: "Takoradi",
+    date: "19/03/2025",
+    status: "Delivered",
   },
 ];
 
 const tabs = ["Driver", "Vehicle", "Shipment"];
 
 const OpenApplications = () => {
-  const [activeTab, setActiveTab] = useState("Purchasing");
+  const [activeTab, setActiveTab] = useState("Shipment");
+
+  // Determine the table data based on active tab
+  let tableHeaders = [];
+  let tableData = [];
+
+  if (activeTab === "Driver") {
+    tableHeaders = ["Driver ID", "Name", "License", "Experience", "Status"];
+    tableData = driverData.map((driver) => [
+      driver.id,
+      driver.name,
+      driver.license,
+      driver.experience,
+      driver.status,
+    ]);
+  } else if (activeTab === "Vehicle") {
+    tableHeaders = [
+      "Vehicle ID",
+      "Driver ID",
+      "Model",
+      "Plate Number",
+      "Capacity",
+      "Status",
+    ];
+    tableData = vehicleData.map((vehicle) => [
+      vehicle.id,
+      vehicle.driverId,
+      vehicle.model,
+      vehicle.plate,
+      vehicle.capacity,
+      vehicle.status,
+    ]);
+  } else if (activeTab === "Shipment") {
+    tableHeaders = [
+      "Shipment ID",
+      "Order",
+      "Pickup Point",
+      "Destination",
+      "Date",
+      "Status",
+    ];
+    tableData = shipmentData.map((shipment) => [
+      shipment.id,
+      shipment.order,
+      shipment.pickup,
+      shipment.destination,
+      shipment.date,
+      shipment.status,
+    ]);
+  }
 
   return (
     <div className="col-span-5 bg-[#e0e6e930] px-6 rounded-lg">
@@ -35,50 +120,38 @@ const OpenApplications = () => {
             className={`px-6 py-2 text-gray-500 border-t ${
               activeTab === tab
                 ? "text-green-600 font-medium border-green-600"
-                : " "
+                : ""
             }`}
           >
             {tab}
           </button>
         ))}
-        {/* Active Tab Indicator */}
-        {/* <div
-          className="absolute bottom-0 h-[2px] bg-green-600 transition-all"
-          style={{
-            left: `${tabs.indexOf(activeTab) * 120}px`,
-            width: "120px",
-          }}
-        ></div> */}
       </nav>
 
-      {/* Content Section */}
-      <h2 className="text-lg font-semibold mt-4">Shipment</h2>
+      {/* Dynamic Table Header */}
+      <h2 className="text-lg font-semibold mt-4">{activeTab} Details</h2>
       <div className="overflow-x-auto">
         <table className="w-full mt-2 border-collapse">
           <thead>
-            <tr className="bg-gray-100 text-gray-600 uppercase text-sm">
-              <th className="text-left p-3">Shipment ID</th>
-              <th className="text-left p-3">Order created</th>
-              <th className="text-left p-3"> PickUp Point </th>
-              <th className="text-left p-3"> Destination</th>
-              <th className="text-left p-3">Date</th>
-              <th className="text-left p-3">Status</th>
+            <tr className="border-b border-gray-300 text-gray-600 uppercase text-sm">
+              {tableHeaders.map((header, index) => (
+                <th key={index} className="text-left p-3">
+                  {header}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {applications.map((app) => (
+            {tableData.map((row, rowIndex) => (
               <tr
-                key={app.id}
+                key={rowIndex}
                 className="border-b hover:bg-gray-200 transition"
               >
-                <td className="p-3">{app.id}</td>
-                <td className="p-3">{app.name}</td>
-                <td className="p-3">{app.product}</td>
-                <td className="p-3 font-semibold">{app.amount}</td>
-                <td className="p-3">{app.date}</td>
-                <td className="p-3 text-yellow-500 font-medium">
-                  {app.status}
-                </td>
+                {row.map((cell, cellIndex) => (
+                  <td key={cellIndex} className="p-3">
+                    {cell}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
