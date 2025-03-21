@@ -118,11 +118,30 @@ const MenuItems = (currentModule, permissions = [""]) => {
           link: "/fleet",
           parent: ["fleet", false],
           permitted_roles: [],
-          sublinks: [],
+          sublinks: [
+            {
+              title: "Overview",
+              icon: "hugeicons:truck",
+              link: "/fleet/overview",
+              parent: ["fleet", true],
+            },
+            {
+              title: "Drivers",
+              icon: "hugeicons:truck",
+              link: "/fleet/loan_stats",
+              parent: ["fleet", true],
+            },
+            {
+              title: "Shipment",
+              icon: "hugeicons:truck",
+              link: "/fleet/delivery_info",
+              parent: ["fleet", true],
+            },
+          ],
         },
         {
           title: "Order Management",
-          icon: "hugeicons:clipboard-check",
+          icon: "hugeicons:document-validation",
           link: "/order_Managementg",
           parent: ["order_Managementg", false],
           permitted_roles: [],
@@ -130,7 +149,7 @@ const MenuItems = (currentModule, permissions = [""]) => {
         },
         {
           title: "Logistics",
-          icon: "hugeicons:box",
+          icon: "hugeicons:cashier-02",
           link: "/logistics",
           parent: ["logistics", false],
           permitted_roles: [],
@@ -138,7 +157,7 @@ const MenuItems = (currentModule, permissions = [""]) => {
         },
         {
           title: "Invoices",
-          icon: "hugeicons:receipt",
+          icon: "hugeicons:wallet-add-01",
           link: "/invoices",
           parent: ["invoices", false],
           permitted_roles: [],
