@@ -4,6 +4,7 @@ import OpenApplications from "../components/fleet_management/OpenApplications";
 import OpenApplicationsChart from "../components/fleet_management/OpenApplicationChart";
 import LimitVsAgeChart from "../components/fleet_management/LimitVsAgeChart";
 import DateFilter from "../components/fleet_management/DateFilter";
+import OrderAmount from "../components/fleet_management/OrderAmounts";
 
 
 const Fleet = () => {
@@ -28,8 +29,9 @@ const Fleet = () => {
       <div className="grid grid-cols-1 md:grid-cols-7 gap-4 mt-4">
         <OpenApplications />
         <div className=" col-span-2 flex flex-col gap-4">
-        <OpenApplicationsChart />
-        <LimitVsAgeChart />
+        {/* <OpenApplicationsChart /> */}
+        <OrderAmount/>
+        {/* <LimitVsAgeChart /> */}
       </div>
         
       </div>
