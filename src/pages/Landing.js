@@ -2,7 +2,7 @@ import MapComponent from "../components/MapComponent"
 
 function landing() {
   return (
-    <div>
+    <div className="flex-1">
       <MapComponent />
     </div>
   )
