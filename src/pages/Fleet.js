@@ -12,7 +12,7 @@ const Fleet = () => {
     <div className=" p-6 min-h-screen font-sans">
       <div className="flex justify-between items-center">
   
-      <h1 className="text-2xl">Fleet Management</h1>
+      <h1 className="text-2xl font-semibold">Fleet Management</h1>
       
       
       {/* Date Filter */}
