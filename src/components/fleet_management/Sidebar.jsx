@@ -35,7 +35,7 @@ const SideBar = () => {
     <div className="w-[15%] fixed bg-white h-screen py-4 px-2 border-r">
       {/* Logo and title */}
       <div
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/")}
         className="grid grid-cols-[2rem,1fr] gap-x-2 pt-2 place-items-center hover:cursor-pointer"
       >
         <img src={logo} className="w-[50%]" alt="Logo" />
