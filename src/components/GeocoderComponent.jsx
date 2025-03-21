@@ -43,10 +43,9 @@ const GeocoderComponent = ({ mapRef, businesses, geocoderContainerRef }) => {
       ref={geocoderContainerRef}
       style={{
         position: "absolute",
-        top: "1.5vw",
+        top: "1.4vw",
         right: "10vw",
         zIndex: 5,
-        width: "300px",
       }}
     />
   );
