@@ -1,35 +1,31 @@
-import { BrowserRouter, Route, Routes } from "react-router"
-import Landing from "./pages/Landing"
-import Fleet from "./pages/Fleet"
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import Landing from "./pages/Landing";
+import Fleet from "./pages/Fleet";
 import SideBar from "./components/fleet_management/Sidebar";
-import { useLocation } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
-    <div className="flex">
-    <ShowSidebar/>
-    <div className="w-[85%] ml-[15%]">
-    <Routes>
-      <Route path="/" element={<Landing/>} />
-      <Route path="/fleet" element={<Fleet/>} />
-    </Routes>
-    </div>
-    </div>
-  </BrowserRouter>
-  )
+      <AppContent />
+    </BrowserRouter>
+  );
 }
 
-
-const ShowSidebar = () => {
+function AppContent() {
   const location = useLocation();
-  const isLanding =
-    location.pathname === "/"
-  return !isLanding ? (
-    <>
-      
-      <SideBar/>
-    </>
-  ) : null;
-};
-export default App
+  const isLanding = location.pathname === "/";
+
+  return (
+    <div className="flex">
+      {!isLanding && <SideBar />}
+      <div className={!isLanding ? "w-[85%] ml-[15%]" : "w-full"}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/fleet" element={<Fleet />} />
+        </Routes>
+      </div>
+    </div>
+  );
+}
+
+export default App;
