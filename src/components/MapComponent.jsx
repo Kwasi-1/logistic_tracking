@@ -11,7 +11,7 @@ import Directions from "./Directions";
 import { dummy_data } from "../db";
 
 const INITIAL_CENTER = [-0.16912933535458255, 5.678395107981338];
-const INITIAL_ZOOM = 16.12;
+const INITIAL_ZOOM = 17.12;
 const DATA_URL = "http://localhost:8000/foundry-ecosytem";
 
 const MapComponent = () => {
