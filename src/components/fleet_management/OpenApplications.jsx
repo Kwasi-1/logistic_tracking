@@ -110,17 +110,17 @@ const OpenApplications = () => {
   }
 
   return (
-    <div className="col-span-5 bg-[#e0e6e930] px-6 rounded-lg">
+    <div className="col-span-5 bg-[#e0e6e930] px-6 rounded-xl border border-[#e0e6e930]">
       {/* Navigation Tabs */}
       <nav className="flex relative">
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-6 py-2 text-gray-500 border-t ${
+            className={`px-6 py-2 text-gray-500 border-t-2 ${
               activeTab === tab
                 ? "text-green-600 font-medium border-green-600"
-                : ""
+                : "border-[#e0e6e930]"
             }`}
           >
             {tab}
