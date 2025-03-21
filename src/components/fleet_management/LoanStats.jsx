@@ -36,7 +36,7 @@ const LoanStats = () => {
     <div className="flex flex-col bg-[#e0e6e930] p-4 px-6 rounded-xl border border-[#e0e6e930]">
       <div className="flex justify-between gap-3 mb-3">
         {stats.map(({ label, value }) => {
-          const percentage = ((value / 124) * 100).toFixed(1);
+          const percentage = ((value / 124) * 100).toFixed(2);
 
           return (
             <div

@@ -7,7 +7,12 @@ const RangeBar = ({ value, total }) => {
         className="h-full rounded-xl min-w-[7px] transition-all duration-300"
         style={{
           width: `${percentage}%`,
-          backgroundColor: percentage === 100 ? "#619b7d" : "#FF0000",
+          backgroundColor:
+            percentage === 100
+              ? "#619b7d"
+              : percentage >= 40
+              ? "#E80054"
+              : "#FF0000",
         }}
       ></div>
     </div>

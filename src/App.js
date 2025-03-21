@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
-    <div className="flex public-sans-body">
+    <div className="flex">
     <ShowSidebar/>
     <div className="w-[85%] ml-[15%]">
     <Routes>
