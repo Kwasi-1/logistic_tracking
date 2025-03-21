@@ -48,7 +48,6 @@ const GeocoderComponent = ({ mapRef, businesses, geocoderContainerRef }) => {
         zIndex: 5,
         width: "300px",
       }}
-      className="pl-10"
     />
   );
 };

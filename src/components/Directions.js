@@ -1,46 +1,60 @@
 import { useEffect } from "react";
 import mapboxgl from "mapbox-gl";
-import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css";
 
-const Directions = ({ mapRef }) => {
+const Directions = ({ mapRef, start, end }) => {
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current || !start || !end) return;
 
-    const directions = new MapboxDirections({
-      accessToken: mapboxgl.accessToken,
-      unit: "metric",
-      profile: "mapbox/driving",
-      alternatives: false,
-      geometries: "geojson",
-    });
+    const map = mapRef.current;
+    const routeLayerId = "route-layer";
+    const routeSourceId = "route-source";
 
-    mapRef.current.addControl(directions, "top-left");
+    const fetchRoute = async () => {
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+      
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const route = data.routes[0]?.geometry;
 
-    // 🔹 Hardcoded Locations
-    const cepodekWarehouse = [ -0.20408982912293316, 5.665552944172566 ]; // 📍 Cepodek Warehouse
-    const cepodek = [ -0.1695, 5.6783 ]; // 📍 Cepodek
-    
-    // 🔹 Get User Location & Add Route
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userLocation = [position.coords.longitude, position.coords.latitude];
+        if (!route) {
+          console.error("No route found");
+          return;
+        }
 
-        // Set route: user → Cepodek Warehouse → Cepodek
-        directions.setOrigin(userLocation);
-        directions.setDestination(cepodek);
-        directions.setWaypoints([{ coordinates: cepodekWarehouse }]);
-      },
-      (error) => console.error("Geolocation Error:", error),
-      { enableHighAccuracy: true }
-    );
+        // Remove existing route if it exists
+        if (map.getSource(routeSourceId)) {
+          map.getSource(routeSourceId).setData({ type: "FeatureCollection", features: [{ type: "Feature", geometry: route }] });
+        } else {
+          // Add the route source
+          map.addSource(routeSourceId, {
+            type: "geojson",
+            data: { type: "FeatureCollection", features: [{ type: "Feature", geometry: route }] },
+          });
+
+          // Add the route layer
+          map.addLayer({
+            id: routeLayerId,
+            type: "line",
+            source: routeSourceId,
+            layout: { "line-join": "round", "line-cap": "round" },
+            paint: { "line-color": "#007AFF", "line-width": 4, "line-opacity": 0.8 },
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching route:", error);
+      }
+    };
+
+    fetchRoute();
 
     return () => {
-      mapRef.current.removeControl(directions);
+      if (map.getLayer(routeLayerId)) map.removeLayer(routeLayerId);
+      if (map.getSource(routeSourceId)) map.removeSource(routeSourceId);
     };
-  }, [mapRef]);
+  }, [mapRef, start, end]);
 
-  return null;
+  return null; // No UI needed, just modifies the map
 };
 
 export default Directions;
