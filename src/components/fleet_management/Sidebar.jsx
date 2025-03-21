@@ -32,7 +32,7 @@ const SideBar = () => {
   }, [pathname]);
 
   return (
-    <div className="w-[15%] h-screen py-4 px-2 border-r">
+    <div className="w-[15%] fixed bg-white h-screen py-4 px-2 border-r">
       {/* Logo and title */}
       <div
         onClick={() => navigate("/dashboard")}

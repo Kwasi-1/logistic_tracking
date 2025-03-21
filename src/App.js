@@ -7,9 +7,9 @@ import { useLocation } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
-    <div className="flex">
+    <div className="flex public-sans-body">
     <ShowSidebar/>
-    <div className="flex-1">
+    <div className="w-[85%] ml-[15%]">
     <Routes>
       <Route path="/" element={<Landing/>} />
       <Route path="/fleet" element={<Fleet/>} />

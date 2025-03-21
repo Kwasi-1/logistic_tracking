@@ -8,8 +8,8 @@ const OverallBreakdown = () => {
   const remainingPercentage = (100 - activePercentage).toFixed(1);
 
   return (
-    <div className="bg-[#e0e6e930] min-w-80 wfull p-4 font-sans rounded-xl border border-[#e0e6e930] flex items-center">
-      <div>
+    <div className="bg-[#e0e6e930] min-w80  p-4 font-sans rounded-xl border border-[#e0e6e930] flex items-center">
+      <div className="w-full">
         <h2 className="text-[15px] text-[#4b5563] font-semibold mb-5">
           Overall Breakdown
         </h2>
@@ -30,7 +30,7 @@ const OverallBreakdown = () => {
 
       {/* Gauge Chart with Proper Props */}
       <div className="flex flex-col items-center justify-center">
-        <div className="mt-4 h-28 w-[250px]">
+        <div className="mt-4 h-24 w-[250px]">
           <GaugeChart
             backgroundColor={["#4F4F4F", "#E5E7EB"]} // Green & Gray
             values={[activePercentage, remainingPercentage]} // Dynamic values
