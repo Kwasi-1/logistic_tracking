@@ -9,7 +9,10 @@ const BusinessLayer = ({ mapRef, businesses }) => {
       features: businesses.map((business) => ({
         type: "Feature",
         properties: { name: business.name, icon: "shop" },
-        geometry: { type: "Point", coordinates: [business.location.lng, business.location.lat] },
+        geometry: {
+          type: "Point",
+          coordinates: [business.location.lng, business.location.lat],
+        },
       })),
     };
 
@@ -33,7 +36,7 @@ const BusinessLayer = ({ mapRef, businesses }) => {
           "text-anchor": "top",
         },
         paint: {
-          "text-color": "#000",
+          "text-color": "#bbb",
         },
       });
     }

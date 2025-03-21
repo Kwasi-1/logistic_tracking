@@ -10,8 +10,8 @@ import Geolocation from "./Geolocation";
 import Directions from "./Directions";
 import { dummy_data } from "../db";
 
-const INITIAL_CENTER = [-0.187, 5.6037];
-const INITIAL_ZOOM = 15.12;
+const INITIAL_CENTER = [-0.16912933535458255, 5.678395107981338];
+const INITIAL_ZOOM = 16.12;
 const DATA_URL = "http://localhost:8000/foundry-ecosytem";
 
 const MapComponent = () => {
@@ -145,7 +145,7 @@ const MapComponent = () => {
       )}
 
       <div className="h-[75vh] mx-10 relative">
-        <BusinessLayer mapRef={mapRef} businesses={businesses}/>
+        <BusinessLayer mapRef={mapRef} businesses={businesses} />
         <TruckSimulation mapRef={mapRef} />
         <div
           id="map-container"
