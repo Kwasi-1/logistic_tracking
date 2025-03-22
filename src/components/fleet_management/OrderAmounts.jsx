@@ -4,9 +4,9 @@ import StatusText from "./StatusText";
 const OrderAmount = () => {
   const data = [
     { orderId: "12345", amount: "₵1,200", status: "successful" },
-    { orderId: "67890", amount: "₵1,200", status: "failed" },
+    { orderId: "67890", amount: "₵1,200", status: "returned" },
     { orderId: "11223", amount: "₵1,200", status: "successful" },
-    { orderId: "44556", amount: "₵1,200", status: "cancelled" },
+    { orderId: "44556", amount: "₵1,200", status: "returned" },
     { orderId: "77889", amount: "₵1,200", status: "successful" },
   ];
 
@@ -27,13 +27,13 @@ const OrderAmount = () => {
       <h2 className="text-xl font-bold mb-4">Orders</h2>
 
       {/* Progress Bar */}
-      <div className="relative w-full h-4 bg-gray-200 rounded-full flex gap-1 mb-4 overflow-hidden">
+      <div className="relative w-full h-4Z̄ rounded-full flex gap-1 mb-4 overflow-hidden">
         <div
-          className="h-full bg-[#619B7D]"
+          className="h-full rounded-full bg-[#619B7D]"
           style={{ width: `${successPercentage}%` }}
         ></div>
         <div
-          className="h-full bg-[#E80054]"
+          className="h-full rounded-full bg-[#E80054]"
           style={{ width: `${issuePercentage}%` }}
         ></div>
       </div>
