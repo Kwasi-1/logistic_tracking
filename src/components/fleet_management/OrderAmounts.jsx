@@ -27,7 +27,7 @@ const OrderAmount = () => {
       <h2 className="text-xl font-bold mb-4">Orders</h2>
 
       {/* Progress Bar */}
-      <div className="relative w-full h-4Z̄ rounded-full flex gap-1 mb-4 overflow-hidden">
+      <div className="relative w-full h-4 rounded-full flex gap-1 mb-4 overflow-hidden">
         <div
           className="h-full rounded-full bg-[#619B7D]"
           style={{ width: `${successPercentage}%` }}
