@@ -14,14 +14,14 @@ const OverallBreakdown = () => {
       </h2>
       <div className="flex items-center">
         <div className="w-full">
-          <p className="text-gray-600 text-sm tracking-wider uppercase">
+          <p className="text-gray-600 text-[13px] xmtracking-wider uppercase">
             Total Vehicles
           </p>
           <h3 className="text-lg font-[500] mb-5">
             {totalVehicles.toLocaleString()}
           </h3>
 
-          <p className="text-gray-600 text-sm tracking-wider uppercase">
+          <p className="text-gray-600 text-[13px] tracking-wider uppercase">
             Active Vehicles
           </p>
           <h3 className="text-lg font-[500]">
@@ -31,7 +31,7 @@ const OverallBreakdown = () => {
 
         {/* Gauge Chart with Proper Props */}
         <div className="flex flex-col items-center justify-center">
-          <div className="mt-4 h-24 w-[250px] -mx-7">
+          <div className="mt-4 h-24 w-[250px] -mx-5">
             <GaugeChart
               backgroundColor={["#4F4F4F", "#E5E7EB"]} // Green & Gray
               values={[activePercentage, remainingPercentage]} // Dynamic values

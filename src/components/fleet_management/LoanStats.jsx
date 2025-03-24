@@ -44,18 +44,18 @@ const LoanStats = () => {
               className="uppercase flex flex-col min-w-40 gap-14 text-left"
             >
               <div>
-                <p className="text-gray-600 text-[15px] mt-2">{label}</p>
+                <p className="text-gray-600 text-[14px] mt-2">{label}</p>
                 <h3 className="text-xl font-semibold">{value}</h3>
               </div>
               <div>
-                <p className="text-left">{percentage}%</p>
+                <p className="text-left text-[15px]">{percentage}%</p>
                 <RangeBar value={value} total={124} />
               </div>
             </div>
           );
         })}
       </div>
-      <p>Last Updated: {lastUpdated}</p>
+      <p className="text-sm">Last Updated: {lastUpdated}</p>
     </div>
   );
 };
