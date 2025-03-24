@@ -13,6 +13,7 @@ const StatusText = ({ text, textClassName = "" }) => {
         "active",
         "transferred",
         "paid",
+        "delivered",
         "approved",
         "booked",
         "actioned",
@@ -46,8 +47,10 @@ const StatusText = ({ text, textClassName = "" }) => {
     if (
       [
         "commented",
+        "Picked Up",
         "in_progress",
         "partly paid",
+        "Halfway there",
         "partially ordered",
         "no",
         "submitted",
