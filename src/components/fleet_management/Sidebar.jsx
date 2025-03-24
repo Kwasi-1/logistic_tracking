@@ -8,19 +8,10 @@ const SideBar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // State to track active sublink
   const [activeSublink, setActiveSublink] = useState(null);
-
-  // Function to determine if a parent menu is highlighted
-  function highlight(tuple) {
-    if (pathname === `/${tuple[0]}`) return true;
-    if (pathname.includes(tuple[0]) && !tuple[1]) return true;
-    return false;
-  }
-
   const currentModule = "";
 
-  // Set first sublink as active when the page loads or route changes
+  // Automatically set active sublink based on URL
   useEffect(() => {
     const firstActiveSublink = MenuItems(currentModule, [])
       .flatMap((item) => item.sublinks)
@@ -28,12 +19,20 @@ const SideBar = () => {
 
     if (firstActiveSublink) {
       setActiveSublink(firstActiveSublink.link);
+    } else {
+      setActiveSublink(null);
     }
   }, [pathname]);
 
+  function highlight(tuple) {
+    if (pathname === `/${tuple[0]}`) return true;
+    if (pathname.includes(tuple[0]) && !tuple[1]) return true;
+    return false;
+  }
+
   return (
     <div className="w-[15%] fixed bg-white h-screen py-4 px-2 border-r">
-      {/* Logo and title */}
+      {/* Logo Section */}
       <div
         onClick={() => navigate("/")}
         className="grid grid-cols-[2rem,1fr] gap-x-2 pt-2 place-items-center hover:cursor-pointer"
@@ -44,13 +43,13 @@ const SideBar = () => {
         </div>
       </div>
 
-      {/* Sidebar menu */}
+      {/* Sidebar Menu */}
       <div className="flex flex-col w-full h-[calc(100%-1rem)] mx-auto py-8 text-sm">
         {MenuItems(currentModule, []).map((item, index) => {
           const isHighlighted = highlight(item.parent);
-          const has_access = true;
+          const hasAccess = true;
 
-          return has_access ? (
+          return hasAccess ? (
             <div
               key={index}
               className={`flex flex-col w-full nav ${
@@ -76,15 +75,18 @@ const SideBar = () => {
               {/* Sublinks */}
               <div className="flex flex-col pl-4">
                 {item.sublinks.map((sublink, subIndex) => {
-                  const isHighlighted = activeSublink === sublink.link;
-                  const has_access = true;
+                  const isSublinkActive = activeSublink === sublink.link;
+                  const hasAccess = true;
 
-                  return has_access ? (
+                  return hasAccess ? (
                     <button
                       key={subIndex}
-                      onClick={() => setActiveSublink(sublink.link)}
+                      onClick={() => {
+                        setActiveSublink(sublink.link);
+                        navigate(sublink.link); // ✅ Navigate on click
+                      }}
                       className={`${
-                        isHighlighted
+                        isSublinkActive
                           ? "text-black bg-white shadow"
                           : "hover:bg-gray-200/10 text-gray-500"
                       } rounded-xl scrollbar-hide p-2 flex flex-row gap-x-2 items-center my-1 overflow-auto text-ellipsis`}
@@ -117,6 +119,7 @@ const SideBar = () => {
   );
 };
 
+// Define Menu Items
 const MenuItems = (currentModule, permissions = [""]) => {
   const items =
     {
@@ -126,7 +129,6 @@ const MenuItems = (currentModule, permissions = [""]) => {
           icon: "hugeicons:home-02",
           link: "/",
           parent: ["/", true],
-          permitted_roles: [],
           sublinks: [],
         },
         {
@@ -134,34 +136,34 @@ const MenuItems = (currentModule, permissions = [""]) => {
           icon: "hugeicons:truck",
           link: "/fleet",
           parent: ["fleet", false],
-          permitted_roles: [],
           sublinks: [
             {
               title: "Overview",
               icon: "hugeicons:truck",
-              link: "/fleet/overview",
-              parent: ["fleet", true],
+              link: "/fleet",
             },
             {
               title: "Drivers",
               icon: "hugeicons:truck",
-              link: "/fleet/loan_stats",
-              parent: ["fleet", true],
+              link: "/fleet/drivers",
+            },
+            {
+              title: "Vehicle",
+              icon: "hugeicons:truck",
+              link: "/fleet/vehicle",
             },
             {
               title: "Shipment",
               icon: "hugeicons:truck",
-              link: "/fleet/delivery_info",
-              parent: ["fleet", true],
+              link: "/fleet/shipment",
             },
           ],
         },
         {
           title: "Order Management",
           icon: "hugeicons:document-validation",
-          link: "/order_Management",
-          parent: ["order_Management", false],
-          permitted_roles: [],
+          link: "/order_management",
+          parent: ["order_management", false],
           sublinks: [],
         },
         {
@@ -169,7 +171,6 @@ const MenuItems = (currentModule, permissions = [""]) => {
           icon: "hugeicons:cashier-02",
           link: "/logistics",
           parent: ["logistics", false],
-          permitted_roles: [],
           sublinks: [],
         },
         {
@@ -177,7 +178,6 @@ const MenuItems = (currentModule, permissions = [""]) => {
           icon: "hugeicons:wallet-add-01",
           link: "/invoices",
           parent: ["invoices", false],
-          permitted_roles: [],
           sublinks: [],
         },
       ],
