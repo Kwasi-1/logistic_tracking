@@ -1,28 +1,12 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { lowerCase } from "lodash";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/foundry_logo.png";
 
 const SideBar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
-  const [activeSublink, setActiveSublink] = useState(null);
-  const currentModule = "";
-
-  // Automatically set active sublink based on URL
-  useEffect(() => {
-    const firstActiveSublink = MenuItems(currentModule, [])
-      .flatMap((item) => item.sublinks)
-      .find((sub) => pathname.includes(sub.link));
-
-    if (firstActiveSublink) {
-      setActiveSublink(firstActiveSublink.link);
-    } else {
-      setActiveSublink(null);
-    }
-  }, [pathname]);
 
   function highlight(tuple) {
     if (pathname === `/${tuple[0]}`) return true;
@@ -45,7 +29,7 @@ const SideBar = () => {
 
       {/* Sidebar Menu */}
       <div className="flex flex-col w-full h-[calc(100%-1rem)] mx-auto py-8 text-sm">
-        {MenuItems(currentModule, []).map((item, index) => {
+        {MenuItems().map((item, index) => {
           const isHighlighted = highlight(item.parent);
           const hasAccess = true;
 
@@ -75,16 +59,13 @@ const SideBar = () => {
               {/* Sublinks */}
               <div className="flex flex-col pl-4">
                 {item.sublinks.map((sublink, subIndex) => {
-                  const isSublinkActive = activeSublink === sublink.link;
+                  const isSublinkActive = pathname === sublink.link;
                   const hasAccess = true;
 
                   return hasAccess ? (
                     <button
                       key={subIndex}
-                      onClick={() => {
-                        setActiveSublink(sublink.link);
-                        navigate(sublink.link); // ✅ Navigate on click
-                      }}
+                      onClick={() => navigate(sublink.link)}
                       className={`${
                         isSublinkActive
                           ? "text-black bg-white shadow"
@@ -120,81 +101,63 @@ const SideBar = () => {
 };
 
 // Define Menu Items
-const MenuItems = (currentModule, permissions = [""]) => {
-  const items =
-    {
-      "": [
-        {
-          title: "Dashboard",
-          icon: "hugeicons:home-02",
-          link: "/",
-          parent: ["/", true],
-          sublinks: [],
-        },
-        {
-          title: "Fleet",
-          icon: "hugeicons:truck",
-          link: "/fleet",
-          parent: ["fleet", false],
-          sublinks: [
-            {
-              title: "Overview",
-              icon: "hugeicons:truck",
-              link: "/fleet",
-            },
-            {
-              title: "Drivers",
-              icon: "hugeicons:truck",
-              link: "/fleet/drivers",
-            },
-            {
-              title: "Vehicle",
-              icon: "hugeicons:truck",
-              link: "/fleet/vehicle",
-            },
-            {
-              title: "Shipment",
-              icon: "hugeicons:truck",
-              link: "/fleet/shipment",
-            },
-          ],
-        },
-        {
-          title: "Order Management",
-          icon: "hugeicons:document-validation",
-          link: "/order_management",
-          parent: ["order_management", false],
-          sublinks: [],
-        },
-        {
-          title: "Logistics",
-          icon: "hugeicons:cashier-02",
-          link: "/logistics",
-          parent: ["logistics", false],
-          sublinks: [],
-        },
-        {
-          title: "Invoices",
-          icon: "hugeicons:wallet-add-01",
-          link: "/invoices",
-          parent: ["invoices", false],
-          sublinks: [],
-        },
-      ],
-    }[currentModule] || [];
-
-  const availableGlobalModules = [];
-  const extractModules = new Set(
-    permissions.map((i) => lowerCase(i.split(":")[1]))
-  );
-
-  availableGlobalModules.forEach((i) => {
-    if (Array.from(extractModules).includes(i.id)) {
-      items.push(i);
-    }
-  });
-
-  return items;
-};
+const MenuItems = () => [
+  {
+    title: "Dashboard",
+    icon: "hugeicons:home-02",
+    link: "/",
+    parent: ["/", true],
+    sublinks: [],
+  },
+  {
+    title: "Fleet",
+    icon: "hugeicons:truck",
+    link: "/fleet",
+    parent: ["fleet", false],
+    sublinks: [
+      {
+        title: "Overview",
+        icon: "hugeicons:truck",
+        link: "/fleet",
+      },
+      {
+        title: "Drivers",
+        icon: "hugeicons:truck",
+        link: "/fleet/drivers",
+      },
+      {
+        title: "Vehicle",
+        icon: "hugeicons:truck",
+        link: "/fleet/vehicle",
+      },
+      {
+        title: "Shipment",
+        icon: "hugeicons:truck",
+        link: "/fleet/shipment",
+      },
+    ],
+  },
+  {
+    title: "Order Management",
+    icon: "hugeicons:document-validation",
+    link: "/order_management",
+    parent: ["order_management", false],
+    sublinks: [],
+  },
+  {
+    title: "Logistics",
+    icon: "hugeicons:cashier-02",
+    link: "/logistics",
+    parent: ["logistics", false],
+    sublinks: [],
+  },
+  {
+    title: "Invoices",
+    icon: "hugeicons:wallet-add-01",
+    link: "/invoices",
+    parent: ["invoices", false],
+    sublinks: [],
+  },
+];
 
 export default SideBar;
