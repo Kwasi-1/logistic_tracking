@@ -73,7 +73,7 @@ const DeliveryCard = ({ title, driver, status, progress, product, value }) => {
 const Deliveries = () => {
   return (
     <div className="p-4 bg-[#e0e6e930] rounded-xl border border-[#e0e6e930] w-full">
-      <h1 className="text-[#4b5563] font-semibold mb-4">Driver Deliveries</h1>
+      <h1 className="text-[#4b5563] font-semibold mb-4">Alerts</h1>
       <div className="flex flex-col gap-4">
         {data.map((item, index) => (
           <DeliveryCard key={index} {...item} />
