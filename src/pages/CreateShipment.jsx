@@ -11,12 +11,6 @@ function CreateShipment({ onClose }) {
     <div className="p-8 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Create Shipment</h2>
-        <button
-          className="text-gray-500 hover:text-red-500"
-          onClick={onClose}
-        >
-          ✖
-        </button>
       </div>
 
       {/* Service Type */}
@@ -100,10 +94,7 @@ function CreateShipment({ onClose }) {
       </div>
 
       <div className="flex justify-end">
-        <button
-          className="bg-[#619B7D] text-white p-3 rounded-lg"
-          onClick={onClose}
-        >
+        <button className="bg-[#619B7D] text-white p-3 rounded-lg">
           See quotes →
         </button>
       </div>

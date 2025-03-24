@@ -11,7 +11,7 @@ import ShipmentOverview from "../components/fleet_management/ShipmentOverview";
 
 const Fleet = () => {
   return (
-    <div className=" p-6 min-h-screen font-sans">
+    <div className=" p-6 min-h-screen">
       <div className="flex justify-between items-center">
   
       <h1 className="text-2xl font-semibold">Fleet Management</h1>

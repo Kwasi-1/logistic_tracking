@@ -8,7 +8,7 @@ const OverallBreakdown = () => {
   const remainingPercentage = (100 - activePercentage).toFixed(1);
 
   return (
-    <div className="bg-[#e0e6e930] min-w80  p-4 font-sans rounded-xl border border-[#e0e6e930] ">
+    <div className="bg-[#e0e6e930] min-w80  p-4 rounded-xl border border-[#e0e6e930] ">
       <h2 className="text-[15px] text-[#4b5563] font-semibold mb-5">
         Overall Breakdown
       </h2>

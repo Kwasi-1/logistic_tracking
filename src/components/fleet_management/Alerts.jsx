@@ -32,7 +32,7 @@ const data = [
 
 const DeliveryCard = ({ title, driver, status, progress, product, value }) => {
   return (
-    <div className="bg-gray-100 backdrop-blur-sm text-gray-600 p-4 rounded-2xl gap-4 border border-[#e0e6e930] w-full">
+    <div className="bg-gray-100 backdrop-blur-sm text-gray-600 p-4 rounded-2xl gap-4 border border-[#e0e6e9] w-full">
       <div className="flex items-start mb-5 justify-between">
         <div>
           <h2 className="font-semibold text-base">{title}</h2>
@@ -70,9 +70,9 @@ const DeliveryCard = ({ title, driver, status, progress, product, value }) => {
   );
 };
 
-const Deliveries = () => {
+const Alerts = () => {
   return (
-    <div className="p-4 bg-[#e0e6e930] rounded-xl border border-[#e0e6e930] w-full">
+    <div className="p-4 bg-[#e0e6e930] rounded-xl border border-[#e0e6e930] w-full h-[55vh] overflow-auto">
       <h1 className="text-[#4b5563] font-semibold mb-4">Alerts</h1>
       <div className="flex flex-col gap-4">
         {data.map((item, index) => (
@@ -83,4 +83,4 @@ const Deliveries = () => {
   );
 };
 
-export default Deliveries;
+export default Alerts;

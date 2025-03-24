@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StatusText from "./StatusText";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const data = [
   {
@@ -89,7 +90,7 @@ const ShipmentOverview = () => {
                 { label: "Driver", key: "driver" },
                 { label: "Current Location", key: "currentLocation" },
                 { label: "ETA", key: "eta" },
-                { label: "Submission Status", key: "submissionStatus" },
+                { label: "Status", key: "Status" },
                 { label: "Destination", key: "destination" },
               ].map((col) => (
                 <th
@@ -112,7 +113,7 @@ const ShipmentOverview = () => {
                 <td className="p-3">{row.currentLocation}</td>
 
                 {/* ETA Progress Bar */}
-                <td className="p-3">
+                <td className="p-3 w-40">
                   {row.eta}
                   <div className="w-full bg-gray-200 h-2 rounded-md mt-1">
                     <div
@@ -120,7 +121,7 @@ const ShipmentOverview = () => {
                       style={{
                         width: `${Math.min(row.etaProgress, 100)}%`,
                         backgroundColor:
-                          row.etaProgress >= 100 ? "#22c55e" : "#facc15",
+                          row.etaProgress >= 100 ? "#619b7d" : "#facc15",
                       }}
                     ></div>
                   </div>
@@ -128,15 +129,28 @@ const ShipmentOverview = () => {
 
                 {/* Submission Status */}
                 <td className="p-3">
-                  <StatusText
+                  {/* <StatusText
                     text={row.submissionStatus ? "Delivered" : "Not Delivered"}
-                  />
+                  /> */}
+                  <div
+                    className={`rounded-full flex justify-center items-center w-5 h-5 p-[2px] ${
+                      row.submissionStatus ? "bg-[#619b7d] " : "bg-red-600"
+                    }
+                    `}
+                  >
+                    <Icon
+                      icon={
+                        row.submissionStatus
+                          ? "akar-icons:check"
+                          : "emojione-monotone:exclamation-mark"
+                      }
+                      className="text-sm text-white"
+                    />
+                  </div>
                 </td>
 
                 {/* Destination Progress Bar */}
-                <td className="p-3">
-                  {row.destination}
-                </td>
+                <td className="p-3">{row.destination}</td>
               </tr>
             ))}
           </tbody>
