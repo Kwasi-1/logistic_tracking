@@ -38,7 +38,7 @@ const OverallBreakdown = () => {
             />
           </div>
           <div className="flex flex-col -mt-14 text-center">
-            <p className="text-gray-600 text-3xl font-semibold tracking-wider uppercase">
+            <p className="text-gray-600 text-[26px] font-semibold tracking-wider uppercase">
               {activePercentage}%
             </p>
             <p className="text-gray-600 text-xs tracking-wider uppercase">
