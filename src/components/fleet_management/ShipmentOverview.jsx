@@ -79,7 +79,7 @@ const ShipmentOverview = () => {
   return (
     <div className="p-4 bg-[#e0e6e930] w-full rounded-xl border border-[#e0e6e930]">
       <h1 className="text-gray-600 capitalize font-semibold text-lg mb-4">
-        Shipment Overview
+        deliveries
       </h1>
       <div className="overflow-x-auto">
         <table className="w-full rounded-lg text-sm text-left">
