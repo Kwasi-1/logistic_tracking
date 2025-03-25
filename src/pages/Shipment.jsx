@@ -10,6 +10,11 @@ function Shipment() {
     setSelectedShipment(shipment);
   };
 
+  // Function to close the details panel
+  const handleCloseDetails = () => {
+    setSelectedShipment(null);
+  };
+
   return (
     <div className="px-8">
       <div className="flex justify-between items-center my-2">
@@ -19,7 +24,7 @@ function Shipment() {
       {selectedShipment && (
         <ShipmentDetails
           shipment={selectedShipment}
-          onClose={() => setSelectedShipment(null)}
+          onClose={handleCloseDetails}
         />
       )}
     </div>

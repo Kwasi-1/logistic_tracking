@@ -77,7 +77,17 @@ function CreateShipment({ onClose }) {
             />
           </AddressAutofill>
 
-          <AddressAutofill accessToken={MAPBOX_TOKEN}>
+          <AddressAutofill
+            accessToken={MAPBOX_TOKEN}
+            options={{
+              country: "GH", // Ghana-specific results
+              language: "en", // English labels
+              types: "place,region,locality", // Prioritize cities and regions
+              fuzzyMatch: true, // Allow approximate matches
+              autocomplete: true, // Suggest while typing
+              limit: 5, // Limit number of suggestions
+            }}
+          >
             <input
               type="text"
               name="deliveryAddress"
