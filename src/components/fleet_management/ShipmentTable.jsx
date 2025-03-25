@@ -28,13 +28,14 @@ const shipmentData = [
   },
 ];
 
-const ShipmentTable = () => (
+const ShipmentTable = ({ onShipmentClick }) => (
   <Table
     columns={shipmentColumns}
     data={shipmentData}
     searchPlaceholder="Search Shipments..."
     buttonLabel="Add Shipment"
     routePath={"/fleet/shipment/add"}
+    onRowClick={onShipmentClick} // Pass the click handler
   />
 );
 
