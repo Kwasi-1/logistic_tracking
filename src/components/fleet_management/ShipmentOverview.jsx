@@ -100,7 +100,17 @@ const ShipmentOverview = () => {
                 >
                   {col.label}{" "}
                   {sortColumn === col.key &&
-                    (sortDirection === "asc" ? "⬆️" : "⬇️")}
+                    (sortDirection === "asc" ? (
+                      <Icon
+                        icon="icon-park-solid:up-one"
+                        className="inline text-gray-400"
+                      />
+                    ) : (
+                      <Icon
+                        icon="icon-park-solid:down-one"
+                        className="inline text3xl text-gray-400"
+                      />
+                    ))}
                 </th>
               ))}
             </tr>
