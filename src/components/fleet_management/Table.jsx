@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ShipmentDetails from "../fleet_management/ShipmentDetails"; // Import ShipmentDetails
 
 const Table = ({
   columns,
@@ -9,6 +8,7 @@ const Table = ({
   searchPlaceholder,
   buttonLabel,
   routePath,
+  onRowClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedShipment, setSelectedShipment] = useState(null); // State for selected row
@@ -24,11 +24,6 @@ const Table = ({
   // Navigate to add shipment
   const handleButtonClick = () => {
     navigate(routePath);
-  };
-
-  // Handle row click to show shipment details
-  const handleRowClick = (row) => {
-    setSelectedShipment(row); // Set clicked row as selected
   };
 
   return (
@@ -64,7 +59,7 @@ const Table = ({
               <tr
                 key={row.id}
                 className="border-b hover:bg-gray-100 cursor-pointer"
-                onClick={() => handleRowClick(row)} // Trigger on row click
+                onClick={() => onRowClick(row)} // Trigger on row click
               >
                 {columns.map((col) => (
                   <td key={col.key} className="p-3">
@@ -76,19 +71,6 @@ const Table = ({
           </tbody>
         </table>
       </div>
-
-      {/* Shipment Details - Show when row is clicked */}
-      {selectedShipment && (
-        <div className="fixed top-0 right-0 w-[450px] h-full bg-white shadow-lg z-50 overflow-auto">
-          <button
-            className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full"
-            onClick={() => setSelectedShipment(null)}
-          >
-            ✕
-          </button>
-          <ShipmentDetails shipment={selectedShipment} />
-        </div>
-      )}
     </div>
   );
 };
