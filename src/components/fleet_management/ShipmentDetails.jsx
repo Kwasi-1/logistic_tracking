@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 
 export default function ShipmentDetails({ shipment, onClose }) {
   return (
-    <div className="fixed right-0 top-0 h-screen overflow-auto max-w-md mx-auto bg-white shadow-lg rounded-lg p-6 z-50">
+    <div className="fixed right-0 top-0 h-screen overflow-auto max-w-md mx-auto bg-white shadow-lg border p-6 z-50">
       {/* Header Section */}
       <div className="flex justify-between items-start mb-4">
         <div>
@@ -40,7 +40,7 @@ export default function ShipmentDetails({ shipment, onClose }) {
         <div className="w-full h-40 bg-gray-200 rounded-md flex items-center justify-center">
           <p className="text-gray-400">[Map Placeholder]</p>
         </div>
-        <div className="flex justify-between text-sm mt-5">
+        <div className="grid grid-cols-2 gap-3 justify-between text-sm mt-5">
           <div>
             <p className="font-semibold">Status</p>
             <p className="text-blue-500">{shipment.status}</p>
