@@ -1,10 +1,24 @@
 import { useState } from "react";
+import { AddressAutofill } from "@mapbox/search-js-react";
 
 function CreateShipment({ onClose }) {
   const [serviceType, setServiceType] = useState("FTL");
+  const [formData, setFormData] = useState({
+    pickupAddress: "",
+    deliveryAddress: "",
+    pickupDate: "",
+  });
+
+  const MAPBOX_TOKEN =
+    "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
 
   const handleServiceTypeChange = (type) => {
     setServiceType(type);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -51,20 +65,37 @@ function CreateShipment({ onClose }) {
       <div className="mb-6">
         <h3 className="mb-2 font-medium">Pickup & delivery</h3>
         <div className="bg-gray-50 p-4 rounded-lg border">
-          <input
-            type="text"
-            placeholder="Pickup location"
-            className="w-full p-2 mb-4 border rounded"
-          />
-          <input
-            type="text"
-            placeholder="Delivery location"
-            className="w-full p-2 mb-4 border rounded"
-          />
+          <AddressAutofill accessToken={MAPBOX_TOKEN}>
+            <input
+              type="text"
+              name="pickupAddress"
+              placeholder="Pickup location"
+              className="w-full p-2 mb-4 border rounded"
+              autoComplete="address-line1"
+              value={formData.pickupAddress}
+              onChange={handleInputChange}
+            />
+          </AddressAutofill>
+
+          <AddressAutofill accessToken={MAPBOX_TOKEN}>
+            <input
+              type="text"
+              name="deliveryAddress"
+              placeholder="Delivery location"
+              className="w-full p-2 mb-4 border rounded"
+              autoComplete="address-line1"
+              value={formData.deliveryAddress}
+              onChange={handleInputChange}
+            />
+          </AddressAutofill>
+
           <input
             type="date"
+            name="pickupDate"
             placeholder="Preferred pickup date"
             className="w-full p-2 mb-2 border rounded"
+            value={formData.pickupDate}
+            onChange={handleInputChange}
           />
           <p className="text-sm text-gray-500">
             Pickup date not guaranteed. Pickup may be up to 2 days after the
