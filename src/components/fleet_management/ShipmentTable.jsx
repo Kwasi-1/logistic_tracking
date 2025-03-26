@@ -16,6 +16,8 @@ const shipmentData = [
     order: "ORD-789",
     pickup: "Accra",
     destination: "Kumasi",
+    pickupCoordinates: [-118.2437, 34.0522], // Los Angeles
+    destinationCoordinates: [-87.6298, 41.8781], // Chicago
     date: "20/03/2025",
     status: "In Transit",
     reference: "ME #12345678",

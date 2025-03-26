@@ -15,7 +15,7 @@ function VehicleDetails() {
 
   return (
     <div className="px-8 h-screen">
-      <h1 className="py-5 font-semibold text-2xl">Vehicle</h1>
+      <h1 className="py-5 font-semibold text-2xl">Vehicles</h1>
       <div className="mt4 bg-gray-200/30 h-full rounded-t-xl border border-[#e0e6e930]">
         <nav className="flex relative px-5">
           {tabs.map((tab) => (

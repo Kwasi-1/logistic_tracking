@@ -1,7 +1,6 @@
 import { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
@@ -69,7 +68,8 @@ export default function ShipmentMap({ pickup, destination }) {
   return (
     <div
       ref={mapContainer}
-      className="w-full h-[200px] rounded-md border shadow-md"
+      className="w-full h-[200px] rounded-md border"
+      style={{ minHeight: "200px" }}
     />
   );
 }
