@@ -31,11 +31,24 @@ function VehicleModal({ isOpen, onClose }) {
     onClose();
   };
 
+  const handleBackdropClick = (e) => {
+    if (e.target.id === "backdrop") {
+      onClose();
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
+    <div
+      id="backdrop"
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      onClick={handleBackdropClick} // Close when clicking outside
+    >
+      <div
+        className="bg-white p-6 rounded-lg shadow-lg w-[500px]"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+      >
         <h2 className="text-2xl font-semibold mb-4">
           {step === 1 ? "Add with a VIN" : "Identification"}
         </h2>
@@ -53,14 +66,13 @@ function VehicleModal({ isOpen, onClose }) {
                   value={formData.vin}
                   onChange={handleInputChange}
                 />
-                <button className="bg-gray-200 px-4 py-2 rounded-md">
+                <button className="bg-gray-200 px-4 py-2 rounded-md w-40">
                   Decode VIN
                 </button>
               </div>
               <p className="text-gray-500 text-sm mt-1">
                 Asset Identification Number or Serial Number.
                 <a href="#" className="text-blue-500">
-                  {" "}
                   Learn More
                 </a>
               </p>
@@ -79,7 +91,6 @@ function VehicleModal({ isOpen, onClose }) {
               <p className="text-gray-500 text-sm mt-1">
                 Enter a nickname to distinguish this asset.
                 <a href="#" className="text-blue-500">
-                  {" "}
                   Learn More
                 </a>
               </p>
