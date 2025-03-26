@@ -209,6 +209,80 @@ function MaintenanceSchedule({ formData, handleInputChange }) {
   );
 }
 
+// Lifecycle Component
+function Lifecycle({ formData, handleInputChange }) {
+  return (
+    <div className="px-6">
+      <h1 className="text-xl font-semibold mb-2">Lifecycle</h1>
+
+      <InputField
+        label="Date vehicle entered active fleet service"
+        name="activeFleetServiceDate"
+        type="date"
+        value={formData.activeFleetServiceDate}
+        onChange={handleInputChange}
+      />
+
+      <InputField
+        label="In-Service Odometer"
+        name="inServiceOdometer"
+        type="number"
+        placeholder="e.g., 10000"
+        value={formData.inServiceOdometer}
+        onChange={handleInputChange}
+      />
+
+      <h2 className="mt-4 text-lg font-semibold">Vehicle Life Estimates</h2>
+
+      <InputField
+        label="Estimated Service Life in Months"
+        name="serviceLifeMonths"
+        type="number"
+        placeholder="e.g., 60"
+        value={formData.serviceLifeMonths}
+        onChange={handleInputChange}
+      />
+
+      <InputField
+        label="Estimated Service Life in Meter"
+        name="serviceLifeMeter"
+        type="number"
+        placeholder="e.g., 200000"
+        value={formData.serviceLifeMeter}
+        onChange={handleInputChange}
+      />
+
+      <InputField
+        label="Estimated Resale Value"
+        name="resaleValue"
+        type="number"
+        placeholder="e.g., 15000"
+        value={formData.resaleValue}
+        onChange={handleInputChange}
+      />
+
+      <h2 className="mt-4 text-lg font-semibold">Out-of-Service</h2>
+
+      <InputField
+        label="Out-of-Service Date"
+        name="outOfServiceDate"
+        type="date"
+        value={formData.outOfServiceDate}
+        onChange={handleInputChange}
+      />
+
+      <InputField
+        label="Out-of-Service Odometer"
+        name="outOfServiceOdometer"
+        type="number"
+        placeholder="e.g., 200000"
+        value={formData.outOfServiceOdometer}
+        onChange={handleInputChange}
+      />
+    </div>
+  );
+}
+
 // Main Modal Component
 function VehicleModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState(0);
@@ -259,7 +333,7 @@ function VehicleModal({ isOpen, onClose }) {
       onClick={handleBackdropClick}
     >
       <div
-        className={`fixed top-0 right-0 h-full bg-white shadow-lg w-3/7 transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg w-1/2 transition-transform duration-300 overflow-auto ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -309,7 +383,12 @@ function VehicleModal({ isOpen, onClose }) {
               handleInputChange={handleInputChange}
             />
           )}
-          {activeTab === 2 && <p>Lifecycle Content Goes Here</p>}
+          {activeTab === 2 && (
+            <Lifecycle
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
           {activeTab === 3 && <p>Financial Content Goes Here</p>}
           {activeTab === 4 && <p>Specifications Content Goes Here</p>}
         </div>
