@@ -428,7 +428,6 @@ function VehicleModal({ isOpen, onClose }) {
     "Lifecycle",
     "Financial",
     "specifications",
-    "Settings",
   ];
 
   const handleTabClick = (index) => {
@@ -483,14 +482,27 @@ function VehicleModal({ isOpen, onClose }) {
           {tabs.map((tab, index) => (
             <button
               key={index}
-              className={`flex-1 text-left py-2 mx-3 border-t-4 font-semibold  ${
+              className={`flex-1 flex items-center space-x-2 text-left py-2 mx-3 border-t-4 font-semibold ${
                 activeTab === index
                   ? "border-[#619B7D] text-[#619B7D]"
-                  : "text-gray-400  border-[#F5F6F7]"
+                  : "text-gray-400 border-[#F5F6F7]"
               }`}
               onClick={() => handleTabClick(index)}
             >
-              {tab}
+              {/* Selector Circle */}
+              <span
+                className={`w-4 h-4 flex items-center justify-center rounded-full border-2 ${
+                  activeTab === index
+                    ? "border-[#619B7D] bg-[#619B7D] text-white"
+                    : "border-gray-400 bg-white"
+                }`}
+              >
+                {activeTab === index && (
+                  <span className="w-2 h-2 bg-white rounded-full"></span>
+                )}
+              </span>
+
+              <span>{tab}</span>
             </button>
           ))}
         </div>
@@ -528,7 +540,6 @@ function VehicleModal({ isOpen, onClose }) {
               handleInputChange={handleInputChange}
             />
           )}
-          {activeTab === 5 && <p>Specifications Content Goes Here</p>}
         </div>
 
         {/* Buttons */}
