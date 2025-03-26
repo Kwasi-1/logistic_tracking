@@ -11,7 +11,7 @@ function InputField({
   onChange,
 }) {
   return (
-    <div className="mb-4  border border-gray-300 px-3 rounded-lg py-1">
+    <div className="mb-4 border border-gray-300 px-3 rounded-lg py-1">
       <label className="block text-[11px] font-semibold text-gray-500">
         {label.toUpperCase()}
       </label>
@@ -21,36 +21,61 @@ function InputField({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full focus:outline-none text-sm text-gray-600 "
+        className="w-full focus:outline-none text-sm text-gray-600"
       />
     </div>
   );
 }
 
-// Reusable Select Component
+// Reusable Select Component with Dropdown
 function SelectField({ label, name, options, value, onChange }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleOptionClick = (option) => {
+    onChange({ target: { name, value: option } });
+    setIsOpen(false);
+  };
+
   return (
-    <div className="mb-4 border border-gray-300 px-3 rounded-lg py-1">
-      <div className="flex items-center justify-between">
+    <div className="mb-4 border border-gray-300 px-3 rounded-lg py-1 relative">
+      <div
+        className="flex items-center justify-between cursor-pointer"
+        onClick={toggleDropdown}
+      >
         <div>
           <label className="block text-[11px] font-semibold text-gray-500">
             {label.toUpperCase()}
           </label>
-          <select
-            name={name}
-            value={value}
-            onChange={onChange}
-            className="w-full bg-white text-sm appearance-none focus:outline-none "
-          >
-            {options.map((option) => (
-              <option key={option} value={option} className="text-gray-400">
-                {option}
-              </option>
-            ))}
-          </select>
+          <div className="text-sm text-gray-600">{value}</div>
         </div>
-        <Icon icon="mingcute:down-line" />
+        {isOpen ? (
+          <Icon icon="uiw:up" className="text-gray-400" />
+        ) : (
+          <Icon icon="uiw:down" className="text-gray-400" />
+        )}
+        {/* <Icon icon="uiw:down" className="text-gray-400 text-lg" /> */}
       </div>
+
+      {/* Dropdown Menu */}
+      {isOpen && (
+        <ul className="absolute w-full bg-white border border-gray-200 rounded-lg mt-1 -ml-3 shadow-lg z-10 max-h-40 overflow-y-auto">
+          {options.map((option) => (
+            <li
+              key={option}
+              onClick={() => handleOptionClick(option)}
+              className={`px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 cursor-pointer ${
+                value === option ? "bg-gray-100" : ""
+              }`}
+            >
+              {option}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
@@ -107,25 +132,19 @@ function VehicleModal({ isOpen, onClose }) {
 
         {/* VIN Input */}
         <div className="mb-4 flex gap-2">
-          <div className=" border border-gray-300 px-3 rounded-lg py-1 w-full">
+          <div className="border border-gray-300 px-3 rounded-lg py-1 w-full">
             <label className="block text-[11px] font-semibold text-gray-500">
               VIN/SN
             </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                name="vin"
-                placeholder="VIN/SN"
-                className="w-full focus:outline-none text-sm text-gray-600 "
-                value={formData.vin}
-                onChange={handleInputChange}
-              />
-            </div>
+            <input
+              type="text"
+              name="vin"
+              placeholder="VIN/SN"
+              className="w-full focus:outline-none text-sm text-gray-600"
+              value={formData.vin}
+              onChange={handleInputChange}
+            />
           </div>
-
-          {/* <button className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg w-full font-semibold text-gray-600 transition-all duration-300">
-            Decode VIN
-          </button> */}
         </div>
 
         {/* Other Form Fields */}
