@@ -144,7 +144,7 @@ function MaintenanceSchedule({ formData, handleInputChange }) {
   };
 
   return (
-    <div className="px-6">
+    <div className="">
       <h1 className="text-xl font-semibold mb-2">Maintenance Schedule</h1>
       <p className="text-sm text-gray-500 mb-4">
         Service Programs automatically manage Service Reminders for Assets that
@@ -154,7 +154,7 @@ function MaintenanceSchedule({ formData, handleInputChange }) {
       <div className="space-y-4">
         {/* None Option */}
         <div
-          className={`border rounded-lg p-4 flex items-center justify-between cursor-pointer ${
+          className={`border rounded-lg p-4 w-1/2 flex items-center justify-between cursor-pointer ${
             selectedOption === "None" ? "border-[#619B7D]" : "border-[#E5E7EB]"
           }`}
           onClick={() => handleOptionChange("None")}
@@ -173,14 +173,14 @@ function MaintenanceSchedule({ formData, handleInputChange }) {
             </div>
             <p className="text-gray-700 font-medium">None</p>
           </div>
-          <p className="text-gray-400 text-sm">
+          {/* <p className="text-gray-400 text-sm">
             No Service Reminders will be created
-          </p>
+          </p> */}
         </div>
 
         {/* Existing Service Program Option */}
         <div
-          className={`border rounded-lg p-4 flex items-center justify-between cursor-pointer ${
+          className={`border rounded-lg p-4 flex items-center w-1/2 justify-between cursor-pointer ${
             selectedOption === "Existing"
               ? "border-[#619B7D]"
               : "border-[#E5E7EB]"
@@ -212,9 +212,9 @@ function MaintenanceSchedule({ formData, handleInputChange }) {
 // Lifecycle Component
 function Lifecycle({ formData, handleInputChange }) {
   return (
-    <div className="px-6">
+    <div className="">
       <h1 className="text-xl font-semibold mb-2">Lifecycle</h1>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-3">
         <InputField
           label="Date vehicle entered active fleet service"
           name="activeFleetServiceDate"
@@ -287,9 +287,9 @@ function Lifecycle({ formData, handleInputChange }) {
 // Fourth Step Component - Financial
 function Financial({ formData, handleInputChange }) {
   return (
-    <div className="px-6">
+    <div className="">
       <h1 className="text-xl font-semibold mb-2">Financial</h1>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-3">
         <InputField
           label="Acquisition Cost"
           name="acquisitionCost"
@@ -352,9 +352,9 @@ function Financial({ formData, handleInputChange }) {
 // Specifications Component
 function Specifications({ formData, handleInputChange }) {
   return (
-    <div className="px-6">
+    <div className="">
       <h1 className="text-xl font-semibold mb-2">Specifications</h1>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-3">
         <InputField
           label="Engine Type"
           name="engineType"
@@ -491,7 +491,7 @@ function VehicleModal({ isOpen, onClose }) {
             >
               {/* Selector Circle */}
               <span
-                className={`w-4 h-4 flex items-center justify-center rounded-full border-2 ${
+                className={`w-[14px] h-[14px] flex items-center justify-center rounded-full border-2 ${
                   activeTab === index
                     ? "border-[#619B7D] bg-[#619B7D] text-white"
                     : "border-gray-400 bg-white"
@@ -543,26 +543,32 @@ function VehicleModal({ isOpen, onClose }) {
         </div>
 
         {/* Buttons */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white p-4 flex justify-end gap-2 shadow-md">
-          {/* {activeTab > 0 && ( */}
+        <div className="absolute bottom-0 left-0 right-0 bg-white p-4 grid grid-cols-2 gap-4">
           <button
-            className="border w-full border-gray-300 text-gray-500 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100"
-            onClick={() => handleTabClick(activeTab - 1)}
+            onClick={() => setActiveTab((prev) => Math.max(prev - 1, 0))}
+            disabled={activeTab === 0}
+            className={`px-4 py-2 rounded-xl border ${
+              activeTab === 0
+                ? "border-gray-300 text-gray-500 cursor-not-allowed"
+                : "border-red-300 text-red-600"
+            }`}
           >
             Previous
           </button>
-          {/* )} */}
+
           {activeTab < tabs.length - 1 ? (
             <button
-              className="bg-[#619B7D] w-full text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#4a8062]"
-              onClick={() => handleTabClick(activeTab + 1)}
+              onClick={() =>
+                setActiveTab((prev) => Math.min(prev + 1, tabs.length - 1))
+              }
+              className="px-4 py-2 bg-[#619B7D] text-white rounded-xl"
             >
               Next
             </button>
           ) : (
             <button
-              className="bg-[#619B7D] w-full text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#4a8062]"
               onClick={handleSubmit}
+              className="px-4 py-2 bg-[#619B7D] text-white rounded-xl"
             >
               Submit
             </button>
