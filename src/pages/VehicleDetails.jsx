@@ -1,6 +1,7 @@
 import { useState } from "react";
 import VehicleTable from "../components/fleet_management/VehicleTable";
 import MeterHistory from "../components/vehicle/MeterHistory";
+import ExpenseHistory from "../components/vehicle/ExpenseHistory";
 
 const tabs = [
   "Vehicle List",
@@ -41,9 +42,7 @@ function VehicleDetails() {
               <p>Vehicle Assignments content here</p>
             )}
             {activeTab === "Meter History" && <MeterHistory />}
-            {activeTab === "Expense History" && (
-              <p>Expense History content here</p>
-            )}
+            {activeTab === "Expense History" && <ExpenseHistory />}
             {activeTab === "Replacement Analysis" && (
               <p>Replacement Analysis content here</p>
             )}
