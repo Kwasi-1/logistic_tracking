@@ -11,7 +11,7 @@ function InputField({
   onChange,
 }) {
   return (
-    <div className="mb-4 border border-gray-300 px-3 rounded-lg py-1">
+    <div className="mb-4 border border-gray-300 px-3 rounded-lg py-1 focus:border-[#619B7D]">
       <label className="block text-[11px] font-semibold text-gray-500">
         {label.toUpperCase()}
       </label>
@@ -53,9 +53,9 @@ function SelectField({ label, name, options, value, onChange }) {
           <div className="text-sm text-gray-600">{value}</div>
         </div>
         {isOpen ? (
-          <Icon icon="uiw:up" className="text-gray-400" />
+          <Icon icon="uiw:up" className="text-gray-400 text-xs" />
         ) : (
-          <Icon icon="uiw:down" className="text-gray-400" />
+          <Icon icon="uiw:down" className="text-gray-400 text-xs" />
         )}
         {/* <Icon icon="uiw:down" className="text-gray-400 text-lg" /> */}
       </div>
