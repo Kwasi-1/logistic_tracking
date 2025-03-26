@@ -28,10 +28,10 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/fleet" element={<Fleet />} />
-          <Route path="/fleet/shipment" element={<Shipment />} />
+          <Route path="/logistics/shipment" element={<Shipment />} />
           <Route path="/fleet/drivers" element={<DriverDetails />} />
           <Route path="/fleet/vehicle" element={<VehicleDetails />} />
-          <Route path="/fleet/shipment/add" element={<CreateShipment />} />
+          <Route path="/logistics/shipment/add" element={<CreateShipment />} />
           <Route path="/fleet/drivers/add" element={<CreateShipment />} />
           <Route path="/fleet/vehicle/add" element={<CreateShipment />} />
 

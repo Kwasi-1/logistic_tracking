@@ -126,14 +126,65 @@ const MenuItems = () => [
         link: "/fleet/drivers",
       },
       {
-        title: "Vehicle",
+        title: "Vehicles",
         icon: "hugeicons:truck",
         link: "/fleet/vehicle",
+        parent: ["Vehicles", false],
+        sublinks: [
+          {
+            title: "Vehicle List",
+            icon: "hugeicons:truck",
+            link: "/fleet/vehicle/vehicle_list",
+          },
+          {
+            title: "Vehicle Assigments",
+            icon: "hugeicons:truck",
+            link: "/fleet/vehicle/vehicle_assignments",
+          },
+          {
+            title: "",
+            icon: "hugeicons:truck",
+            link: "/fleet/vehicle/vehicle_list",
+          },
+          {
+            title: "Expense History",
+            icon: "hugeicons:truck",
+            link: "/fleet/vehicle/expenses",
+          },
+          {
+            title: "Replacement Analysis",
+            icon: "hugeicons:truck",
+            link: "/fleet/vehicle/vehicle_list",
+          },
+        ],
       },
       {
-        title: "Shipment",
+        title: "Fuel & Energy",
         icon: "hugeicons:truck",
-        link: "/fleet/shipment",
+        link: "/fleet/fuel",
+        parent: ["Fuel & Energy", false],
+        sublinks: [],
+      },
+      {
+        title: "Reminders",
+        icon: "hugeicons:truck",
+        link: "/fleet/reminders",
+        parent: ["reminders", false],
+        sublinks: [],
+      },
+      {
+        title: "Issues",
+        icon: "hugeicons:truck",
+        link: "/fleet/issues",
+        parent: ["issues", false],
+        sublinks: [],
+      },
+      {
+        title: "Services",
+        icon: "hugeicons:truck",
+        link: "/fleet/services",
+        parent: ["service", false],
+        sublinks: [],
       },
     ],
   },
@@ -149,7 +200,13 @@ const MenuItems = () => [
     icon: "hugeicons:cashier-02",
     link: "/logistics",
     parent: ["logistics", false],
-    sublinks: [],
+    sublinks: [
+      {
+        title: "Shipment",
+        icon: "hugeicons:truck",
+        link: "/logistics/shipment",
+      },
+    ],
   },
   {
     title: "Invoices",
