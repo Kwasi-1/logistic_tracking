@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
+import StatusText from "./StatusText"; // Import the StatusText component
 
 const Table = ({
   columns,
@@ -7,7 +8,7 @@ const Table = ({
   searchPlaceholder,
   buttonLabel,
   onRowClick,
-  onButtonClick, // Accept onButtonClick prop
+  onButtonClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -30,7 +31,7 @@ const Table = ({
           />
           <button
             className="p-2 py-3 border-2 text-sm border-[#619B7D] text-[#619B7D] hover:text-white rounded-lg flex items-center ml-4 hover:bg-[#619B7D] transition duration-300"
-            onClick={onButtonClick} // Trigger modal open
+            onClick={onButtonClick}
           >
             <Icon icon="akar-icons:plus" className="mr-2" />
             {buttonLabel}
@@ -51,11 +52,16 @@ const Table = ({
               <tr
                 key={row.id}
                 className="border-b last:border-b-0 hover:bg-gray-100 cursor-pointer text-sm text-gray-600"
-                onClick={() => onRowClick && onRowClick(row)} // Trigger row click if passed
+                onClick={() => onRowClick && onRowClick(row)}
               >
                 {columns.map((col) => (
                   <td key={col.key} className="p-3">
-                    {row[col.key]}
+                    {/* Use StatusText for the status column */}
+                    {col.key === "status" ? (
+                      <StatusText text={row[col.key]} />
+                    ) : (
+                      row[col.key]
+                    )}
                   </td>
                 ))}
               </tr>
