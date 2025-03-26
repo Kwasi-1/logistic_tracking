@@ -28,7 +28,7 @@ const Table = ({
 
   return (
     <div className="relative">
-      <div className="p-4 bg-white rounded-lg shadow">
+      <div className="p-4">
         <div className="flex justify-between items-center mb-4">
           <input
             type="text"
@@ -37,7 +37,7 @@ const Table = ({
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
-            className="p-3 bg-[#619B7D] text-white rounded-lg flex items-center ml-4 hover:bg-[#619B7Dcf]"
+            className="p-3 border-2 text-sm border-[#619B7D] text-[#619B7D] hover:text-white rounded-lg flex items-center ml-4 hover:bg-[#619B7Dcf] transition duration-300"
             onClick={handleButtonClick}
           >
             <Icon icon="akar-icons:plus" className="mr-2" />
@@ -46,7 +46,7 @@ const Table = ({
         </div>
         <table className="w-full border-collapse">
           <thead>
-            <tr className="border-b">
+            <tr className="border-b border-gray-200 uppercase font-semibold text-gray-600 text-sm">
               {columns.map((col) => (
                 <th key={col.key} className="p-3 text-left">
                   {col.label}
@@ -58,7 +58,7 @@ const Table = ({
             {filteredData.map((row) => (
               <tr
                 key={row.id}
-                className="border-b hover:bg-gray-100 cursor-pointer"
+                className="borderb last:border-b-0 hover:bg-gray-100 cursor-pointer text-sm text-gray-600"
                 onClick={() => onRowClick(row)} // Trigger on row click
               >
                 {columns.map((col) => (

@@ -1,5 +1,6 @@
 import { ClockIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
+import ShipmentMap from "./ShipmentMap";
 
 export default function ShipmentDetails({ shipment, onClose }) {
   return (
@@ -36,27 +37,27 @@ export default function ShipmentDetails({ shipment, onClose }) {
       </div>
 
       {/* Map Section */}
-      <div className="mb-4">
-        <div className="w-full h-40 bg-gray-200 rounded-md flex items-center justify-center">
-          <p className="text-gray-400">[Map Placeholder]</p>
+      <ShipmentMap
+        pickup={shipment.pickupCoordinates}
+        destination={shipment.destinationCoordinates}
+      />
+
+      <div className="grid grid-cols-2 gap-3 justify-between text-sm mt-5">
+        <div>
+          <p className="font-semibold">Status</p>
+          <p className="text-blue-500">{shipment.status}</p>
         </div>
-        <div className="grid grid-cols-2 gap-3 justify-between text-sm mt-5">
-          <div>
-            <p className="font-semibold">Status</p>
-            <p className="text-blue-500">{shipment.status}</p>
-          </div>
-          <div>
-            <p className="font-semibold">Last known position</p>
-            <p>{shipment.lastKnownPosition.location}</p>
-            <p className="text-gray-400 text-xs">
-              {shipment.lastKnownPosition.timestamp}
-            </p>
-          </div>
-          <div>
-            <p className="font-semibold">ETA</p>
-            <p>{shipment.eta.location}</p>
-            <p className="text-gray-400 text-xs">{shipment.eta.timestamp}</p>
-          </div>
+        <div>
+          <p className="font-semibold">Last known position</p>
+          <p>{shipment.lastKnownPosition.location}</p>
+          <p className="text-gray-400 text-xs">
+            {shipment.lastKnownPosition.timestamp}
+          </p>
+        </div>
+        <div>
+          <p className="font-semibold">ETA</p>
+          <p>{shipment.eta.location}</p>
+          <p className="text-gray-400 text-xs">{shipment.eta.timestamp}</p>
         </div>
       </div>
 
@@ -67,7 +68,6 @@ export default function ShipmentDetails({ shipment, onClose }) {
           <div className="absolute left-[10px] top-1 bottom-0 w-1 bg-[#619B7D]"></div>
           <div className="relative pl-6 space-y-8">
             {shipment.progress.map((event, index) => {
-              // ✅ Declare variables properly inside the callback body
               const isFirst = index === 0;
               const isLast = index === shipment.progress.length - 1;
 
@@ -78,7 +78,6 @@ export default function ShipmentDetails({ shipment, onClose }) {
                     isLast ? "items-end" : "items-start"
                   } ${!isFirst && !isLast && "items-center"}`}
                 >
-                  {/* Line Dot */}
                   <div
                     className={`bg-[#619B7D] ${
                       isFirst || isLast
@@ -100,7 +99,6 @@ export default function ShipmentDetails({ shipment, onClose }) {
                     )}
                   </div>
 
-                  {/* Event Details */}
                   <div>
                     <p className="font-semibold">{event.title}</p>
                     {event.location && (

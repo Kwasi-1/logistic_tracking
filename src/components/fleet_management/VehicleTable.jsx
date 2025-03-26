@@ -1,37 +1,102 @@
 import Table from "./Table";
 
 const vehicleColumns = [
-  { key: "id", label: "Vehicle ID" },
-  { key: "driverId", label: "Driver ID" },
+  { key: "name", label: "Name" },
+  { key: "operator", label: "Operator" },
+  { key: "year", label: "Year" },
+  { key: "make", label: "Make" },
   { key: "model", label: "Model" },
-  { key: "plate", label: "Plate" },
-  { key: "capacity", label: "Capacity" },
+  { key: "vin", label: "VIN" },
   { key: "status", label: "Status" },
+  { key: "type", label: "Type" },
+  { key: "group", label: "Group" },
 ];
 
-const vehicleData = [
+const vehicles = [
   {
-    id: "VEH-201",
-    driverId: "DRV-102",
-    model: "Volvo FH16",
-    plate: "GT-1234-22",
-    capacity: "25 Tons",
-    status: "Operational",
+    id: 1100,
+    name: "2018 Toyota Prius",
+    operator: "Jacob Silva",
+    year: 2018,
+    make: "Toyota",
+    model: "Prius",
+    vin: "JTDBKRFU9J3059307",
+    status: "Active",
+    type: "Car",
+    group: "Management",
+    statusColor: "green",
   },
   {
-    id: "VEH-202",
-    driverId: "DRV-101",
-    model: "Ford Transit",
-    plate: "BA-5678-19",
-    capacity: "3 Tons",
-    status: "Maintenance",
+    id: 2100,
+    name: "2016 Ford F-150",
+    operator: "Unassigned",
+    year: 2016,
+    make: "Ford",
+    model: "F-150",
+    vin: "1FTFW1EG3GFA3I822",
+    status: "Active",
+    type: "Pickup Truck",
+    group: "Sales",
+    statusColor: "green",
+  },
+  {
+    id: 3100,
+    name: "2014 Chevrolet Express Cargo",
+    operator: "Carlos Garcia",
+    year: 2014,
+    make: "Chevrolet",
+    model: "Express Cargo",
+    vin: "1CGZ7CG7E1151917",
+    status: "In Shop",
+    type: "Van",
+    group: "Sales",
+    statusColor: "orange",
+  },
+  {
+    id: 4100,
+    name: "2012 Freightliner Cascadia",
+    operator: "Unassigned",
+    year: 2012,
+    make: "Freightliner",
+    model: "Cascadia",
+    vin: "1FUGLDRXCSBE256I",
+    status: "Out of Service",
+    type: "Semi Truck",
+    group: "Warehouse",
+    statusColor: "red",
+  },
+  {
+    id: 5100,
+    name: "2010 Utility Reefer",
+    operator: "Unassigned",
+    year: 2010,
+    make: "Utility",
+    model: "Reefer",
+    vin: "1UYVS2537M9O6617",
+    status: "Inactive",
+    type: "Trailer",
+    group: "Warehouse",
+    statusColor: "gray",
+  },
+  {
+    id: 6100,
+    name: "2017 Hyster H50XM",
+    operator: "Unassigned",
+    year: 2017,
+    make: "Hyster",
+    model: "H50XM",
+    vin: "D17B12526K",
+    status: "Active",
+    type: "Forklift",
+    group: "Warehouse",
+    statusColor: "green",
   },
 ];
 
 const VehicleTable = () => (
   <Table
     columns={vehicleColumns}
-    data={vehicleData}
+    data={vehicles}
     searchPlaceholder="Search Vehicles..."
     buttonLabel="Add Vehicle"
     routePath={"/fleet/vehicles/add"}
