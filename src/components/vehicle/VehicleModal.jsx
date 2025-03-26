@@ -1,7 +1,61 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 
+// Reusable Input Component
+function InputField({
+  label,
+  name,
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+}) {
+  return (
+    <div className="mb-4  border border-gray-300 px-3 rounded-lg py-1">
+      <label className="block text-[11px] font-semibold text-gray-500">
+        {label.toUpperCase()}
+      </label>
+      <input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className="w-full focus:outline-none text-sm text-gray-600 "
+      />
+    </div>
+  );
+}
+
+// Reusable Select Component
+function SelectField({ label, name, options, value, onChange }) {
+  return (
+    <div className="mb-4 border border-gray-300 px-3 rounded-lg py-1">
+      <div className="flex items-center justify-between">
+        <div>
+          <label className="block text-[11px] font-semibold text-gray-500">
+            {label.toUpperCase()}
+          </label>
+          <select
+            name={name}
+            value={value}
+            onChange={onChange}
+            className="w-full bg-white text-sm appearance-none focus:outline-none "
+          >
+            {options.map((option) => (
+              <option key={option} value={option} className="text-gray-400">
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Icon icon="mingcute:down-line" />
+      </div>
+    </div>
+  );
+}
+
 function VehicleModal({ isOpen, onClose }) {
-  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     vin: "",
     vehicleName: "",
@@ -14,16 +68,6 @@ function VehicleModal({ isOpen, onClose }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleNext = () => {
-    if (step === 1 && formData.vin && formData.vehicleName) {
-      setStep(2);
-    }
-  };
-
-  const handleBack = () => {
-    setStep(1);
   };
 
   const handleSubmit = () => {
@@ -43,140 +87,97 @@ function VehicleModal({ isOpen, onClose }) {
     <div
       id="backdrop"
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-      onClick={handleBackdropClick} // Close when clicking outside
+      onClick={handleBackdropClick}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-[500px]"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+        className="bg-white py-6 px-[30px] rounded-xl shadow-lg w-[500px] relative"
+        onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-semibold mb-4">
-          {step === 1 ? "Add with a VIN" : "Identification"}
+        {/* Close Icon */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+        >
+          &times;
+        </button>
+
+        <h2 className="text-lg font-semibold mb-6 text-gray-800">
+          Add Vehicle
         </h2>
 
-        {step === 1 && (
-          <>
-            <div className="mb-4">
-              <label className="block font-medium mb-1">VIN/SN</label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  name="vin"
-                  placeholder="VIN/SN"
-                  className="w-full p-2 border rounded-md"
-                  value={formData.vin}
-                  onChange={handleInputChange}
-                />
-                <button className="bg-gray-200 px-4 py-2 rounded-md w-40">
-                  Decode VIN
-                </button>
-              </div>
-              <p className="text-gray-500 text-sm mt-1">
-                Asset Identification Number or Serial Number.
-                <a href="#" className="text-blue-500">
-                  Learn More
-                </a>
-              </p>
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-medium mb-1">Vehicle Name</label>
+        {/* VIN Input */}
+        <div className="mb-4 flex gap-2">
+          <div className=" border border-gray-300 px-3 rounded-lg py-1 w-full">
+            <label className="block text-[11px] font-semibold text-gray-500">
+              VIN/SN
+            </label>
+            <div className="flex items-center gap-2">
               <input
                 type="text"
-                name="vehicleName"
-                placeholder="Mercedes truck"
-                className="w-full p-2 border rounded-md"
-                value={formData.vehicleName}
-                onChange={handleInputChange}
-              />
-              <p className="text-gray-500 text-sm mt-1">
-                Enter a nickname to distinguish this asset.
-                <a href="#" className="text-blue-500">
-                  Learn More
-                </a>
-              </p>
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <button
-                className="bg-[#619B7D] text-white px-4 py-2 rounded-md"
-                onClick={handleNext}
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <div className="mb-4">
-              <label className="block font-medium mb-1">Type</label>
-              <select
-                name="type"
-                className="w-full p-2 border rounded-md"
-                value={formData.type}
-                onChange={handleInputChange}
-              >
-                <option value="Car">Car</option>
-                <option value="Truck">Truck</option>
-                <option value="Motorcycle">Motorcycle</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-medium mb-1">Status</label>
-              <select
-                name="status"
-                className="w-full p-2 border rounded-md"
-                value={formData.status}
-                onChange={handleInputChange}
-              >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-medium mb-1">Ownership</label>
-              <select
-                name="ownership"
-                className="w-full p-2 border rounded-md"
-                value={formData.ownership}
-                onChange={handleInputChange}
-              >
-                <option value="Owned">Owned</option>
-                <option value="Leased">Leased</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block font-medium mb-1">Labels</label>
-              <input
-                type="text"
-                name="labels"
-                placeholder="Please select"
-                className="w-full p-2 border rounded-md"
-                value={formData.labels}
+                name="vin"
+                placeholder="VIN/SN"
+                className="w-full focus:outline-none text-sm text-gray-600 "
+                value={formData.vin}
                 onChange={handleInputChange}
               />
             </div>
+          </div>
 
-            <div className="flex justify-between gap-2">
-              <button
-                className="bg-gray-200 px-4 py-2 rounded-md"
-                onClick={handleBack}
-              >
-                Back
-              </button>
-              <button
-                className="bg-[#619B7D] text-white px-4 py-2 rounded-md"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
-            </div>
-          </>
-        )}
+          {/* <button className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg w-full font-semibold text-gray-600 transition-all duration-300">
+            Decode VIN
+          </button> */}
+        </div>
+
+        {/* Other Form Fields */}
+        <InputField
+          label="Vehicle Name"
+          name="vehicleName"
+          placeholder="eg. Mercedes Truck"
+          value={formData.vehicleName}
+          onChange={handleInputChange}
+        />
+
+        <SelectField
+          label="Type"
+          name="type"
+          options={["Car", "Truck", "Motorcycle"]}
+          value={formData.type}
+          onChange={handleInputChange}
+        />
+
+        <SelectField
+          label="Status"
+          name="status"
+          options={["Active", "Inactive"]}
+          value={formData.status}
+          onChange={handleInputChange}
+        />
+
+        <SelectField
+          label="Ownership"
+          name="ownership"
+          options={["Owned", "Leased"]}
+          value={formData.ownership}
+          onChange={handleInputChange}
+        />
+
+        <InputField
+          label="Labels"
+          name="labels"
+          placeholder="Add labels"
+          value={formData.labels}
+          onChange={handleInputChange}
+        />
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-2 mt-9">
+          <button
+            className="bg-[#619B7D] w-full text-white font-semibold px-4 py-3 rounded-lg hover:bg-[#4a8062] transition-all duration-300"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   );
