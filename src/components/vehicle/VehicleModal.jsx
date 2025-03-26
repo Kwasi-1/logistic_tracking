@@ -132,6 +132,83 @@ function FirstStep({ formData, handleInputChange }) {
   );
 }
 
+// Maintenance Schedule Component
+function MaintenanceSchedule({ formData, handleInputChange }) {
+  const [selectedOption, setSelectedOption] = useState(
+    formData.serviceProgram || "None"
+  );
+
+  const handleOptionChange = (value) => {
+    setSelectedOption(value);
+    handleInputChange({ target: { name: "serviceProgram", value } });
+  };
+
+  return (
+    <div className="px-6">
+      <h1 className="text-xl font-semibold mb-2">Maintenance Schedule</h1>
+      <p className="text-sm text-gray-500 mb-4">
+        Service Programs automatically manage Service Reminders for Assets that
+        share common preventative maintenance needs.
+      </p>
+
+      <div className="space-y-4">
+        {/* None Option */}
+        <div
+          className={`border rounded-lg p-4 flex items-center justify-between cursor-pointer ${
+            selectedOption === "None" ? "border-[#619B7D]" : "border-[#E5E7EB]"
+          }`}
+          onClick={() => handleOptionChange("None")}
+        >
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                selectedOption === "None"
+                  ? "border-[#619B7D]"
+                  : "border-gray-300"
+              }`}
+            >
+              {selectedOption === "None" && (
+                <div className="w-3 h-3 bg-[#619B7D] rounded-full" />
+              )}
+            </div>
+            <p className="text-gray-700 font-medium">None</p>
+          </div>
+          <p className="text-gray-400 text-sm">
+            No Service Reminders will be created
+          </p>
+        </div>
+
+        {/* Existing Service Program Option */}
+        <div
+          className={`border rounded-lg p-4 flex items-center justify-between cursor-pointer ${
+            selectedOption === "Existing"
+              ? "border-[#619B7D]"
+              : "border-[#E5E7EB]"
+          }`}
+          onClick={() => handleOptionChange("Existing")}
+        >
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                selectedOption === "Existing"
+                  ? "border-[#619B7D]"
+                  : "border-gray-300"
+              }`}
+            >
+              {selectedOption === "Existing" && (
+                <div className="w-3 h-3 bg-[#619B7D] rounded-full" />
+              )}
+            </div>
+            <p className="text-gray-700 font-medium">
+              Choose an existing Service Program
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Main Modal Component
 function VehicleModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState(0);
@@ -218,6 +295,7 @@ function VehicleModal({ isOpen, onClose }) {
         </div>
 
         {/* Tab Content */}
+        {/* Tab Content */}
         <div className="px-6 py-4">
           {activeTab === 0 && (
             <FirstStep
@@ -225,21 +303,26 @@ function VehicleModal({ isOpen, onClose }) {
               handleInputChange={handleInputChange}
             />
           )}
-          {activeTab === 1 && <p>Employment Content Goes Here</p>}
-          {activeTab === 2 && <p>Bank Details Content Goes Here</p>}
-          {activeTab === 3 && <p>Pension Details Content Goes Here</p>}
-          {activeTab === 4 && <p>Other Details Content Goes Here</p>}
+          {activeTab === 1 && (
+            <MaintenanceSchedule
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
+          {activeTab === 2 && <p>Lifecycle Content Goes Here</p>}
+          {activeTab === 3 && <p>Financial Content Goes Here</p>}
+          {activeTab === 4 && <p>Specifications Content Goes Here</p>}
         </div>
 
         {/* Buttons */}
         <div className="absolute bottom-0 left-0 right-0 bg-white p-4 flex justify-end gap-2 shadow-md">
           {/* {activeTab > 0 && ( */}
-            <button
-              className="border w-full border-gray-300 text-gray-500 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100"
-              onClick={() => handleTabClick(activeTab - 1)}
-            >
-              Previous
-            </button>
+          <button
+            className="border w-full border-gray-300 text-gray-500 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100"
+            onClick={() => handleTabClick(activeTab - 1)}
+          >
+            Previous
+          </button>
           {/* )} */}
           {activeTab < tabs.length - 1 ? (
             <button
