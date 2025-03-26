@@ -214,71 +214,72 @@ function Lifecycle({ formData, handleInputChange }) {
   return (
     <div className="px-6">
       <h1 className="text-xl font-semibold mb-2">Lifecycle</h1>
+      <div className="grid grid-cols-2 gap-6">
+        <InputField
+          label="Date vehicle entered active fleet service"
+          name="activeFleetServiceDate"
+          type="date"
+          value={formData.activeFleetServiceDate}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Date vehicle entered active fleet service"
-        name="activeFleetServiceDate"
-        type="date"
-        value={formData.activeFleetServiceDate}
-        onChange={handleInputChange}
-      />
-
-      <InputField
-        label="In-Service Odometer"
-        name="inServiceOdometer"
-        type="number"
-        placeholder="e.g., 10000"
-        value={formData.inServiceOdometer}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="In-Service Odometer"
+          name="inServiceOdometer"
+          type="number"
+          placeholder="e.g., 10000"
+          value={formData.inServiceOdometer}
+          onChange={handleInputChange}
+        />
+      </div>
 
       <h2 className="mt-4 text-lg font-semibold">Vehicle Life Estimates</h2>
-
-      <InputField
-        label="Estimated Service Life in Months"
-        name="serviceLifeMonths"
-        type="number"
-        placeholder="e.g., 60"
-        value={formData.serviceLifeMonths}
-        onChange={handleInputChange}
-      />
-
-      <InputField
-        label="Estimated Service Life in Meter"
-        name="serviceLifeMeter"
-        type="number"
-        placeholder="e.g., 200000"
-        value={formData.serviceLifeMeter}
-        onChange={handleInputChange}
-      />
-
-      <InputField
-        label="Estimated Resale Value"
-        name="resaleValue"
-        type="number"
-        placeholder="e.g., 15000"
-        value={formData.resaleValue}
-        onChange={handleInputChange}
-      />
+      <div className="grid grid-cols-2 gap-6">
+        <InputField
+          label="Estimated Service Life in Months"
+          name="serviceLifeMonths"
+          type="number"
+          placeholder="e.g., 60"
+          value={formData.serviceLifeMonths}
+          onChange={handleInputChange}
+        />
+        <InputField
+          label="Estimated Service Life in Meter"
+          name="serviceLifeMeter"
+          type="number"
+          placeholder="e.g., 200000"
+          value={formData.serviceLifeMeter}
+          onChange={handleInputChange}
+        />
+        <InputField
+          label="Estimated Resale Value"
+          name="resaleValue"
+          type="number"
+          placeholder="e.g., 15000"
+          value={formData.resaleValue}
+          onChange={handleInputChange}
+        />{" "}
+      </div>
 
       <h2 className="mt-4 text-lg font-semibold">Out-of-Service</h2>
+      <div className="grid grid-cols-2 gap-6">
+        <InputField
+          label="Out-of-Service Date"
+          name="outOfServiceDate"
+          type="date"
+          value={formData.outOfServiceDate}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Out-of-Service Date"
-        name="outOfServiceDate"
-        type="date"
-        value={formData.outOfServiceDate}
-        onChange={handleInputChange}
-      />
-
-      <InputField
-        label="Out-of-Service Odometer"
-        name="outOfServiceOdometer"
-        type="number"
-        placeholder="e.g., 200000"
-        value={formData.outOfServiceOdometer}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Out-of-Service Odometer"
+          name="outOfServiceOdometer"
+          type="number"
+          placeholder="e.g., 200000"
+          value={formData.outOfServiceOdometer}
+          onChange={handleInputChange}
+        />
+      </div>
     </div>
   );
 }
@@ -288,57 +289,62 @@ function Financial({ formData, handleInputChange }) {
   return (
     <div className="px-6">
       <h1 className="text-xl font-semibold mb-2">Financial</h1>
+      <div className="grid grid-cols-2 gap-6">
+        <InputField
+          label="Acquisition Cost"
+          name="acquisitionCost"
+          type="number"
+          placeholder="e.g., 50000"
+          value={formData.acquisitionCost}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Acquisition Cost"
-        name="acquisitionCost"
-        type="number"
-        placeholder="e.g., 50000"
-        value={formData.acquisitionCost}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Book Value"
+          name="bookValue"
+          type="number"
+          placeholder="e.g., 40000"
+          value={formData.bookValue}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Book Value"
-        name="bookValue"
-        type="number"
-        placeholder="e.g., 40000"
-        value={formData.bookValue}
-        onChange={handleInputChange}
-      />
+        <SelectField
+          label="Depreciation Method"
+          name="depreciationMethod"
+          options={[
+            "Straight Line",
+            "Double Declining",
+            "Sum of Years' Digits",
+          ]}
+          value={formData.depreciationMethod}
+          onChange={handleInputChange}
+        />
 
-      <SelectField
-        label="Depreciation Method"
-        name="depreciationMethod"
-        options={["Straight Line", "Double Declining", "Sum of Years' Digits"]}
-        value={formData.depreciationMethod}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Residual Value"
+          name="residualValue"
+          type="number"
+          placeholder="e.g., 5000"
+          value={formData.residualValue}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Residual Value"
-        name="residualValue"
-        type="number"
-        placeholder="e.g., 5000"
-        value={formData.residualValue}
-        onChange={handleInputChange}
-      />
+        <SelectField
+          label="Ownership"
+          name="ownershipType"
+          options={["Owned", "Leased"]}
+          value={formData.ownershipType}
+          onChange={handleInputChange}
+        />
 
-      <SelectField
-        label="Ownership"
-        name="ownershipType"
-        options={["Owned", "Leased"]}
-        value={formData.ownershipType}
-        onChange={handleInputChange}
-      />
-
-      <InputField
-        label="Depreciation Start Date"
-        name="depreciationStartDate"
-        type="date"
-        value={formData.depreciationStartDate}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Depreciation Start Date"
+          name="depreciationStartDate"
+          type="date"
+          value={formData.depreciationStartDate}
+          onChange={handleInputChange}
+        />
+      </div>
     </div>
   );
 }
@@ -348,57 +354,58 @@ function Specifications({ formData, handleInputChange }) {
   return (
     <div className="px-6">
       <h1 className="text-xl font-semibold mb-2">Specifications</h1>
+      <div className="grid grid-cols-2 gap-6">
+        <InputField
+          label="Engine Type"
+          name="engineType"
+          placeholder="e.g., Diesel"
+          value={formData.engineType}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Engine Type"
-        name="engineType"
-        placeholder="e.g., Diesel"
-        value={formData.engineType}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Horsepower"
+          name="horsepower"
+          type="number"
+          placeholder="e.g., 400"
+          value={formData.horsepower}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Horsepower"
-        name="horsepower"
-        type="number"
-        placeholder="e.g., 400"
-        value={formData.horsepower}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Torque"
+          name="torque"
+          type="number"
+          placeholder="e.g., 500"
+          value={formData.torque}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Torque"
-        name="torque"
-        type="number"
-        placeholder="e.g., 500"
-        value={formData.torque}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Transmission"
+          name="transmission"
+          placeholder="e.g., Automatic"
+          value={formData.transmission}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Transmission"
-        name="transmission"
-        placeholder="e.g., Automatic"
-        value={formData.transmission}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Fuel Type"
+          name="fuelType"
+          placeholder="e.g., Petrol"
+          value={formData.fuelType}
+          onChange={handleInputChange}
+        />
 
-      <InputField
-        label="Fuel Type"
-        name="fuelType"
-        placeholder="e.g., Petrol"
-        value={formData.fuelType}
-        onChange={handleInputChange}
-      />
-
-      <InputField
-        label="Fuel Capacity (L)"
-        name="fuelCapacity"
-        type="number"
-        placeholder="e.g., 60"
-        value={formData.fuelCapacity}
-        onChange={handleInputChange}
-      />
+        <InputField
+          label="Fuel Capacity (L)"
+          name="fuelCapacity"
+          type="number"
+          placeholder="e.g., 60"
+          value={formData.fuelCapacity}
+          onChange={handleInputChange}
+        />
+      </div>
     </div>
   );
 }
@@ -521,7 +528,7 @@ function VehicleModal({ isOpen, onClose }) {
               handleInputChange={handleInputChange}
             />
           )}
-          {activeTab === 4 && <p>Specifications Content Goes Here</p>}
+          {activeTab === 5 && <p>Specifications Content Goes Here</p>}
         </div>
 
         {/* Buttons */}
