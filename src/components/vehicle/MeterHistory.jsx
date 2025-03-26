@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Table from "../fleet_management/Table";
+import AddMeterEntryModal from "./AddEntryModal";
 
 const MeterHistory = () => {
   const columns = [
@@ -70,15 +72,29 @@ const MeterHistory = () => {
     },
   ];
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddEntry = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <Table
-      columns={columns}
-      data={data}
-      searchPlaceholder="Search Meter History..."
-      buttonLabel="Add Meter Entry"
-      onRowClick={(row) => console.log("Row clicked:", row)}
-      onButtonClick={() => console.log("Add Meter Entry Clicked")}
-    />
+    <div>
+      <Table
+        columns={columns}
+        data={data}
+        searchPlaceholder="Search Meter History..."
+        buttonLabel="Add Meter Entry"
+        onRowClick={(row) => console.log("Row clicked:", row)}
+        onButtonClick={handleAddEntry}
+      />
+
+      <AddMeterEntryModal isOpen={isModalOpen} onClose={handleCloseModal} />
+    </div>
   );
 };
 
