@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Table from "./Table";
 
 const shipmentColumns = [
@@ -66,6 +67,8 @@ const shipmentData = [
     order: "ORD-456",
     pickup: "Tema",
     destination: "Takoradi",
+    pickupCoordinates: [-118.2437, 34.0522], // Los Angeles
+    destinationCoordinates: [-87.6298, 41.8781], // Chicago
     date: "19/03/2025",
     status: "Delivered",
     reference: "ME #87654321",
@@ -107,15 +110,23 @@ const shipmentData = [
   },
 ];
 
-const ShipmentTable = ({ onShipmentClick }) => (
-  <Table
-    columns={shipmentColumns}
-    data={shipmentData}
-    searchPlaceholder="Search Shipments..."
-    buttonLabel="Add Shipment"
-    routePath={"/fleet/shipment/add"}
-    onRowClick={onShipmentClick} // Pass the click handler
-  />
-);
+const ShipmentTable = ({ onShipmentClick }) => {
+  const navigate = useNavigate(); // ✅ Hook must be inside the function body
+
+  const handleButtonClick = () => {
+    navigate("/logistics/shipment/add");
+  };
+
+  return (
+    <Table
+      columns={shipmentColumns}
+      data={shipmentData}
+      searchPlaceholder="Search Shipments..."
+      buttonLabel="Add Shipment"
+      onButtonClick={handleButtonClick} // Pass the click handler
+      onRowClick={onShipmentClick} // Pass the click handler
+    />
+  );
+};
 
 export default ShipmentTable;

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Table from "./Table";
+import VehicleModal from "../vehicle/VehicleModal";
 
 const vehicleColumns = [
   { key: "name", label: "Name" },
@@ -93,14 +95,29 @@ const vehicles = [
   },
 ];
 
-const VehicleTable = () => (
-  <Table
-    columns={vehicleColumns}
-    data={vehicles}
-    searchPlaceholder="Search Vehicles..."
-    buttonLabel="Add Vehicle"
-    routePath={"/fleet/vehicles/add"}
-  />
-);
+const VehicleTable = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddVehicle = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div>
+      <Table
+        columns={vehicleColumns}
+        data={vehicles}
+        searchPlaceholder="Search Vehicles..."
+        buttonLabel="Add Vehicle"
+        onButtonClick={handleAddVehicle} // Pass prop to open modal
+      />
+      <VehicleModal isOpen={isModalOpen} onClose={handleCloseModal} />
+    </div>
+  );
+};
 
 export default VehicleTable;

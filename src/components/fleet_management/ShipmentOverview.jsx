@@ -98,7 +98,7 @@ const ShipmentOverview = () => {
                   className="p-3 cursor-pointer hover:text-gray-500"
                   onClick={() => handleSort(col.key)}
                 >
-                  {col.label}{" "}
+                  {col.label}
                   {sortColumn === col.key &&
                     (sortDirection === "asc" ? (
                       <Icon

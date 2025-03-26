@@ -1,18 +1,15 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Table = ({
   columns,
   data,
   searchPlaceholder,
   buttonLabel,
-  routePath,
   onRowClick,
+  onButtonClick, // Accept onButtonClick prop
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedShipment, setSelectedShipment] = useState(null); // State for selected row
-  const navigate = useNavigate();
 
   // Filtered data based on search term
   const filteredData = data.filter((row) =>
@@ -20,11 +17,6 @@ const Table = ({
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
-
-  // Navigate to add shipment
-  const handleButtonClick = () => {
-    navigate(routePath);
-  };
 
   return (
     <div className="relative">
@@ -38,7 +30,7 @@ const Table = ({
           />
           <button
             className="p-3 border-2 text-sm border-[#619B7D] text-[#619B7D] hover:text-white rounded-lg flex items-center ml-4 hover:bg-[#619B7Dcf] transition duration-300"
-            onClick={handleButtonClick}
+            onClick={onButtonClick} // Trigger modal open
           >
             <Icon icon="akar-icons:plus" className="mr-2" />
             {buttonLabel}
@@ -59,7 +51,7 @@ const Table = ({
               <tr
                 key={row.id}
                 className="borderb last:border-b-0 hover:bg-gray-100 cursor-pointer text-sm text-gray-600"
-                onClick={() => onRowClick(row)} // Trigger on row click
+                onClick={() => onRowClick && onRowClick(row)} // Trigger row click if passed
               >
                 {columns.map((col) => (
                   <td key={col.key} className="p-3">
