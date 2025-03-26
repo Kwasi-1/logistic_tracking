@@ -9,6 +9,7 @@ const Table = ({
   buttonLabel,
   onRowClick,
   onButtonClick,
+  onOperatorClick, // New prop for operator click
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -18,6 +19,12 @@ const Table = ({
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
+
+  // Handle operator click
+  const handleOperatorClick = (e, row) => {
+    e.stopPropagation(); // Prevent row click
+    if (onOperatorClick) onOperatorClick(row);
+  };
 
   return (
     <div className="relative">
@@ -56,9 +63,16 @@ const Table = ({
               >
                 {columns.map((col) => (
                   <td key={col.key} className="p-3">
-                    {/* Use StatusText for the status column */}
+                    {/* Status Text for the status column */}
                     {col.key === "status" ? (
                       <StatusText text={row[col.key]} />
+                    ) : col.key === "operator" ? (
+                      <button
+                        className=" underline hover:text-gray-400 transition duration-300"
+                        onClick={(e) => handleOperatorClick(e, row)}
+                      >
+                        {row[col.key]}
+                      </button>
                     ) : (
                       row[col.key]
                     )}

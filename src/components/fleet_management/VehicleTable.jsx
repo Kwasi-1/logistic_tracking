@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Table from "./Table";
 import VehicleModal from "../vehicle/VehicleModal";
+import OperatorModal from "../vehicle/OperatorModal";
 
 const vehicleColumns = [
   { key: "name", label: "Name" },
@@ -14,7 +15,7 @@ const vehicleColumns = [
   { key: "group", label: "Group" },
 ];
 
-const vehicles = [
+const initialVehicles = [
   {
     id: 1100,
     name: "2018 Toyota Prius",
@@ -96,14 +97,33 @@ const vehicles = [
 ];
 
 const VehicleTable = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [vehicles, setVehicles] = useState(initialVehicles);
+  const [selectedVehicleId, setSelectedVehicleId] = useState(null);
+  const [isOperatorModalOpen, setIsOperatorModalOpen] = useState(false);
+  const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
 
-  const handleAddVehicle = () => {
-    setIsModalOpen(true);
+  // Handle operator selection
+  const handleOperatorClick = (vehicleId) => {
+    setSelectedVehicleId(vehicleId);
+    setIsOperatorModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  // Assign operator to the vehicle
+  const handleAssignOperator = (operator) => {
+    setVehicles((prevVehicles) =>
+      prevVehicles.map((vehicle) =>
+        vehicle.id === selectedVehicleId ? { ...vehicle, operator } : vehicle
+      )
+    );
+    setIsOperatorModalOpen(false);
+  };
+
+  const handleAddVehicle = () => {
+    setIsVehicleModalOpen(true);
+  };
+
+  const handleCloseVehicleModal = () => {
+    setIsVehicleModalOpen(false);
   };
 
   return (
@@ -113,9 +133,18 @@ const VehicleTable = () => {
         data={vehicles}
         searchPlaceholder="Search Vehicles..."
         buttonLabel="Add Vehicle"
-        onButtonClick={handleAddVehicle} // Pass prop to open modal
+        onButtonClick={handleAddVehicle}
+        onOperatorClick={handleOperatorClick}
       />
-      <VehicleModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <VehicleModal
+        isOpen={isVehicleModalOpen}
+        onClose={handleCloseVehicleModal}
+      />
+      <OperatorModal
+        isOpen={isOperatorModalOpen}
+        onClose={() => setIsOperatorModalOpen(false)}
+        onAssign={handleAssignOperator}
+      />
     </div>
   );
 };
