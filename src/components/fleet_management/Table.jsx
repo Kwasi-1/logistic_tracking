@@ -29,7 +29,7 @@ const Table = ({
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
-            className="p-3 border-2 text-sm border-[#619B7D] text-[#619B7D] hover:text-white rounded-lg flex items-center ml-4 hover:bg-[#619B7Dcf] transition duration-300"
+            className="p-2 py-3 border-2 text-sm border-[#619B7D] text-[#619B7D] hover:text-white rounded-lg flex items-center ml-4 hover:bg-[#619B7D] transition duration-300"
             onClick={onButtonClick} // Trigger modal open
           >
             <Icon icon="akar-icons:plus" className="mr-2" />
@@ -50,7 +50,7 @@ const Table = ({
             {filteredData.map((row) => (
               <tr
                 key={row.id}
-                className="borderb last:border-b-0 hover:bg-gray-100 cursor-pointer text-sm text-gray-600"
+                className="border-b last:border-b-0 hover:bg-gray-100 cursor-pointer text-sm text-gray-600"
                 onClick={() => onRowClick && onRowClick(row)} // Trigger row click if passed
               >
                 {columns.map((col) => (
