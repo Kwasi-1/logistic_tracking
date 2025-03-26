@@ -283,6 +283,66 @@ function Lifecycle({ formData, handleInputChange }) {
   );
 }
 
+// Fourth Step Component - Financial
+function Financial({ formData, handleInputChange }) {
+  return (
+    <div className="px-6">
+      <h1 className="text-xl font-semibold mb-2">Financial</h1>
+
+      <InputField
+        label="Acquisition Cost"
+        name="acquisitionCost"
+        type="number"
+        placeholder="e.g., 50000"
+        value={formData.acquisitionCost}
+        onChange={handleInputChange}
+      />
+
+      <InputField
+        label="Book Value"
+        name="bookValue"
+        type="number"
+        placeholder="e.g., 40000"
+        value={formData.bookValue}
+        onChange={handleInputChange}
+      />
+
+      <SelectField
+        label="Depreciation Method"
+        name="depreciationMethod"
+        options={["Straight Line", "Double Declining", "Sum of Years' Digits"]}
+        value={formData.depreciationMethod}
+        onChange={handleInputChange}
+      />
+
+      <InputField
+        label="Residual Value"
+        name="residualValue"
+        type="number"
+        placeholder="e.g., 5000"
+        value={formData.residualValue}
+        onChange={handleInputChange}
+      />
+
+      <SelectField
+        label="Ownership"
+        name="ownershipType"
+        options={["Owned", "Leased"]}
+        value={formData.ownershipType}
+        onChange={handleInputChange}
+      />
+
+      <InputField
+        label="Depreciation Start Date"
+        name="depreciationStartDate"
+        type="date"
+        value={formData.depreciationStartDate}
+        onChange={handleInputChange}
+      />
+    </div>
+  );
+}
+
 // Main Modal Component
 function VehicleModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState(0);
@@ -389,7 +449,12 @@ function VehicleModal({ isOpen, onClose }) {
               handleInputChange={handleInputChange}
             />
           )}
-          {activeTab === 3 && <p>Financial Content Goes Here</p>}
+          {activeTab === 3 && (
+            <Financial
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
           {activeTab === 4 && <p>Specifications Content Goes Here</p>}
         </div>
 
