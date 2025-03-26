@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 // Reusable Input Component
@@ -74,7 +74,67 @@ function SelectField({ label, name, options, value, onChange }) {
   );
 }
 
+// First Step Component
+function FirstStep({ formData, handleInputChange }) {
+  return (
+    <div className="px6">
+      <h1 className="capitalize text-xl mb-2">Vehicle details</h1>
+      <div className="grid grid-cols-2 gap-x-6 gap-y-3  pb-24">
+        <InputField
+          label="VIN/SN"
+          name="vin"
+          placeholder="e.g., ABC12345"
+          value={formData.vin}
+          onChange={handleInputChange}
+        />
+
+        <InputField
+          label="Vehicle Name"
+          name="vehicleName"
+          placeholder="e.g., Mercedes Truck"
+          value={formData.vehicleName}
+          onChange={handleInputChange}
+        />
+
+        <SelectField
+          label="Type"
+          name="type"
+          options={["Car", "Truck", "Motorcycle"]}
+          value={formData.type}
+          onChange={handleInputChange}
+        />
+
+        <SelectField
+          label="Status"
+          name="status"
+          options={["Active", "Inactive"]}
+          value={formData.status}
+          onChange={handleInputChange}
+        />
+
+        <SelectField
+          label="Ownership"
+          name="ownership"
+          options={["Owned", "Leased"]}
+          value={formData.ownership}
+          onChange={handleInputChange}
+        />
+
+        <InputField
+          label="Labels"
+          name="labels"
+          placeholder="Add labels"
+          value={formData.labels}
+          onChange={handleInputChange}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Main Modal Component
 function VehicleModal({ isOpen, onClose }) {
+  const [activeTab, setActiveTab] = useState(0);
   const [formData, setFormData] = useState({
     vin: "",
     vehicleName: "",
@@ -83,6 +143,19 @@ function VehicleModal({ isOpen, onClose }) {
     ownership: "Owned",
     labels: "",
   });
+
+  const tabs = [
+    "Details",
+    "Maintnence",
+    "Lifecycle",
+    "Financial",
+    "specifications",
+    "Settings",
+  ];
+
+  const handleTabClick = (index) => {
+    setActiveTab(index);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -109,7 +182,7 @@ function VehicleModal({ isOpen, onClose }) {
       onClick={handleBackdropClick}
     >
       <div
-        className={`fixed top-0 right-0 h-full bg-white shadow-lg w-1/2 transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg w-3/7 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -117,82 +190,72 @@ function VehicleModal({ isOpen, onClose }) {
         {/* Close Icon */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+          className="absolute top-4 right-4 text-gray-200 hover:text-gray-300 text-2xl font-bold"
         >
           &times;
         </button>
-
         {/* Modal Header */}
-        <div className="mb-6 bg-[#619B7D] py-6 px-[30px] text-white">
+        <div className="mb-3 bg-[#619B7D] py-6 px-[30px] text-white">
           <h2 className="text-lg font-semibold">Add Vehicle</h2>
           <p>Enter the vehicle details below</p>
         </div>
 
-        {/* Form Grid */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-3 px-6 pb24">
-          <InputField
-            label="VIN/SN"
-            name="vin"
-            placeholder="e.g., ABC12345"
-            value={formData.vin}
-            onChange={handleInputChange}
-          />
-
-          <InputField
-            label="Vehicle Name"
-            name="vehicleName"
-            placeholder="e.g., Mercedes Truck"
-            value={formData.vehicleName}
-            onChange={handleInputChange}
-          />
-
-          <SelectField
-            label="Type"
-            name="type"
-            options={["Car", "Truck", "Motorcycle"]}
-            value={formData.type}
-            onChange={handleInputChange}
-          />
-
-          <SelectField
-            label="Status"
-            name="status"
-            options={["Active", "Inactive"]}
-            value={formData.status}
-            onChange={handleInputChange}
-          />
-
-          <SelectField
-            label="Ownership"
-            name="ownership"
-            options={["Owned", "Leased"]}
-            value={formData.ownership}
-            onChange={handleInputChange}
-          />
-
-          <InputField
-            label="Labels"
-            name="labels"
-            placeholder="Add labels"
-            value={formData.labels}
-            onChange={handleInputChange}
-          />
+        {/* Tabs */}
+        <div className="flex justify-around px-2 text-sm">
+          {tabs.map((tab, index) => (
+            <button
+              key={index}
+              className={`flex-1 text-left py-2 mx-3 border-t-4 font-semibold  ${
+                activeTab === index
+                  ? "border-[#619B7D] text-[#619B7D]"
+                  : "text-gray-400  border-[#F5F6F7]"
+              }`}
+              onClick={() => handleTabClick(index)}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
 
-        {/* Buttons at Bottom */}
+        {/* Tab Content */}
+        <div className="px-6 py-4">
+          {activeTab === 0 && (
+            <FirstStep
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
+          {activeTab === 1 && <p>Employment Content Goes Here</p>}
+          {activeTab === 2 && <p>Bank Details Content Goes Here</p>}
+          {activeTab === 3 && <p>Pension Details Content Goes Here</p>}
+          {activeTab === 4 && <p>Other Details Content Goes Here</p>}
+        </div>
+
+        {/* Buttons */}
         <div className="absolute bottom-0 left-0 right-0 bg-white p-4 flex justify-end gap-2 shadow-md">
-          <button
-            className="border w-full border-gray-300 text-gray-500 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-            onClick={onClose}
-          >
-            Previous
-          </button>
-          <button
-            className="bg-[#619B7D] w-full text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#4a8062] transition-all duration-300"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+          {/* {activeTab > 0 && ( */}
+            <button
+              className="border w-full border-gray-300 text-gray-500 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100"
+              onClick={() => handleTabClick(activeTab - 1)}
+            >
+              Previous
+            </button>
+          {/* )} */}
+          {activeTab < tabs.length - 1 ? (
+            <button
+              className="bg-[#619B7D] w-full text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#4a8062]"
+              onClick={() => handleTabClick(activeTab + 1)}
+            >
+              Next
+            </button>
+          ) : (
+            <button
+              className="bg-[#619B7D] w-full text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#4a8062]"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          )}
         </div>
       </div>
     </div>
