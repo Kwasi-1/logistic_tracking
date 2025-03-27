@@ -76,7 +76,7 @@ const OperatorModal = ({
           {filteredOperators.map((op) => (
             <div
               // className=" bg-red-50 mb-1"
-              className={`flex justify-between rounded-lg mb-1 p-2 hover:bg-gray-100 cursor-pointer text-[13px] ${
+              className={`flex justify-between items-center rounded-lg mb-1 p-2 hover:bg-gray-100 cursor-pointer text-[13px] ${
                 selectedOp === op ? "bg-gray-200" : ""
               }`}
               onClick={() => setSelectedOp(op)}
@@ -86,7 +86,7 @@ const OperatorModal = ({
               <button
                 onClick={handleAssign}
                 disabled={!selectedOp}
-                className={`wfull p-1 rounded-lg ${
+                className={`wfull p-[6px] px-2 text-[11px] rounded-lg ${
                   selectedOp
                     ? "bg-[#619B7D] text-white hover:bg-[#4a7c63]"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
