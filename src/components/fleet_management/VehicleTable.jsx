@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Table from "./Table";
 import VehicleModal from "../vehicle/VehicleModal";
 import OperatorModal from "../vehicle/OperatorModal";
@@ -102,9 +102,12 @@ const VehicleTable = () => {
   const [isOperatorModalOpen, setIsOperatorModalOpen] = useState(false);
   const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
 
+  // Ref to track the trigger button
+  const operatorTriggerRef = useRef(null);
+
   // Handle operator selection
-  const handleOperatorClick = (vehicleId) => {
-    setSelectedVehicleId(vehicleId);
+  const handleOperatorClick = (row) => {
+    setSelectedVehicleId(row.id);
     setIsOperatorModalOpen(true);
   };
 
@@ -134,7 +137,11 @@ const VehicleTable = () => {
         searchPlaceholder="Search Vehicles..."
         buttonLabel="Add Vehicle"
         onButtonClick={handleAddVehicle}
-        onOperatorClick={handleOperatorClick}
+        onOperatorClick={(row, event) => {
+          // Create a ref for the specific trigger button
+          operatorTriggerRef.current = event.target;
+          handleOperatorClick(row);
+        }}
       />
       <VehicleModal
         isOpen={isVehicleModalOpen}
@@ -144,6 +151,10 @@ const VehicleTable = () => {
         isOpen={isOperatorModalOpen}
         onClose={() => setIsOperatorModalOpen(false)}
         onAssign={handleAssignOperator}
+        triggerRef={operatorTriggerRef}
+        selectedOperator={
+          vehicles.find((v) => v.id === selectedVehicleId)?.operator
+        }
       />
     </div>
   );

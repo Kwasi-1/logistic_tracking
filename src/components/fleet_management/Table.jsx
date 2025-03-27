@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import StatusText from "./StatusText"; // Import the StatusText component
+import StatusText from "./StatusText";
 
 const Table = ({
   columns,
@@ -9,7 +9,7 @@ const Table = ({
   buttonLabel,
   onRowClick,
   onButtonClick,
-  onOperatorClick, // New prop for operator click
+  onOperatorClick,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -23,7 +23,7 @@ const Table = ({
   // Handle operator click
   const handleOperatorClick = (e, row) => {
     e.stopPropagation(); // Prevent row click
-    if (onOperatorClick) onOperatorClick(row);
+    if (onOperatorClick) onOperatorClick(row, e);
   };
 
   return (
@@ -68,7 +68,7 @@ const Table = ({
                       <StatusText text={row[col.key]} />
                     ) : col.key === "operator" ? (
                       <button
-                        className=" underline hover:text-gray-400 transition duration-300"
+                        className="underline hover:text-gray-400 transition duration-300"
                         onClick={(e) => handleOperatorClick(e, row)}
                       >
                         {row[col.key]}
