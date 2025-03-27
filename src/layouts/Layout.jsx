@@ -1,14 +1,24 @@
-import { useState } from "react";
-import { Icon } from "@iconify/react";
+import { useState, useEffect } from "react";
+import Dashboard from "./Dashboard";
 
 const Layout = ({
   title,
   tabs,
   components,
   showDashboard = false,
-  dashboardComponent,
+  dashboardData = {},
+  defaultDashboardData = null,
 }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0]); // Default to the first tab
+  const [activeTab, setActiveTab] = useState(tabs[0]); // Default to first tab
+  const [currentDashboardData, setCurrentDashboardData] =
+    useState(defaultDashboardData);
+
+  // Update dashboard only if the tab has new data
+  useEffect(() => {
+    if (dashboardData[activeTab]) {
+      setCurrentDashboardData(dashboardData[activeTab]);
+    }
+  }, [activeTab, dashboardData]);
 
   return (
     <div className="px-8 h-screen">
@@ -18,8 +28,10 @@ const Layout = ({
       </div>
 
       {/* Show Dashboard Only When Required */}
-      {showDashboard && dashboardComponent && (
-        <div className="mb-4">{dashboardComponent}</div>
+      {showDashboard && currentDashboardData && (
+        <div className="mb-4">
+          <Dashboard stats={currentDashboardData} />
+        </div>
       )}
 
       {/* Tabs Navigation */}

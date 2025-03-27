@@ -2,7 +2,6 @@ import Layout from "../layouts/Layout";
 import VehicleRenewalTable from "../components/reminders/VehicleRenewalTable";
 import ContactRenewalTable from "../components/reminders/ContactRenewalTable";
 import ServiceHistoryTable from "../components/fleet_management/service/ServiceHistoryTable";
-import Dashboard from "../layouts/Dashboard";
 
 const tabs = ["Service History", "Vehicle Renewal", "Contact Renewal"];
 
@@ -26,7 +25,7 @@ const Service = () => {
       tabs={tabs}
       components={components}
       showDashboard={true}
-      dashboardComponent={<Dashboard stats={dashboardStats} />}
+      defaultDashboardData={dashboardStats}
     />
   );
 };
