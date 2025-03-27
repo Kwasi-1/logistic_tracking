@@ -10,7 +10,14 @@ const components = {
 };
 
 const Fuel = () => {
-  return <Layout title="Fuel and Energy" tabs={tabs} components={components} />;
+  return (
+    <Layout
+      title="Fuel and Energy"
+      tabs={tabs}
+      components={components}
+      showDashboard={false}
+    />
+  );
 };
 
 export default Fuel;

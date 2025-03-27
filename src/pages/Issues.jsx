@@ -11,7 +11,14 @@ const components = {
 };
 
 const Issues = () => {
-  return <Layout title="Issues" tabs={tabs} components={components} />;
+  return (
+    <Layout
+      title="Issues"
+      tabs={tabs}
+      components={components}
+      showDashboard={false}
+    />
+  );
 };
 
 export default Issues;

@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 
-const Layout = ({ title, tabs, components }) => {
+const Layout = ({
+  title,
+  tabs,
+  components,
+  showDashboard = false,
+  dashboardComponent,
+}) => {
   const [activeTab, setActiveTab] = useState(tabs[0]); // Default to the first tab
 
   return (
@@ -10,6 +16,11 @@ const Layout = ({ title, tabs, components }) => {
       <div className="flex justify-between items-center py-5">
         <h1 className="font-semibold text-2xl">{title}</h1>
       </div>
+
+      {/* Show Dashboard Only When Required */}
+      {showDashboard && dashboardComponent && (
+        <div className="mb-4">{dashboardComponent}</div>
+      )}
 
       {/* Tabs Navigation */}
       <div className="bg-gray-200/30 h-full rounded-t-xl border border-[#e0e6e930]">

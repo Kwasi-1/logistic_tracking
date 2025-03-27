@@ -12,7 +12,14 @@ const components = {
 };
 
 const Reminders = () => {
-  return <Layout title="Reminders" tabs={tabs} components={components} />;
+  return (
+    <Layout
+      title="Reminders"
+      tabs={tabs}
+      components={components}
+      showDashboard={false}
+    />
+  );
 };
 
 export default Reminders;

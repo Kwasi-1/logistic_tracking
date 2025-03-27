@@ -20,7 +20,15 @@ const components = {
 };
 
 const VehicleDetails = () => {
-  return <Layout title="Vehicles" tabs={tabs} components={components} />;
+  return (
+    <Layout
+      title="Vehicles"
+      tabs={tabs}
+      components={components}
+      showDashboard={false}
+      
+    />
+  );
 };
 
 export default VehicleDetails;
