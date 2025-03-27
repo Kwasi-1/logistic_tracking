@@ -130,33 +130,6 @@ const MenuItems = () => [
         icon: "hugeicons:truck",
         link: "/fleet/vehicle",
         parent: ["Vehicles", false],
-        sublinks: [
-          {
-            title: "Vehicle List",
-            icon: "hugeicons:truck",
-            link: "/fleet/vehicle/vehicle_list",
-          },
-          {
-            title: "Vehicle Assigments",
-            icon: "hugeicons:truck",
-            link: "/fleet/vehicle/vehicle_assignments",
-          },
-          {
-            title: "",
-            icon: "hugeicons:truck",
-            link: "/fleet/vehicle/vehicle_list",
-          },
-          {
-            title: "Expense History",
-            icon: "hugeicons:truck",
-            link: "/fleet/vehicle/expenses",
-          },
-          {
-            title: "Replacement Analysis",
-            icon: "hugeicons:truck",
-            link: "/fleet/vehicle/vehicle_list",
-          },
-        ],
       },
       {
         title: "Fuel & Energy",
@@ -180,9 +153,9 @@ const MenuItems = () => [
         sublinks: [],
       },
       {
-        title: "Services",
+        title: "Service",
         icon: "hugeicons:truck",
-        link: "/fleet/services",
+        link: "/fleet/service",
         parent: ["service", false],
         sublinks: [],
       },
