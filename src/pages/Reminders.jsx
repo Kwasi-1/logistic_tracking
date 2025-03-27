@@ -1,5 +1,4 @@
 import Layout from "../layouts/Layout";
-import VehicleTable from "../components/fleet_management/VehicleTable";
 import VehicleRenewalTable from "../components/reminders/VehicleRenewalTable";
 import ContactRenewalTable from "../components/reminders/ContactRenewalTable";
 import ServiceRemindersTable from "../components/reminders/ServiceReminderTable";
@@ -12,8 +11,8 @@ const components = {
   "Contact Renewal": <ContactRenewalTable />,
 };
 
-const VehicleDetails = () => {
+const Reminders = () => {
   return <Layout title="Reminders" tabs={tabs} components={components} />;
 };
 
-export default VehicleDetails;
+export default Reminders;
