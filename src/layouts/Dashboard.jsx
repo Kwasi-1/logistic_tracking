@@ -1,6 +1,6 @@
 const Dashboard = ({ stats }) => {
   return (
-    <div className="grid grid-cols-4 gap-4 bg-white p-4 border border-gray-200 rounded-lg shadow-sm mb-6">
+    <div className="grid grid-cols-4 gap-4  bg-gray-200/30 p-4 border border-gray-200 rounded-lg mb-6">
       {stats.map((stat, index) => (
         <div key={index} className="p-4 border-r last:border-r-0">
           <h3 className="text-sm text-gray-500">{stat.label}</h3>
