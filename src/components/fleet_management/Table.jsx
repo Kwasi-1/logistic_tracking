@@ -46,7 +46,7 @@ const Table = ({
         </div>
         <table className="w-full border-collapse">
           <thead>
-            <tr className="border-b border-gray-200 uppercase font-semibold text-gray-600 text-sm">
+            <tr className="border-b border-gray-200 uppercase font-semibold text-gray-600 text-[12px] ">
               {columns.map((col) => (
                 <th key={col.key} className="p-3 text-left">
                   {col.label}
@@ -58,7 +58,7 @@ const Table = ({
             {filteredData.map((row) => (
               <tr
                 key={row.id}
-                className="border-b last:border-b-0 hover:bg-gray-100 cursor-pointer text-sm text-gray-600"
+                className="border-b last:border-b-0 hover:bg-gray-100 cursor-pointer text-[13px] text-gray-600"
                 onClick={() => onRowClick && onRowClick(row)}
               >
                 {columns.map((col) => (
