@@ -21,7 +21,7 @@ const dashboardData = {
     { label: "Total Charging Cost", value: "$634.83" },
     { label: "Total Energy", value: "247.17 kWh" },
     { label: "Avg. Energy Economy", value: "25.78 mpg (US)" },
-    { label: "Avg. Cost", value: "$2.57 / gallon" },
+    { label: "Avg. Cost", value: "$2.57 /kWh" },
   ],
 };
 
