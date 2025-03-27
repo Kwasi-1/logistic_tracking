@@ -10,6 +10,8 @@ import VehicleDetails from "./pages/VehicleDetails";
 import CreateShipment from './pages/CreateShipment';
 import Issues from './pages/Issues';
 import Reminders from './pages/Reminders';
+import Fuel from './pages/Fuel';
+import Service from './pages/Service';
 
 function App() {
   return (
@@ -36,6 +38,9 @@ function AppContent() {
           <Route path="/logistics/shipment/add" element={<CreateShipment />} />
           <Route path="/fleet/issues" element={<Issues />} />
           <Route path="/fleet/reminders" element={<Reminders />} />
+          <Route path="/fleet/service" element={<Service />} />
+          <Route path="/fleet/fuel" element={<Fuel />} />
+
 
         </Routes>
       </div>
