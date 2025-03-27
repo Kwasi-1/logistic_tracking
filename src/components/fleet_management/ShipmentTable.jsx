@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Table from "./Table";
+import { useState } from "react";
+import CreateShipment from "../../pages/CreateShipment";
 
 const shipmentColumns = [
   { key: "id", label: "Shipment ID" },
@@ -114,20 +116,28 @@ const shipmentData = [
 
 const ShipmentTable = ({ onShipmentClick }) => {
   const navigate = useNavigate(); // ✅ Hook must be inside the function body
+  const [isCreateShipmentOpen, setIsCreateShipmentOpen] = useState(false);
 
   const handleButtonClick = () => {
-    navigate("/logistics/shipment/add");
+    setIsCreateShipmentOpen(true);
   };
 
   return (
-    <Table
-      columns={shipmentColumns}
-      data={shipmentData}
-      searchPlaceholder="Search Shipments..."
-      buttonLabel="Add Shipment"
-      onButtonClick={handleButtonClick} // Pass the click handler
-      onRowClick={onShipmentClick} // Pass the click handler
-    />
+    <div>
+      <Table
+        columns={shipmentColumns}
+        data={shipmentData}
+        searchPlaceholder="Search Shipments..."
+        buttonLabel="Add Shipment"
+        onButtonClick={handleButtonClick} // Pass the click handler
+        onRowClick={onShipmentClick} // Pass the click handler
+      />
+
+      <CreateShipment
+        isOpen={isCreateShipmentOpen}
+        onClose={() => setIsCreateShipmentOpen(false)}
+      />
+    </div>
   );
 };
 
