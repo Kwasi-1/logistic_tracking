@@ -3,17 +3,17 @@ import Dashboard from "./Dashboard";
 
 const Layout = ({
   title,
-  tabs,
-  components,
+  tabs = [],
+  components = {},
   showDashboard = false,
   dashboardData = {},
   defaultDashboardData = null,
 }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0]); // Default to first tab
+  const [activeTab, setActiveTab] = useState(tabs[0] || "default");
   const [currentDashboardData, setCurrentDashboardData] =
     useState(defaultDashboardData);
 
-  // Update dashboard only if the tab has new data
+  // Update dashboard data when activeTab changes
   useEffect(() => {
     if (dashboardData[activeTab]) {
       setCurrentDashboardData(dashboardData[activeTab]);
@@ -27,35 +27,42 @@ const Layout = ({
         <h1 className="font-semibold text-2xl">{title}</h1>
       </div>
 
-      {/* Show Dashboard Only When Required */}
+      {/* Show Dashboard If Applicable */}
       {showDashboard && currentDashboardData && (
         <div className="mb-4">
           <Dashboard stats={currentDashboardData} />
         </div>
       )}
 
-      {/* Tabs Navigation */}
+      {/* Conditional Tabs or No Tabs */}
       <div className="bg-gray-200/30 h-full rounded-t-xl border border-[#e0e6e930]">
-        <nav className="flex px-5">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-2 text-gray-500 border-t-2 transition-colors duration-200 text-xs ${
-                activeTab === tab
-                  ? "text-green-600 font-medium border-green-600"
-                  : "border-transparent hover:text-gray-700"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </nav>
-
-        {/* Content */}
-        <div className="px-4">
-          {components[activeTab] || <p>No content available</p>}
-        </div>
+        {tabs.length > 0 ? (
+          <>
+            <nav className="flex px-5">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-2 text-gray-500 border-t-2 transition-colors duration-200 text-xs ${
+                    activeTab === tab
+                      ? "text-green-600 font-medium border-green-600"
+                      : "border-transparent hover:text-gray-700"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
+            <div className="px-4">
+              {components[activeTab] || <p>No content available</p>}
+            </div>
+          </>
+        ) : (
+          // Render first component if no tabs
+          <div className="px-4">
+            {Object.values(components)[0] || <p>No content available</p>}
+          </div>
+        )}
       </div>
     </div>
   );
