@@ -24,20 +24,23 @@ body {
   font-style: normal;
 }
 
-/* Create a file called 'daypicker.css' */
 .day-picker {
-  --dp-primary-color: #619B7D;
-  --dp-selected-color: #b2dfcb;
+  --dp-primary-color: #39664C; /* Dark green for selected dates */
+  --dp-selected-color: #B2DFCB;
   --dp-highlight-color: #619B7D;
   --dp-border-radius: 8px;
+  width: 100%;
 }
 
 .day-picker .rdp-day {
-  padding: 1rem;
-  margin: 0.2rem;
+  padding-left: 3.4rem;
+  padding-right: 3.4rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
   border-radius: var(--dp-border-radius);
   border: 1px solid transparent;
   position: relative;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .day-picker .rdp-day:hover {
@@ -48,6 +51,7 @@ body {
   background-color: var(--dp-primary-color);
   color: white;
   font-weight: bold;
+  border-radius: var(--dp-border-radius); /* Rounded edges for selected dates */
 }
 
 .day-picker .rdp-day_selected:hover {
