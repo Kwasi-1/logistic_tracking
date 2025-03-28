@@ -188,6 +188,13 @@ const MenuItems = () => [
     parent: ["invoices", false],
     sublinks: [],
   },
+  {
+    title: "Locations",
+    icon: "hugeicons:wallet-add-01",
+    link: "/locations",
+    parent: ["locations", false],
+    sublinks: [],
+  },
 ];
 
 export default SideBar;
