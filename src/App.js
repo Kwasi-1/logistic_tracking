@@ -12,6 +12,8 @@ import Issues from './pages/Issues';
 import Reminders from './pages/Reminders';
 import Fuel from './pages/Fuel';
 import Service from './pages/Service';
+import OrderManagement from './pages/OrderManagement';
+import Locations from './pages/Locations';
 
 function App() {
   return (
@@ -40,7 +42,8 @@ function AppContent() {
           <Route path="/fleet/reminders" element={<Reminders />} />
           <Route path="/fleet/service" element={<Service />} />
           <Route path="/fleet/fuel" element={<Fuel />} />
-
+          <Route path="/order_management" element={<OrderManagement/>} />
+          <Route path="/locations" element={<Locations/>} />
 
         </Routes>
       </div>
