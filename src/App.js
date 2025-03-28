@@ -14,6 +14,7 @@ import Fuel from './pages/Fuel';
 import Service from './pages/Service';
 import OrderManagement from './pages/OrderManagement';
 import Locations from './pages/Locations';
+import OrderEntry from './pages/OrderEntry';
 
 function App() {
   return (
@@ -44,6 +45,8 @@ function AppContent() {
           <Route path="/fleet/fuel" element={<Fuel />} />
           <Route path="/order_management" element={<OrderManagement/>} />
           <Route path="/locations" element={<Locations/>} />
+          <Route path="/order_management/order_entry" element={<OrderEntry/>} />
+
 
         </Routes>
       </div>

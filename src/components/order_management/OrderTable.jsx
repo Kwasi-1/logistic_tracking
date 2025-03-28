@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Table from "../fleet_management/Table";
 
 // Define table columns
@@ -78,6 +79,12 @@ const ordersData = [
 ];
 
 const OrdersTable = () => {
+  const navigate = useNavigate(); // ✅ Hook must be inside the function body
+
+  const handleButtonClick = () => {
+    navigate("/order_management/order_entry");
+  };
+
   return (
     <Table
       columns={columns}
@@ -85,7 +92,7 @@ const OrdersTable = () => {
       searchPlaceholder="eg. PUR-ORD-2024-00000"
       buttonLabel="Order Entry"
       onRowClick={(row) => console.log("Row clicked:", row)}
-      onButtonClick={() => console.log("Place Order button clicked")}
+      onButtonClick={handleButtonClick} // Pass the click handler
       onOperatorClick={(row) => console.log("Operator clicked:", row)}
     />
   );
