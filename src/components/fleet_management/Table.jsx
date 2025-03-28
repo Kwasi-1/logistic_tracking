@@ -99,12 +99,12 @@ const Table = ({
       </div>
       {/* Pagination and Refresh at Bottom */}
 
-      <Pagination
+      {/* <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
         onRefresh={handleRefresh}
-      />
+      /> */}
     </div>
   );
 };
