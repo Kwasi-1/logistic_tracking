@@ -1,29 +1,33 @@
 import React, { useState } from "react";
 import ModalLayout from "../../../layouts/ModalLayout";
-import { FaCalendarAlt, FaDollarSign } from "react-icons/fa";
+import { FaDollarSign } from "react-icons/fa";
+import InputField from "../../common/InputField";
+import SelectField from "../../common/SelectField";
 
 const DriverModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
-    jobTitle: "",
+    firstName: "",
+    lastName: "",
+    mobilePhone: "",
+    email: "",
     dateOfBirth: "",
-    employeeNumber: "",
     startDate: "",
     leaveDate: "",
     licenseNumber: "",
     licenseClass: "",
-    licenseState: "",
     hourlyRate: "",
-    phoneNumber: "",
-    email: "",
-    address: "",
-    experience: "",
-    vehicleType: "",
-    status: "",
+    profilePhoto: null,
+    group: "",
   });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({ ...formData, profilePhoto: file });
   };
 
   return (
@@ -32,162 +36,136 @@ const DriverModal = ({ isOpen, onClose }) => {
       onClose={onClose}
       title="Driver Details"
       description="Fill in the driver's information"
-      tabs={["Personal Details", "Contact Information", "Basic Details"]}
+      tabs={["Basic Details", "Personal Details"]}
     >
+      {/* -------- Basic Details Tab -------- */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">Basic Details</h3>
+
+        <div className="grid grid-cols-2 gap-4">
+          <InputField
+            label="First Name"
+            name="firstName"
+            placeholder="First Name"
+            value={formData.firstName}
+            onChange={handleInputChange}
+          />
+
+          <InputField
+            label="Last Name"
+            name="lastName"
+            placeholder="Last Name"
+            value={formData.lastName}
+            onChange={handleInputChange}
+          />
+
+          <InputField
+            label="Mobile Phone Number"
+            name="mobilePhone"
+            type="tel"
+            placeholder="e.g. 555-212-3212"
+            value={formData.mobilePhone}
+            onChange={handleInputChange}
+          />
+
+          <InputField
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="Email Address"
+            value={formData.email}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
       {/* -------- Personal Details Tab -------- */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Personal Details</h3>
-        <input
-          type="text"
-          name="jobTitle"
-          placeholder="Job Title"
-          value={formData.jobTitle}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        />
+
         <div className="grid grid-cols-2 gap-4">
-          <div className="relative">
-            <FaCalendarAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
-            <input
-              type="date"
-              name="dateOfBirth"
-              value={formData.dateOfBirth}
-              onChange={handleInputChange}
-              className="w-full p-2 pl-10 border rounded-md"
-            />
-          </div>
-          <input
-            type="text"
-            name="employeeNumber"
-            placeholder="Employee Number"
-            value={formData.employeeNumber}
+          <InputField
+            label="Date of Birth"
+            name="dateOfBirth"
+            type="date"
+            value={formData.dateOfBirth}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-md"
           />
-        </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="relative">
-            <FaCalendarAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
-            <input
-              type="date"
-              name="startDate"
-              value={formData.startDate}
-              onChange={handleInputChange}
-              className="w-full p-2 pl-10 border rounded-md"
-            />
-          </div>
-          <div className="relative">
-            <FaCalendarAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
-            <input
-              type="date"
-              name="leaveDate"
-              value={formData.leaveDate}
-              onChange={handleInputChange}
-              className="w-full p-2 pl-10 border rounded-md"
-            />
-          </div>
-        </div>
+          <InputField
+            label="Start Date"
+            name="startDate"
+            type="date"
+            value={formData.startDate}
+            onChange={handleInputChange}
+          />
 
-        <input
-          type="text"
-          name="licenseNumber"
-          placeholder="License Number"
-          value={formData.licenseNumber}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        />
+          <InputField
+            label="Leave Date"
+            name="leaveDate"
+            type="date"
+            value={formData.leaveDate}
+            onChange={handleInputChange}
+          />
 
-        <div className="grid grid-cols-2 gap-4">
-          <input
-            type="text"
+          <InputField
+            label="License Number"
+            name="licenseNumber"
+            placeholder="License Number"
+            value={formData.licenseNumber}
+            onChange={handleInputChange}
+          />
+
+          <InputField
+            label="License Class"
             name="licenseClass"
             placeholder="License Class"
             value={formData.licenseClass}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-md"
           />
-          <input
-            type="text"
-            name="licenseState"
-            placeholder="License State/Province/Region"
-            value={formData.licenseState}
-            onChange={handleInputChange}
-            className="w-full p-2 border rounded-md"
-          />
+
+          <div className="relative">
+            <label className="bg-white px-1 text-[11px] font-semibold text-gray-500">
+              HOURLY LABOR RATE
+            </label>
+            <div className="relative">
+              <FaDollarSign className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
+              <input
+                type="number"
+                name="hourlyRate"
+                placeholder="Hourly Labor Rate"
+                value={formData.hourlyRate}
+                onChange={handleInputChange}
+                className="w-full border bg-[#F5F6F7] border-[#E5E7EB] px-3 py-2 pl-10 rounded-md focus:outline-none focus:ring-2 focus:ring-[#619B7D] text-sm text-gray-600"
+              />
+            </div>
+          </div>
         </div>
 
-        <div className="relative">
-          <FaDollarSign className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
-          <input
-            type="number"
-            name="hourlyRate"
-            placeholder="Hourly Labor Rate"
-            value={formData.hourlyRate}
-            onChange={handleInputChange}
-            className="w-full p-2 pl-10 border rounded-md"
-          />
+        {/* -------- File Upload -------- */}
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Profile Photo
+          </label>
+          <div className="flex items-center space-x-4">
+            <label className="bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-green-600">
+              Pick File
+              <input
+                type="file"
+                name="profilePhoto"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+            <span className="text-gray-500">Or drop file here</span>
+          </div>
+          <small className="text-gray-500">
+            {formData.profilePhoto
+              ? formData.profilePhoto.name
+              : "No file selected"}
+          </small>
         </div>
-      </div>
-
-      {/* -------- Contact Information Tab -------- */}
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg">Contact Information</h3>
-        <input
-          type="tel"
-          name="phoneNumber"
-          placeholder="Phone Number"
-          value={formData.phoneNumber}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        />
-        <input
-          type="text"
-          name="address"
-          placeholder="Residential Address"
-          value={formData.address}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        />
-      </div>
-
-      {/* -------- Basic Details Tab -------- */}
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg">Basic Details</h3>
-        <input
-          type="text"
-          name="experience"
-          placeholder="Years of Experience"
-          value={formData.experience}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        />
-        <input
-          type="text"
-          name="vehicleType"
-          placeholder="Preferred Vehicle Type"
-          value={formData.vehicleType}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        />
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleInputChange}
-          className="w-full p-2 border rounded-md"
-        >
-          <option value="">Select Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
       </div>
     </ModalLayout>
   );
