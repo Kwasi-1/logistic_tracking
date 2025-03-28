@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import ModalLayout from "../../../layouts/ModalLayout";
-import { FaDollarSign } from "react-icons/fa";
 import InputField from "../../common/InputField";
-import SelectField from "../../common/SelectField";
 
 const DriverModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -124,22 +122,14 @@ const DriverModal = ({ isOpen, onClose }) => {
             onChange={handleInputChange}
           />
 
-          <div className="relative">
-            <label className="bg-white px-1 text-[11px] font-semibold text-gray-500">
-              HOURLY LABOR RATE
-            </label>
-            <div className="relative">
-              <FaDollarSign className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
-              <input
-                type="number"
-                name="hourlyRate"
-                placeholder="Hourly Labor Rate"
-                value={formData.hourlyRate}
-                onChange={handleInputChange}
-                className="w-full border bg-[#F5F6F7] border-[#E5E7EB] px-3 py-2 pl-10 rounded-md focus:outline-none focus:ring-2 focus:ring-[#619B7D] text-sm text-gray-600"
-              />
-            </div>
-          </div>
+          <InputField
+            label="HOURLY LABOR RATE"
+            type="number"
+            name="hourlyRate"
+            placeholder="Hourly Labor Rate"
+            value={formData.hourlyRate}
+            onChange={handleInputChange}
+          />
         </div>
 
         {/* -------- File Upload -------- */}
