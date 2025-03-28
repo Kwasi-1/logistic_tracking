@@ -1,4 +1,4 @@
-import DriverTable from "../components/fleet_management/DriverTable";
+import DriverTable from "../components/fleet_management/driver/DriverTable";
 
 function DriverDetails() {
   return (
