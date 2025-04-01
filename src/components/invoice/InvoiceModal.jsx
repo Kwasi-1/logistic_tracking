@@ -24,11 +24,11 @@ const InvoiceModal = ({ isOpen, onClose, invoice }) => {
           </div>
           <div>
             <p className="text-gray-500">Amount Paid</p>
-            <p className="font-semibold">GHS {invoice.paidAmount}</p>
+            <p className="font-semibold">{invoice.paidAmount}</p>
           </div>
           <div>
             <p className="text-gray-500">Outstanding Amount</p>
-            <p className="font-semibold">GHS {invoice.outstanding}</p>
+            <p className="font-semibold">{invoice.outstanding}</p>
           </div>
           <div>
             <p className="text-gray-500">Status</p>
@@ -57,8 +57,8 @@ const InvoiceModal = ({ isOpen, onClose, invoice }) => {
               <tr>
                 <td className="border p-2">Kilowatt Per Hour</td>
                 <td className="border p-2">{invoice.quantity}</td>
-                <td className="border p-2">GHS {invoice.unitPrice}</td>
-                <td className="border p-2">GHS {invoice.totalAmount}</td>
+                <td className="border p-2">{invoice.unitPrice}</td>
+                <td className="border p-2">{invoice.totalAmount}</td>
               </tr>
             </tbody>
           </table>
