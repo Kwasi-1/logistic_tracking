@@ -57,7 +57,7 @@ const SideBar = () => {
               </button>
 
               {/* Sublinks */}
-              <div className="flex flex-col pl-4">
+              <div className="flex flex-col pl-4 max-h-[calc(100vh-5rem)] overflow-y-auto">
                 {item.sublinks.map((sublink, subIndex) => {
                   const isSublinkActive = pathname === sublink.link;
                   const hasAccess = true;
