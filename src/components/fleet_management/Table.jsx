@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import StatusText from "./StatusText";
-import Pagination from "../common/Pagination";
+import DateFilter from "./DateFilter";
 
 const Table = ({
   columns,
@@ -51,13 +51,17 @@ const Table = ({
             className="p-2 border border-[#e5e7eb] appearance-none outline-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#619B7D] text-sm text-gray-600 w-1/3 bg-inherit"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button
-            className="justify-center rounded-md text-[12.5px] ring-offset-white transition-colors focus-visible:outline-none disabled:pointer-events-none dark:bg-[#619B7D] dark:text-black hover:opacity-90 hover:dark:bg-[#619B7D]/80 disabled:dark:bg-[#619B7D]/50 disabled:bg-gray-300 disabled:text-gray-500 h-10 px-4 py-2 flex items-center gap-1 bg-primary-green text-black font-medium"
-            onClick={onButtonClick}
-          >
-            <Icon icon="mdi-light:plus-box" className="text-xl" />
-            {buttonLabel}
-          </button>
+          {buttonLabel ? (
+            <button
+              className="justify-center rounded-md text-[12.5px] ring-offset-white transition-colors focus-visible:outline-none disabled:pointer-events-none dark:bg-[#619B7D] dark:text-black hover:opacity-90 hover:dark:bg-[#619B7D]/80 disabled:dark:bg-[#619B7D]/50 disabled:bg-gray-300 disabled:text-gray-500 h-10 px-4 py-2 flex items-center gap-1 bg-primary-green text-black font-medium"
+              onClick={onButtonClick}
+            >
+              <Icon icon="mdi-light:plus-box" className="text-xl" />
+              {buttonLabel}
+            </button>
+          ) : (
+            <DateFilter />
+          )}
         </div>
         <table className="w-full border-collapse">
           <thead>
@@ -97,14 +101,6 @@ const Table = ({
           </tbody>
         </table>
       </div>
-      {/* Pagination and Refresh at Bottom */}
-
-      {/* <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-        onRefresh={handleRefresh}
-      /> */}
     </div>
   );
 };
