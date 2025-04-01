@@ -1,7 +1,10 @@
 import { useState } from "react";
 import Table from "../fleet_management/Table";
 import StatusText from "../fleet_management/StatusText";
+import IssueModal from "../fleet_management/issues/IssueModal";
 const IssuesTable = () => {
+  const [isIssueModalOpen, setIsIssueModalOpen] = useState(false);
+
   // Define the table columns
   const columns = [
     { key: "priority", label: "Priority" },
@@ -105,6 +108,14 @@ const IssuesTable = () => {
     },
   ];
 
+  const handleAddIssue = () => {
+    setIsIssueModalOpen(true);
+  };
+
+  const handleCloseIssueModal = () => {
+    setIsIssueModalOpen(false);
+  };
+
   return (
     <div>
       <Table
@@ -112,9 +123,9 @@ const IssuesTable = () => {
         data={data}
         searchPlaceholder="Search issues..."
         buttonLabel="Add Issue"
-        onRowClick={(row) => console.log("Clicked Row:", row)}
-        onButtonClick={() => console.log("Add Issue Clicked")}
+        onButtonClick={handleAddIssue}
       />
+      <IssueModal isOpen={isIssueModalOpen} onClose={handleCloseIssueModal} />
     </div>
   );
 };
