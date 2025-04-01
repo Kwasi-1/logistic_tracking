@@ -2,6 +2,8 @@ import { useState } from "react";
 import Table from "../Table";
 
 const FuelHistoryTable = () => {
+  const [isFuelEntryModalOpen, setIsFuelEntryModalOpen] = useState(false);
+
   // Define table columns
   const columns = [
     { key: "asset", label: "Asset" },
@@ -91,15 +93,27 @@ const FuelHistoryTable = () => {
     },
   ];
 
+  const handleOpenModal = () => {
+    setIsFuelEntryModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsFuelEntryModalOpen(false);
+  };
+
   return (
     <div>
       <Table
         columns={columns}
         data={data}
         searchPlaceholder="Search fuel history..."
-        buttonLabel="Add Fuel Entry"
-        onRowClick={(row) => console.log("Clicked Row:", row)}
+        buttonLabel={handleOpenModal}
         onButtonClick={() => console.log("Add Fuel Entry Clicked")}
+      />
+
+      <FuelHistoryTable
+        isOpen={isFuelEntryModalOpen}
+        onClose={handleCloseModal}
       />
     </div>
   );
