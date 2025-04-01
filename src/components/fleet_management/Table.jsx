@@ -48,7 +48,7 @@ const Table = ({
           <input
             type="text"
             placeholder={searchPlaceholder}
-            className="p-2 border rounded-lg focus:outline outline-2"
+            className="p-2 border border-[#e5e7eb] appearance-none outline-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#619B7D] text-sm text-gray-600 w-1/3 bg-inherit"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
