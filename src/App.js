@@ -15,6 +15,7 @@ import Service from './pages/Service';
 import OrderManagement from './pages/OrderManagement';
 import Locations from './pages/Locations';
 import OrderEntry from './pages/OrderEntry';
+import Invoice from './pages/Invoice';
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function AppContent() {
           <Route path="/order_management" element={<OrderManagement/>} />
           <Route path="/locations" element={<Locations/>} />
           <Route path="/order_management/order_entry" element={<OrderEntry/>} />
-
+          <Route path='/invoices' element={<Invoice/>} />
 
         </Routes>
       </div>
