@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ModalLayout from "../../layouts/ModalLayout";
 import InputField from "../common/InputField";
 import SelectField from "../common/SelectField";
+import Textarea from "../common/Textarea";
 
 function VehicleRenewalModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -114,17 +115,19 @@ function VehicleRenewalModal({ isOpen, onClose }) {
           />
 
           {/* Comment Input Field */}
-          <InputField
-            label="Comment"
-            name="comment"
-            type="text"
-            value={formData.comment}
-            onChange={handleChange}
-          />
+          <div className="col-span-2">
+            <Textarea
+              label="Comment"
+              value={formData.comment}
+              onChange={handleChange}
+              placeholder="Add your comments"
+              required
+            />
+          </div>
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end space-x-2">
+        <div className="flex justify-end mt-6">
           <button
             type="button"
             onClick={handleSubmit}
