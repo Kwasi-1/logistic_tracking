@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Table from "../fleet_management/Table";
-import StatusText from "../fleet_management/StatusText";
+import ServiceReminderModal from "./ServiceReminderModal";
 
 const ServiceRemindersTable = () => {
+  const [isServiceReminderModalOpen, setIsServiceReminderModalOpen] =
+    useState(false);
+
   // Define columns for the table
   const columns = [
     { key: "asset", label: "Asset" },
@@ -85,6 +88,14 @@ const ServiceRemindersTable = () => {
     },
   ];
 
+  const handleOpenModal = () => {
+    setIsServiceReminderModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsServiceReminderModalOpen(false);
+  };
+
   return (
     <div>
       <Table
@@ -92,8 +103,11 @@ const ServiceRemindersTable = () => {
         data={data}
         searchPlaceholder="Search service reminders..."
         buttonLabel="Add Service Reminder"
-        onRowClick={(row) => console.log("Clicked Row:", row)}
-        onButtonClick={() => console.log("Add Service Reminder Clicked")}
+        onButtonClick={handleOpenModal} // Open modal on button click
+      />
+      <ServiceReminderModal
+        isOpen={isServiceReminderModalOpen}
+        onClose={handleCloseModal}
       />
     </div>
   );
