@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Table from "../fleet_management/Table";
+import InvoiceModal from "./InvoiceModal";
 
 const invoiceData = [
   {
@@ -11,7 +13,10 @@ const invoiceData = [
     paidAmount: "₵40,750.00",
     outstanding: "₵191,630.00",
     discount: "₵0",
-    status: "Overdue",
+    status: "UNPAID",
+    quantity: 25.03,
+    unitPrice: 5.5,
+    totalAmount: 137.66,
   },
   {
     id: "ACC-SINV-2025-00941",
@@ -89,12 +94,30 @@ const columns = [
 ];
 
 const InvoiceHistory = () => {
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleRowClick = (invoice) => {
+    setSelectedInvoice(invoice);
+    setIsModalOpen(true);
+  };
+
   return (
-    <Table
-      columns={columns}
-      data={invoiceData}
-      searchPlaceholder="Search invoices..."
-    />
+    <>
+      <Table
+        columns={columns}
+        data={invoiceData}
+        searchPlaceholder="Search invoices..."
+        onRowClick={handleRowClick}
+      />
+
+      {/* Invoice Modal */}
+      <InvoiceModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        invoice={selectedInvoice}
+      />
+    </>
   );
 };
 

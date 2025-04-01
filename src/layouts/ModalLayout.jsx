@@ -27,7 +27,7 @@ function ModalLayout({
       onClick={handleBackdropClick}
     >
       <div
-        className={`fixed top-0 right-0 h-full bg-white shadow-lg w-1/2 transition-transform duration-300 overflow-auto ${
+        className={`fixed top-0 right-0 h-full bg-white shadow-lg w-1/2 transition-transform duration-300 text-sm overflow-auto ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         onClick={(e) => e.stopPropagation()}
