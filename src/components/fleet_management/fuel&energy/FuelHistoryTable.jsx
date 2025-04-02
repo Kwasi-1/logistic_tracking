@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Table from "../Table";
+import FuelEntryModal from "./FuelEntryModal";
 
 const FuelHistoryTable = () => {
   const [isFuelEntryModalOpen, setIsFuelEntryModalOpen] = useState(false);
@@ -107,11 +108,11 @@ const FuelHistoryTable = () => {
         columns={columns}
         data={data}
         searchPlaceholder="Search fuel history..."
-        buttonLabel={handleOpenModal}
-        onButtonClick={() => console.log("Add Fuel Entry Clicked")}
+        buttonLabel={"Add Fuel Entry"}
+        onButtonClick={handleOpenModal}
       />
 
-      <FuelHistoryTable
+      <FuelEntryModal
         isOpen={isFuelEntryModalOpen}
         onClose={handleCloseModal}
       />
