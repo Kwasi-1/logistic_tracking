@@ -84,7 +84,7 @@ const ShipmentOverview = () => {
       <div className="overflow-x-auto">
         <table className="w-full rounded-lg text-sm text-left">
           <thead className="border-b font-semibold border-gray-300">
-            <tr>
+            <tr className="text-gray-600 text-[14px] border-b">
               {[
                 { label: "ShipmentId", key: "shipmentId" },
                 { label: "Driver", key: "driver" },
@@ -117,7 +117,10 @@ const ShipmentOverview = () => {
           </thead>
           <tbody>
             {sortedData.map((row, index) => (
-              <tr key={index} className="border-t border-[#e5e7eb]">
+              <tr
+                key={index}
+                className="border-t border-[#e5e7eb] text-[14px] text-gray-600"
+              >
                 <td className="p-3">{row.shipment}</td>
                 <td className="p-3">{row.driver}</td>
                 <td className="p-3">{row.currentLocation}</td>
@@ -144,7 +147,7 @@ const ShipmentOverview = () => {
                   /> */}
                   <div
                     className={`rounded-full flex justify-center items-center w-5 h-5 p-[2px] ${
-                      row.submissionStatus ? "bg-[#619b7d] " : "bg-red-600"
+                      row.submissionStatus ? "bg-[#22c55e] " : "bg-[#ef4444]"
                     }
                     `}
                   >
