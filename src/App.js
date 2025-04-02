@@ -17,6 +17,7 @@ import Locations from './pages/Locations';
 import OrderEntry from './pages/OrderEntry';
 import Invoice from './pages/Invoice';
 import ShipmentTracking from './pages/ShipmentTracking';
+import Drivers from './pages/Drivers';
 
 function App() {
   return (
@@ -39,7 +40,8 @@ function AppContent() {
           <Route path="/fleet" element={<Fleet />} />
           <Route path="/logistics" element={<ShipmentTracking />} />
           <Route path="/logistics/shipment" element={<Shipment />} />
-          <Route path="/fleet/drivers" element={<DriverDetails />} />
+          <Route path="/fleet/drivers" element={<Drivers />} />
+          <Route path="/fleet/drivers/driver_info" element={<DriverDetails />} />
           <Route path="/fleet/vehicle" element={<VehicleDetails />} />
           <Route path="/logistics/shipment/add" element={<CreateShipment />} />
           <Route path="/fleet/issues" element={<Issues />} />

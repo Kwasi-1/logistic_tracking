@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DriverModal from "./DriverModal";
 import Table from "../Table";
+import { useNavigate } from "react-router";
 
 const driverColumns = [
   { key: "id", label: "Driver ID" },
@@ -29,6 +30,11 @@ const driverData = [
 
 const DriverTable = () => {
   const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate("/fleet/drivers/driver_info");
+  };
 
   const handleAddDriver = () => {
     setIsDriverModalOpen(true);
@@ -46,6 +52,7 @@ const DriverTable = () => {
         searchPlaceholder="Search Drivers..."
         buttonLabel="Add Driver"
         onButtonClick={handleAddDriver}
+        onRowClick={handleButtonClick}
       />
 
       <DriverModal
