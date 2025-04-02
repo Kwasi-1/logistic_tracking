@@ -41,7 +41,7 @@ function CreateShipment({ onClose }) {
   };
 
   return (
-    <div className="py-12 px-16 bg-white rounded-lg">
+    <div className="py-12 px-16 bg-white rounded-lg text-sm">
       <BackButton />
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Create Shipment</h2>
@@ -50,7 +50,7 @@ function CreateShipment({ onClose }) {
       {/* Service Type */}
       <div className="mb-6 w-full">
         <h3 className="mb-2 font-medium">Choose your service type</h3>
-        <div className="flex gap-4 w-full h-[180px]">
+        <div className="flex gap-8 w-full h-[180px]">
           <button
             className={`p-4 border rounded-lg w-full ${
               serviceType === "FTL"
@@ -81,7 +81,7 @@ function CreateShipment({ onClose }) {
         </div>
       </div>
 
-      <div className="flex gap-4 w-full mb-6">
+      <div className="flex gap-8 w-full mb-6">
         {/* Equipment Type */}
         <div className="w-1/2">
           <h3 className="font-semibold mb-4">Equipment type</h3>
@@ -114,7 +114,6 @@ function CreateShipment({ onClose }) {
                 className="w-16 h-auto"
               />
               <span className="font-medium">Reefer</span>
-              <span className="w-4 h-4 bg-blue-500 rounded-full"></span>
             </button>
 
             {/* Flatbed */}
@@ -130,7 +129,6 @@ function CreateShipment({ onClose }) {
                 className="w-16 h-auto"
               />
               <span className="font-medium">Flatbed (48')</span>
-              <span className="w-4 h-4 bg-green-500 rounded-full"></span>
             </button>
           </div>
         </div>
@@ -139,7 +137,7 @@ function CreateShipment({ onClose }) {
         <div className="w-1/2">
           <h3 className="font-semibold mb-4">Pickup & delivery</h3>
 
-          <div className="relative w-full flex flex-col gap-4 items-start">
+          <div className="relative w-full flex flex-col gap-2 items-start">
             {/* Pickup Address */}
             <div className="flex items-center gap-2 border rounded bg-white px-2 w-full">
               <span className="w-3 h-3 bg-black rounded-full"></span>

@@ -26,7 +26,7 @@ body {
 
 .day-picker {
   --dp-primary-color: #39664C; /* Dark green for selected dates */
-  --dp-selected-color: #B2DFCB;
+  --dp-selected-color: #f0f0ff;
   --dp-highlight-color: #619B7D;
   --dp-border-radius: 8px;
   width: 100%;
