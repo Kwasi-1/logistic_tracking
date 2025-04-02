@@ -13,7 +13,10 @@ const KYCAlerts = () => {
       <h3 className="text-lg font-semibold">KYC Alerts</h3>
       <ul className="mt-2 space-y-2">
         {alerts.map((alert, index) => (
-          <li key={index} className="bg-gray-200/40 p-2 rounded">
+          <li
+            key={index}
+            className="bg-gray-200/40 p-2 rounded border border-[#e0e6e9]"
+          >
             <p className="text-sm">{alert.text}</p>
             <p className="text-xs text-gray-400">{alert.date}</p>
           </li>
