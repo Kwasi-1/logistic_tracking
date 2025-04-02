@@ -147,7 +147,7 @@ const ShipmentOverview = () => {
                   /> */}
                   <div
                     className={`rounded-full flex justify-center items-center w-5 h-5 p-[2px] ${
-                      row.submissionStatus ? "bg-[#22c55e] " : "bg-[#ef4444]"
+                      row.submissionStatus ? "bg-[#619b7d] " : "bg-red-600"
                     }
                     `}
                   >
