@@ -1,6 +1,18 @@
+import { useState } from "react";
 import Table from "../fleet_management/Table";
+import ExpenseEntryModal from "./ExpenseHistoryModal";
 
 const ExpenseHistory = () => {
+  const [isExpenseEntryModalOpen, setIsExpenseEntryModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsExpenseEntryModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsExpenseEntryModalOpen(false);
+  };
+
   const columns = [
     { key: "asset", label: "Asset" },
     { key: "date", label: "Date" },
@@ -75,14 +87,21 @@ const ExpenseHistory = () => {
   ];
 
   return (
-    <Table
-      columns={columns}
-      data={data}
-      searchPlaceholder="Search Expense History..."
-      buttonLabel="Add Expense Entry"
-      onRowClick={(row) => console.log("Row clicked:", row)}
-      onButtonClick={() => console.log("Add Expense Entry Clicked")}
-    />
+    <div>
+      <Table
+        columns={columns}
+        data={data}
+        searchPlaceholder="Search Expense History..."
+        buttonLabel="Add Expense Entry"
+        onRowClick={(row) => console.log("Row clicked:", row)}
+        onButtonClick={handleOpenModal}
+      />
+
+      <ExpenseEntryModal
+        isOpen={isExpenseEntryModalOpen}
+        onClose={handleCloseModal}
+      />
+    </div>
   );
 };
 
