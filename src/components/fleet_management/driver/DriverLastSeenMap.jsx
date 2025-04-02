@@ -17,7 +17,7 @@ const DriverLastSeenMap = ({ lastSeenLocation }) => {
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/light-v11",
       center: lastSeenLocation, // Center map at last seen location
-      zoom: 12,
+      zoom: 14.4,
     });
 
     // Add Last Seen Marker
