@@ -15,7 +15,7 @@ const DriverLastSeenMap = ({ lastSeenLocation }) => {
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/",
+      style: "mapbox://styles/mapbox/light-v11",
       center: lastSeenLocation, // Center map at last seen location
       zoom: 12,
     });
