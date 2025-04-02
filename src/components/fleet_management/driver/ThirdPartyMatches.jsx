@@ -44,7 +44,7 @@ const matchData = [
 
 const ThirdPartyMatches = () => {
   return (
-    <div className="bg-gray-200/30 p-4 rounded-xl border border-[#e0e6e9] text-gray-700">
+    <div className="bg-gray-200/30 p-4 rounded-xl border border-[#e0e6e990] text-gray-700">
       <div className="flex justify-between items-center border-b border-[#e0e6e9] pb-2">
         <h3 className="text-lg font-semibold">
           3rd Party Entity Resolution Match
@@ -57,7 +57,7 @@ const ThirdPartyMatches = () => {
         {matchData.map((match, index) => (
           <div
             key={index}
-            className="bg-gray-200/ p-4 rounded-lg min-w-[320px] border border-gray-200"
+            className="p-4 rounded-lg min-w-[320px] border border-gray-200"
           >
             <div className="flex items-center space-x-3 border-b border-gray-200 pb-2">
               <div>

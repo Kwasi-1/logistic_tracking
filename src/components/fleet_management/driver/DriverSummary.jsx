@@ -41,7 +41,7 @@ const DriverSummary = () => {
   ];
 
   return (
-    <div className="bg-gray-200/30 flex gap-8 p-6 text-sm rounded-xl border border-[#e0e6e9] h-full ">
+    <div className="bg-gray-200/30 flex gap-8 p-6 text-sm rounded-xl border border-[#e0e6e970] h-full ">
       {/* Left Section: User Info & Actions */}
       <div className="w-[300px]">
         <UserInfo />

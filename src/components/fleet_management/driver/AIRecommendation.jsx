@@ -41,7 +41,7 @@ const AIRecommendation = () => {
   const aiScore = 41; // Example AI Score
 
   return (
-    <div className="bg-[#e0e6e930] p-4 rounded-xl border border-[#e0e6e9]">
+    <div className="bg-[#e0e6e930] p-4 rounded-xl border border-[#e0e6e950]">
       <h3 className="text-lg font-semibold">AI Score</h3>
       <GaugeChart score={aiScore} />
       <p className="text-xs text-gray-400 text-center mt-2">
