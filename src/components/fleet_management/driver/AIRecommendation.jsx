@@ -30,7 +30,7 @@ const GaugeChart = ({ score }) => {
     <div className="relative w-40 h-20 mx-auto">
       <Doughnut data={data} options={options} />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-bold text-red-500">{score}</span>
+        <span className="text-3xl font-bold text-red-500 mt-4">{score}</span>
       </div>
     </div>
   );
@@ -41,7 +41,7 @@ const AIRecommendation = () => {
   const aiScore = 41; // Example AI Score
 
   return (
-    <div className="bg-[#e0e6e930] p-4 rounded-xl border border-[#e0e6e930]">
+    <div className="bg-[#e0e6e930] p-4 rounded-xl border border-[#e0e6e9]">
       <h3 className="text-lg font-semibold">AI Score</h3>
       <GaugeChart score={aiScore} />
       <p className="text-xs text-gray-400 text-center mt-2">

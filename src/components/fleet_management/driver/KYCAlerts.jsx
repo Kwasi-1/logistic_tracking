@@ -9,7 +9,7 @@ const KYCAlerts = () => {
   ];
 
   return (
-    <div className="bg-gray-200/30 p-4 rounded-xl border border-[#e0e6e930]">
+    <div className="bg-gray-200/30 p-4 rounded-xl border border-[#e0e6e9]">
       <h3 className="text-lg font-semibold">KYC Alerts</h3>
       <ul className="mt-2 space-y-2">
         {alerts.map((alert, index) => (

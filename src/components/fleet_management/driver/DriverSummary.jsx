@@ -41,7 +41,7 @@ const DriverSummary = () => {
   ];
 
   return (
-    <div className="bg-gray-200/30 flex gap-8 p-6 text-sm rounded-xl border border-[#e0e6e930] h-full ">
+    <div className="bg-gray-200/30 flex gap-8 p-6 text-sm rounded-xl border border-[#e0e6e9] h-full ">
       {/* Left Section: User Info & Actions */}
       <div className="w-[300px]">
         <UserInfo />
@@ -51,9 +51,16 @@ const DriverSummary = () => {
       {/* Right Section: Statistics */}
       <div className="grid grid-cols-3 gap-x-6 gap-y-4 text-gray-500 w-full">
         {stats.map((stat, index) => (
-          <div key={index} className="flex flex-col w-full uppercase  text-[13px]">
+          <div
+            key={index}
+            className="flex flex-col w-full uppercase  text-[13px]"
+          >
             {stat.label}:{" "}
-            <span className={`font-bold mt-1 text-gray-700 ${stat.danger ? "text-red-500" : ""}`}>
+            <span
+              className={`font-bold mt-1 text-gray-700 ${
+                stat.danger ? "text-red-500" : ""
+              }`}
+            >
               {stat.value}
             </span>
           </div>
