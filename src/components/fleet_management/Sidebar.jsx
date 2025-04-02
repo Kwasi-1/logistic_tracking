@@ -175,6 +175,11 @@ const MenuItems = () => [
     parent: ["logistics", false],
     sublinks: [
       {
+        title: "Overview",
+        icon: "hugeicons:truck",
+        link: "/logistics",
+      },
+      {
         title: "Shipment",
         icon: "hugeicons:truck",
         link: "/logistics/shipment",

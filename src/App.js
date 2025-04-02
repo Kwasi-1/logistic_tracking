@@ -16,6 +16,7 @@ import OrderManagement from './pages/OrderManagement';
 import Locations from './pages/Locations';
 import OrderEntry from './pages/OrderEntry';
 import Invoice from './pages/Invoice';
+import ShipmentTracking from './pages/ShipmentTracking';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/fleet" element={<Fleet />} />
+          <Route path="/logistics" element={<ShipmentTracking />} />
           <Route path="/logistics/shipment" element={<Shipment />} />
           <Route path="/fleet/drivers" element={<DriverDetails />} />
           <Route path="/fleet/vehicle" element={<VehicleDetails />} />
