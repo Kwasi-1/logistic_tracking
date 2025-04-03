@@ -1,12 +1,18 @@
 import DriverSummary from "../components/fleet_management/driver/DriverSummary";
 import KYCAlerts from "../components/fleet_management/driver/KYCAlerts";
 import Properties from "../components/fleet_management/driver/Properties";
-import EditsHistory from "../components/fleet_management/driver/EditsHistory";
 import AIRecommendation from "../components/fleet_management/driver/AIRecommendation";
 import ThirdPartyMatches from "../components/fleet_management/driver/ThirdPartyMatches";
 import MapActivity from "../components/fleet_management/driver/MapActivity";
 
 const DriverDetails = () => {
+  const propertyData = [
+    { label: "National ID", value: "01562321" },
+    { label: "Name", value: "Chioma Ngozi" },
+    { label: "Phone", value: "000 000 0000" },
+    { label: "Address", value: "4, Balogun St, Lagos" },
+  ];
+
   return (
     <div className="min-h-screen p-6">
       <h1 className="text-xl font-semibold">Driver Details</h1>
@@ -19,12 +25,11 @@ const DriverDetails = () => {
         <AIRecommendation />
       </div>
 
-      {/* KYC Alerts & Map */}
       <div className="grid grid-cols-3 gap-4 mt-4">
         <KYCAlerts />
         <div className="col-span-2">
           <div className="grid grid-cols-2 gap-4">
-            <Properties />
+            <Properties data={propertyData} title="Properties" />
 
             <MapActivity />
           </div>
@@ -33,8 +38,6 @@ const DriverDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Properties, Edits, and 3rd Party Matches */}
     </div>
   );
 };
