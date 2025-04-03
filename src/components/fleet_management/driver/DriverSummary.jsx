@@ -8,7 +8,7 @@ const UserInfo = () => {
         <div className="w-14 h-14 bg-gray-500 rounded-full"></div>
         <div>
           <h2 className="text-[17px] font-bold">Chioma Ngozi</h2>
-          <p className="text-[14px] text-gray-400">Priority Customer</p>
+          <p className="text-[14px] text-gray-400">Fleet Driver</p>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@ const DriverActions = () => {
         Approve
       </button>
       <button className="border border-[#F94144] px-3 py-1 rounded text-[#F94144]">
-        Reject
+        Flag for Review
       </button>
     </div>
   );
@@ -32,16 +32,16 @@ const DriverActions = () => {
 // Driver Summary Component
 const DriverSummary = () => {
   const stats = [
-    { label: "Crypto Score", value: "40%" },
-    { label: "KYC Score", value: "35%" },
-    { label: "Fraud Score", value: "No Value" },
-    { label: "Transaction Monitoring", value: "No Value" },
-    { label: "Terrorism Financing", value: "15%" },
-    { label: "Politically Exposed", value: "True", danger: true },
+    { label: "License Type", value: "D" },
+    { label: "KYC Score", value: "78%" },
+    { label: "Accident History", value: "2 Incidents", danger: true },
+    { label: "Recent Violations", value: "Speeding Ticket", warning: true },
+    { label: "Years of Experience", value: "5 Years" },
+    { label: "Background Check", value: "Cleared" },
   ];
 
   return (
-    <div className="bg-gray-200/30 flex gap-8 p-6 text-sm rounded-xl border border-[#e0e6e970] h-full ">
+    <div className="bg-gray-200/30 flex gap-8 p-6 text-sm rounded-xl border border-[#e0e6e970] h-full">
       {/* Left Section: User Info & Actions */}
       <div className="w-[300px]">
         <UserInfo />
@@ -53,12 +53,16 @@ const DriverSummary = () => {
         {stats.map((stat, index) => (
           <div
             key={index}
-            className="flex flex-col w-full uppercase  text-[13px]"
+            className="flex flex-col w-full uppercase text-[13px]"
           >
             {stat.label}:{" "}
             <span
-              className={`font-bold mt-1 text-gray-700 ${
-                stat.danger ? "text-red-500" : ""
+              className={`font-bold mt-1 ${
+                stat.danger
+                  ? "text-red-500"
+                  : stat.warning
+                  ? "text-yellow-500"
+                  : "text-gray-700"
               }`}
             >
               {stat.value}
