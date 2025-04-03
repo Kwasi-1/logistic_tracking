@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useLocation } from "react-router-dom";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia3dhc2ktMSIsImEiOiJjbThkNG15anAyYXF2MmtzOGJneW55cmVnIn0.uRUn_veAFyZ8u1CxkRGnWg";
@@ -8,6 +9,9 @@ mapboxgl.accessToken =
 const DriverLastSeenMap = ({ lastSeenLocation }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const location = useLocation();
+
+  const isDriverDetailsPage = location.pathname.includes("driver_info");
 
   useEffect(() => {
     if (!lastSeenLocation) return;
@@ -34,7 +38,9 @@ const DriverLastSeenMap = ({ lastSeenLocation }) => {
   return (
     <div
       ref={mapContainer}
-      className="w-full h-[250px] rounded-md border"
+      className={`w-full rounded-md border ${
+        isDriverDetailsPage ? "h-[380px]" : "h-[440px]"
+      }`}
       style={{ minHeight: "250px" }}
     />
   );
