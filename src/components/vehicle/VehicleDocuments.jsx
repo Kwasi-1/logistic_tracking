@@ -1,14 +1,4 @@
-import { title } from "process";
-import React from "react";
-
-const DataItem = ({ label, value, highlight = false }) => (
-  <div className="flex justify-between text-[13px]">
-    <span className="text-gray-400">{label}:</span>
-    <span className={highlight ? "text-red-500 font-bold" : "font-semibold"}>
-      {value}
-    </span>
-  </div>
-);
+import React, { useState } from "react";
 
 const matchData = [
   {
@@ -28,11 +18,14 @@ const matchData = [
 ];
 
 const VehicleDocuments = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   return (
     <div className="bg-gray-200/30 p-4 rounded-xl border border-[#e0e6e990] text-gray-700">
+      {/* Header */}
       <div className="flex justify-between items-center border-b border-[#e0e6e9] pb-2">
         <h3 className="text-[17px] font-semibold">Documents</h3>
-        <div className="text-xs text-gray-400">4 RESULTS</div>
+        <div className="text-xs text-gray-400">{matchData.length} RESULTS</div>
       </div>
 
       {/* Scrollable Container for Cards */}
@@ -42,25 +35,47 @@ const VehicleDocuments = () => {
             key={index}
             className="p-4 rounded-lg min-w-[320px] border border-gray-200"
           >
-            <div className="flex items-center space-x-3 border-b border-gray-200 pb-2">
-              <div>
-                <h3 className="text-sm font-semibold">{match.title}</h3>
-                {/* <p className="text-xs text-gray-400">
-                  AML - 3rd Party Entity Resolution
-                </p> */}
-              </div>
-            </div>
+            <h3 className="text-sm font-semibold border-b pb-2">
+              {match.title}
+            </h3>
 
-            <div className="rounded-lg w-full h-32">
+            {/* Clickable Image */}
+            <div
+              className="rounded-lg w-full h-32 overflow-hidden cursor-pointer"
+              onClick={() => setSelectedImage(match.image)}
+            >
               <img
                 src={match.image}
-                alt="Document"
-                className="w-full h-32 object-cover rounded-lg"
+                alt={match.title}
+                className="w-full h-full object-cover rounded-lg transition hover:scale-105 duration-300"
+                loading="lazy"
               />
             </div>
           </div>
         ))}
       </div>
+
+      {/* Full-Screen Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-3xl w-full p-4">
+            <img
+              src={selectedImage}
+              alt="Full Screen"
+              className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+            />
+            <button
+              className="fixed top-4 right-4 text-white text-lg font-bold bg-gray-800 px-3 py-1 rounded-full"
+              onClick={() => setSelectedImage(null)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
