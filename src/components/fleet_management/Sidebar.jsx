@@ -117,7 +117,7 @@ const MenuItems = () => [
     sublinks: [
       {
         title: "Overview",
-        icon: "hugeicons:truck",
+        icon: "clarity:dashboard-line",
         link: "/fleet",
       },
       {
@@ -176,7 +176,7 @@ const MenuItems = () => [
     sublinks: [
       {
         title: "Overview",
-        icon: "hugeicons:truck",
+        icon: "clarity:dashboard-line",
         link: "/logistics",
       },
       {
