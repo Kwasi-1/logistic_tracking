@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineWarning } from "react-icons/ai"; // Warning icon
 
 const AlertCard = ({ riskScore, title, category, date }) => (
-  <div className="bg-gray-200/40 text-gray-700 border border-yellow-500 p-4 rounded-lg">
+  <div className="bg-gray-200/40 text-gray-700 border border-gray-200 p-4 rounded-lg">
     <p className="text-xs text-gray-500 mb-1">ALERT RISK SCORE: {riskScore}</p>
 
     {/* Header with Icon */}
