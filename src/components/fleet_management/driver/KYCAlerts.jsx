@@ -64,7 +64,7 @@ const KYCAlerts = () => {
 
   return (
     <div className="bg-gray-200/30 p-4 rounded-xl border border-gray-200/40">
-      <h3 className="text-lg font-semibold mb-3">KYC Alerts</h3>
+      <h3 className="text-[17px] font-semibold mb-3">KYC Alerts</h3>
 
       {/* Scrollable Cards */}
       <div className="space-y-3 overflow-y-auto max-h-[700px] pr-2 scrollbar-hide">

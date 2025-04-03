@@ -46,7 +46,7 @@ const ThirdPartyMatches = () => {
   return (
     <div className="bg-gray-200/30 p-4 rounded-xl border border-[#e0e6e990] text-gray-700">
       <div className="flex justify-between items-center border-b border-[#e0e6e9] pb-2">
-        <h3 className="text-lg font-semibold">
+        <h3 className="text-[17px] font-semibold">
           3rd Party Entity Resolution Match
         </h3>
         <div className="text-xs text-gray-400">4 RESULTS</div>

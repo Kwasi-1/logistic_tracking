@@ -18,14 +18,14 @@ const Properties = () => {
 
   return (
     <div className="bg-[#e0e6e930] p-4 rounded-xl border border-[#e0e6e950]">
-      <h3 className="text-lg font-semibold">Properties</h3>
+      <h3 className="text-[17px] font-semibold">Properties</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
         {propertyData.map((item) => (
           <PropertyItem key={item.label} {...item} />
         ))}
       </div>
 
-      <EditsHistory/>
+      <EditsHistory />
     </div>
   );
 };

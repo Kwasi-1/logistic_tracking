@@ -23,7 +23,7 @@ const DriverActions = () => {
         Approve
       </button>
       <button className="border border-[#F94144] px-3 py-1 rounded text-[#F94144]">
-        Flag for Review
+        Reject
       </button>
     </div>
   );
