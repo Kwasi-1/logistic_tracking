@@ -13,7 +13,7 @@ const GaugeChart = ({ score }) => {
         data: [score, 100 - score],
         backgroundColor: ["#F94144", "#E5E7EB"],
         borderWidth: 0,
-        cutout: "83%",
+        cutout: "80%",
         circumference: 180,
         rotation: 270,
         borderRadius: 4,
@@ -27,10 +27,11 @@ const GaugeChart = ({ score }) => {
   };
 
   return (
-    <div className="relative w-40 h-20 mx-auto">
+    <div className="relative w-40 h-24 mx-auto">
       <Doughnut data={data} options={options} />
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-bold text-red-500 mt-4">{score}</span>
+      <div className="absolute inset-0 flex flex-col items-center justify-center mt-8">
+        <span className="text-xs mb-0 font-semibold">AI Score</span>
+        <span className="text-3xl font-bold">{score}</span>
       </div>
     </div>
   );
@@ -41,8 +42,7 @@ const AIRecommendation = () => {
   const aiScore = 41; // Example AI Score
 
   return (
-    <div className="bg-[#e0e6e930] p-4 rounded-xl border border-[#e0e6e950]">
-      <h3 className="text-lg font-semibold">AI Score</h3>
+    <div className="bg-[#e0e6e930] p-4 rounded-xl border border-[#e0e6e930]">
       <GaugeChart score={aiScore} />
       <p className="text-xs text-gray-400 text-center mt-2">
         20% of similar scores have been approved
