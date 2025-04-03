@@ -43,8 +43,18 @@ const VehicleDetails = () => {
               <h1 className="text-xl font-bold">
                 {vehicle.id} [{vehicle.year} {vehicle.make} {vehicle.model}]
               </h1>
-              <p className="text-gray-600">
-                {vehicle.meter} • {vehicle.status}
+              <p className="text-gray-600 flex items-center gap-1">
+                {vehicle.meter}{" "}
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    vehicle.status === "Active"
+                      ? "bg-green-600"
+                      : vehicle.status === "In Shop"
+                      ? "bg-blue-600"
+                      : "bg-red-500"
+                  }`}
+                ></div>
+                {vehicle.status}
               </p>
               <p className="text-gray-500">
                 Managed by{" "}
