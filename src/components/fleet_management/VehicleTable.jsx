@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import Table from "./Table";
 import VehicleModal from "../vehicle/VehicleModal";
 import OperatorModal from "../vehicle/OperatorModal";
+import { useNavigate } from "react-router";
 
 const vehicleColumns = [
   { key: "name", label: "Name" },
@@ -102,6 +103,12 @@ const VehicleTable = () => {
   const [isOperatorModalOpen, setIsOperatorModalOpen] = useState(false);
   const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
 
+  const navigate = useNavigate();
+
+  const handleRowClick = () => {
+    navigate("/fleet/vehicle/info");
+  };
+
   // Ref to track the trigger button
   const operatorTriggerRef = useRef(null);
 
@@ -137,6 +144,7 @@ const VehicleTable = () => {
         searchPlaceholder="Search Vehicles..."
         buttonLabel="Add Vehicle"
         onButtonClick={handleAddVehicle}
+        onRowClick={handleRowClick}
         onOperatorClick={(row, event) => {
           // Create a ref for the specific trigger button
           operatorTriggerRef.current = event.target;
