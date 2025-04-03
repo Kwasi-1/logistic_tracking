@@ -19,6 +19,7 @@ import Invoice from './pages/Invoice';
 import ShipmentTracking from './pages/ShipmentTracking';
 import Drivers from './pages/Drivers';
 import Vehicles from './pages/Vehicles';
+import ReminderDetails from './pages/ReminderDetails';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function AppContent() {
           <Route path="/logistics/shipment/add" element={<CreateShipment />} />
           <Route path="/fleet/issues" element={<Issues />} />
           <Route path="/fleet/reminders" element={<Reminders />} />
+          <Route path="/fleet/reminders/info" element={<ReminderDetails />} />
           <Route path="/fleet/service" element={<Service />} />
           <Route path="/fleet/fuel" element={<Fuel />} />
           <Route path="/order_management" element={<OrderManagement/>} />

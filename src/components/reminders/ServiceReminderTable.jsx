@@ -1,10 +1,21 @@
 import { useState } from "react";
 import Table from "../fleet_management/Table";
 import ServiceReminderModal from "./ServiceReminderModal";
+import { useNavigate } from "react-router";
 
 const ServiceRemindersTable = () => {
   const [isServiceReminderModalOpen, setIsServiceReminderModalOpen] =
     useState(false);
+
+  const navigate = useNavigate();
+
+  // const handleRowClick = (row) => {
+  // navigate(`/fleet/reminders/${row.id}`); // Navigate to the details page of the clicked row
+  // }
+
+  const handleRowClick = (row) => {
+    navigate(`/fleet/reminders/info`); // Navigate to the details page of the clicked row
+  };
 
   // Define columns for the table
   const columns = [
@@ -103,6 +114,7 @@ const ServiceRemindersTable = () => {
         data={data}
         searchPlaceholder="Search service reminders..."
         buttonLabel="Add Service Reminder"
+        onRowClick={handleRowClick} // Navigate to details page on row click
         onButtonClick={handleOpenModal} // Open modal on button click
       />
       <ServiceReminderModal
