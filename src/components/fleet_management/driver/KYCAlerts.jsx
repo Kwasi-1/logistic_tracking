@@ -1,32 +1,4 @@
-import React from "react";
-import { AiOutlineWarning } from "react-icons/ai"; // Warning icon
-
-const AlertCard = ({ riskScore, title, category, date }) => (
-  <div className="bg-gray-200/40 text-gray-700 border border-gray-200 p-4 rounded-lg">
-    <p className="text-xs text-gray-500 mb-1">ALERT RISK SCORE: {riskScore}</p>
-
-    {/* Header with Icon */}
-    <div className="flex items-start space-x-2 mt-2">
-      <AiOutlineWarning className="text-yellow-500 text-xl" />
-      <div>
-        <h3 className="text-sm font-semibold">{title}</h3>
-        <p className="text-xs text-gray-400">Driver KYC Alert</p>
-      </div>
-    </div>
-
-    {/* Category & Date */}
-    <div className="mt-6 text-xs flex justify-between">
-      <div>
-        <p className="text-gray-400">ALERT CATEGORY</p>
-        <p className="font-semibold">{category}</p>
-      </div>
-      <div>
-        <p className="text-gray-400">ALERT GENERATED TIME</p>
-        <p className="font-semibold">{date}</p>
-      </div>
-    </div>
-  </div>
-);
+import AlertCard from "../../common/AlertCard";
 
 const KYCAlerts = () => {
   const alerts = [
