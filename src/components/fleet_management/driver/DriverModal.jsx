@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalLayout from "../../../layouts/ModalLayout";
 import InputField from "../../common/InputField";
 
-const DriverModal = ({ isOpen, onClose }) => {
+const DriverModal = ({ isOpen, onClose, selectedDriver }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -18,21 +18,55 @@ const DriverModal = ({ isOpen, onClose }) => {
     group: "",
   });
 
+  useEffect(() => {
+    if (selectedDriver) {
+      setFormData({
+        firstName: selectedDriver.name?.split(" ")[0] || "",
+        lastName: selectedDriver.name?.split(" ")[1] || "",
+        mobilePhone: selectedDriver.phone || "",
+        email: "", // Assuming email isn't in selectedDriver
+        dateOfBirth: "",
+        startDate: "",
+        leaveDate: "",
+        licenseNumber: selectedDriver.license || "",
+        licenseClass: selectedDriver.licenseType || "",
+        hourlyRate: "",
+        profilePhoto: null,
+        group: "",
+      });
+    } else {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        mobilePhone: "",
+        email: "",
+        dateOfBirth: "",
+        startDate: "",
+        leaveDate: "",
+        licenseNumber: "",
+        licenseClass: "",
+        hourlyRate: "",
+        profilePhoto: null,
+        group: "",
+      });
+    }
+  }, [selectedDriver]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, profilePhoto: file });
+    setFormData((prev) => ({ ...prev, profilePhoto: file }));
   };
 
   return (
     <ModalLayout
       isOpen={isOpen}
       onClose={onClose}
-      title="Driver Details"
+      title={selectedDriver ? "Edit Driver" : "Add Driver"}
       description="Fill in the driver's information"
       tabs={["Basic Details", "Personal Details"]}
     >

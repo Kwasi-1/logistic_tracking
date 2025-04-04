@@ -14,6 +14,7 @@ const driverColumns = [
 const driverData = [
   {
     id: "DRV-101",
+    nationalId: "GHA-1222333330",
     name: "John Doe",
     license: "A12345",
     licenseType: "A",
@@ -25,6 +26,7 @@ const driverData = [
   },
   {
     id: "DRV-102",
+    nationalId: "GHA-12223336789",
     name: "Jane Smith",
     license: "B67890",
     licenseType: "D",
@@ -38,6 +40,7 @@ const driverData = [
 
 const DriverTable = () => {
   const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
+  const [selectedDriver, setSelectedDriver] = useState(null);
   const navigate = useNavigate();
 
   const handleRowClick = (driver) => {
@@ -45,11 +48,13 @@ const DriverTable = () => {
   };
 
   const handleAddDriver = () => {
+    setSelectedDriver(null); // clear for new driver
     setIsDriverModalOpen(true);
   };
 
   const handleCloseDriverModal = () => {
     setIsDriverModalOpen(false);
+    setSelectedDriver(null);
   };
 
   return (
@@ -60,12 +65,13 @@ const DriverTable = () => {
         searchPlaceholder="Search Drivers..."
         buttonLabel="Add Driver"
         onButtonClick={handleAddDriver}
-        onRowClick={handleRowClick} // Pass selected driver data
+        onRowClick={handleRowClick}
       />
 
       <DriverModal
         isOpen={isDriverModalOpen}
         onClose={handleCloseDriverModal}
+        selectedDriver={selectedDriver}
       />
     </div>
   );
