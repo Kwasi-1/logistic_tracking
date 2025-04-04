@@ -122,7 +122,7 @@ const MapComponent = () => {
 
   return (
     <div
-      className={`h-screen ${
+      className={`min-h-screen ${
         isDarkMode ? "dark bg-black/80 text-gray-200" : "bg-white text-gray-900"
       }`}
     >
@@ -144,13 +144,13 @@ const MapComponent = () => {
         />
       )}
 
-      <div className="h-[75vh] mx-10 relative">
+      <div className="h-[65vh] md:h-[75vh] mx-10 relative">
         <BusinessLayer mapRef={mapRef} businesses={businesses} />
         <TruckSimulation mapRef={mapRef} />
         <div
           id="map-container"
           ref={mapContainerRef}
-          className="h-[75vh] my-auto rounded-xl border"
+          className=" h-[65vh] md:h-[75vh]  myauto rounded-xl border"
         />
       </div>
 
