@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import MapActivity from "../components/fleet_management/driver/MapActivity";
 import AIRecommendation from "../components/fleet_management/driver/AIRecommendation";
 import Alerts from "../components/vehicle/Alerts";
 import Properties from "../components/fleet_management/driver/Properties";
 import VehicleDocuments from "../components/vehicle/VehicleDocuments";
+import EditButton from "../components/common/EditButton";
+import VehicleModal from "../components/vehicle/VehicleModal";
 
 const VehicleDetails = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const vehicle = {
     id: "1100",
     year: 2018,
@@ -23,6 +27,14 @@ const VehicleDetails = () => {
     msrp: "$24,950.00",
   };
 
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const vehicleProperties = [
     { label: "VIN", value: vehicle.vin },
     { label: "License Plate", value: vehicle.licensePlate },
@@ -33,8 +45,12 @@ const VehicleDetails = () => {
   ];
 
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-6 pt-4 min-h-screen">
       {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <div className="text-2xl font-semibold capitalize">Vehicle details</div>
+        <EditButton onButtonClick={handleEditClick} />
+      </div>
       <div className="grid grid-cols-3 gap-4 mt-4">
         <div className="col-span-2">
           <div className="bg-gray-200/30 p-4 rounded-xl flex items-center space-x-4 h-full">
@@ -82,6 +98,13 @@ const VehicleDetails = () => {
           </div>
         </div>
       </div>
+
+      <VehicleModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        vehicle={vehicle}
+        isEditMode={true}
+      />
     </div>
   );
 };
