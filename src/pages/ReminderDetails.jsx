@@ -166,7 +166,7 @@ const ReminderDetails = () => {
       <div className="flex-1 p-6">
         {/* Header */}
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Tire Rotation</h1>
+          <h1 className="text-2xl font-semibold">Tire Rotation</h1>
         </div>
 
         {/* Main Content Grid */}
