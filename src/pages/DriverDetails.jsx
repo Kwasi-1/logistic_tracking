@@ -4,6 +4,7 @@ import Properties from "../components/fleet_management/driver/Properties";
 import AIRecommendation from "../components/fleet_management/driver/AIRecommendation";
 import ThirdPartyMatches from "../components/fleet_management/driver/ThirdPartyMatches";
 import MapActivity from "../components/fleet_management/driver/MapActivity";
+import EditButton from "../components/common/EditButton";
 
 const DriverDetails = () => {
   const propertyData = [
@@ -15,7 +16,10 @@ const DriverDetails = () => {
 
   return (
     <div className="min-h-screen p-6">
-      <h1 className="text-xl font-semibold">Driver Details</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-xl font-semibold">Driver Details</h1>
+        <EditButton  />
+      </div>
 
       {/* Summary & AI Score */}
       <div className="grid grid-cols-3 gap-4 mt-4">

@@ -1,13 +1,13 @@
 import React from "react";
 
 // User Information Component
-const UserInfo = () => {
+const UserInfo = ({ driver }) => {
   return (
     <div>
       <div className="flex items-center space-x-4">
         <div className="w-14 h-14 bg-gray-500 rounded-full"></div>
         <div>
-          <h2 className="text-[17px] font-bold">Chioma Ngozi</h2>
+          <h2 className="text-[17px] font-bold">{driver.name}</h2>
           <p className="text-[14px] text-gray-400">Fleet Driver</p>
         </div>
       </div>
@@ -30,13 +30,13 @@ const DriverActions = () => {
 };
 
 // Driver Summary Component
-const DriverSummary = () => {
+const DriverSummary = ({ driver }) => {
   const stats = [
-    { label: "License Type", value: "D" },
+    { label: "License Type", value: driver.license },
+    { label: "License Type", value: driver.licenseType },
     { label: "KYC Score", value: "78%" },
-    { label: "Accident History", value: "2 Incidents", danger: true },
-    { label: "Recent Violations", value: "Speeding Ticket", warning: true },
-    { label: "Years of Experience", value: "5 Years" },
+    { label: "Experience", value: driver.experience },
+    { label: "Accident History", value: driver.accidentHistory, danger: true },
     { label: "Background Check", value: "Cleared" },
   ];
 
@@ -44,7 +44,7 @@ const DriverSummary = () => {
     <div className="bg-gray-200/30 flex gap-8 p-6 text-sm rounded-xl border border-[#e0e6e970] h-full">
       {/* Left Section: User Info & Actions */}
       <div className="w-[300px]">
-        <UserInfo />
+        <UserInfo driver={driver} />
         <DriverActions />
       </div>
 

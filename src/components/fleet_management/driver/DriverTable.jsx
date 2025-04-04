@@ -16,15 +16,23 @@ const driverData = [
     id: "DRV-101",
     name: "John Doe",
     license: "A12345",
+    licenseType: "A",
     experience: "5 years",
     status: "Active",
+    phone: "123-456-7890",
+    address: "123 Main St, City",
+    accidentHistory: "2 Incidents",
   },
   {
     id: "DRV-102",
     name: "Jane Smith",
     license: "B67890",
+    licenseType: "D",
     experience: "3 years",
     status: "Inactive",
+    phone: "987-654-3210",
+    address: "456 Elm St, City",
+    accidentHistory: "No Incidents",
   },
 ];
 
@@ -32,15 +40,15 @@ const DriverTable = () => {
   const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    navigate("/fleet/drivers/driver_info");
+  const handleRowClick = (driver) => {
+    navigate(`/fleet/drivers/driver_info`, { state: { driver } });
   };
 
   const handleAddDriver = () => {
     setIsDriverModalOpen(true);
   };
 
-  const handleCloseVehicleModal = () => {
+  const handleCloseDriverModal = () => {
     setIsDriverModalOpen(false);
   };
 
@@ -52,12 +60,12 @@ const DriverTable = () => {
         searchPlaceholder="Search Drivers..."
         buttonLabel="Add Driver"
         onButtonClick={handleAddDriver}
-        onRowClick={handleButtonClick}
+        onRowClick={handleRowClick} // Pass selected driver data
       />
 
       <DriverModal
         isOpen={isDriverModalOpen}
-        onClose={handleCloseVehicleModal}
+        onClose={handleCloseDriverModal}
       />
     </div>
   );
