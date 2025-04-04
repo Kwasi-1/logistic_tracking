@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function ModalLayout({
   isOpen,
@@ -9,9 +9,21 @@ function ModalLayout({
   children,
 }) {
   const [activeTab, setActiveTab] = useState(0);
-  const childArray = React.Children.toArray(children); // Ensure children are an array
-
+  const childArray = React.Children.toArray(children);
   const handleTabClick = (index) => setActiveTab(index);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // Clean up on unmount
+    };
+  }, [isOpen]);
+
   const handleBackdropClick = (e) => {
     if (e.target.id === "backdrop") {
       onClose();
