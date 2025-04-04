@@ -29,6 +29,12 @@ const initialVehicles = [
     type: "Car",
     group: "Management",
     statusColor: "green",
+    licensePlate: "6TRJ244",
+    color: "Silver",
+    meter: "20,811 mi",
+    ownership: "Owned",
+    bodyType: "Hatchback",
+    msrp: "$24,950.00",
   },
   {
     id: 2100,
@@ -42,6 +48,12 @@ const initialVehicles = [
     type: "Pickup Truck",
     group: "Sales",
     statusColor: "green",
+    licensePlate: "6TRGT54",
+    color: "Red",
+    meter: "20,821 mi",
+    ownership: "Owned",
+    bodyType: "Truck",
+    msrp: "$92,950.00",
   },
   {
     id: 3100,
@@ -55,6 +67,12 @@ const initialVehicles = [
     type: "Van",
     group: "Sales",
     statusColor: "orange",
+    licensePlate: "7TRJ994",
+    color: "Black",
+    meter: "20,811 mi",
+    ownership: "Owned",
+    bodyType: "Car",
+    msrp: "$62,950.00",
   },
   {
     id: 4100,
@@ -68,6 +86,12 @@ const initialVehicles = [
     type: "Semi Truck",
     group: "Warehouse",
     statusColor: "red",
+    licensePlate: "6TRJ1424",
+    color: "Silver",
+    meter: "20,811 mi",
+    ownership: "Owned",
+    bodyType: "Hatchback",
+    msrp: "$24,950.00",
   },
   {
     id: 5100,
@@ -81,6 +105,12 @@ const initialVehicles = [
     type: "Trailer",
     group: "Warehouse",
     statusColor: "gray",
+    licensePlate: "6TRJ244",
+    color: "Silver",
+    meter: "20,811 mi",
+    ownership: "Owned",
+    bodyType: "Hatchback",
+    msrp: "$24,950.00",
   },
   {
     id: 6100,
@@ -94,6 +124,12 @@ const initialVehicles = [
     type: "Forklift",
     group: "Warehouse",
     statusColor: "green",
+    licensePlate: "8ZWJ244",
+    color: "Silver",
+    meter: "26,811 mi",
+    ownership: "Owned",
+    bodyType: "Hatchback",
+    msrp: "$75,950.00",
   },
 ];
 
@@ -105,8 +141,8 @@ const VehicleTable = () => {
 
   const navigate = useNavigate();
 
-  const handleRowClick = () => {
-    navigate("/fleet/vehicle/info");
+  const handleRowClick = (row) => {
+    navigate("/fleet/vehicle/info", { state: { vehicle: row } });
   };
 
   // Ref to track the trigger button

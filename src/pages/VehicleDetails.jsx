@@ -6,11 +6,14 @@ import Properties from "../components/fleet_management/driver/Properties";
 import VehicleDocuments from "../components/vehicle/VehicleDocuments";
 import EditButton from "../components/common/EditButton";
 import VehicleModal from "../components/vehicle/VehicleModal";
+import { useLocation } from "react-router";
 
 const VehicleDetails = () => {
+  const location = useLocation(); // ✅ Get navigation state
+  const selectedVehicle = location.state?.vehicle;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const vehicle = {
+  const vehicle = selectedVehicle || {
     id: "1100",
     year: 2018,
     make: "Toyota",
@@ -21,7 +24,6 @@ const VehicleDetails = () => {
     status: "Active",
     meter: "20,811 mi",
     ownership: "Owned",
-    registration: "USA / Midwest Region / Chicago",
     operator: { name: "Jacob Silva", profilePic: "" },
     bodyType: "Hatchback",
     msrp: "$24,950.00",
