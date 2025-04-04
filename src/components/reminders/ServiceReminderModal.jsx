@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ModalLayout from "../../layouts/ModalLayout";
 import InputField from "../common/InputField";
 import SelectField from "../common/SelectField";
 
-const ServiceReminderModal = ({ isOpen, onClose }) => {
+const ServiceReminderModal = ({ isOpen, onClose, reminder, isEditMode }) => {
   const [formData, setFormData] = useState({
     vehicle: "",
     serviceTask: "",
@@ -15,6 +15,23 @@ const ServiceReminderModal = ({ isOpen, onClose }) => {
     primaryMeterDueThreshold: "",
     enableNotifications: true,
   });
+
+  useEffect(() => {
+    if (isEditMode && reminder) {
+      // Parse the existing reminder data into the form
+      setFormData({
+        vehicle: `${reminder.vehicle.id} [${reminder.vehicle.year} ${reminder.vehicle.make} ${reminder.vehicle.model}]`,
+        serviceTask: reminder.serviceTask,
+        timeInterval: "3", // Example value - you might need to calculate this from the data
+        timeIntervalUnit: "months",
+        timeDueThreshold: "2",
+        timeDueThresholdUnit: "weeks",
+        primaryMeterInterval: "5000", // Example value
+        primaryMeterDueThreshold: "500", // Example value
+        enableNotifications: true,
+      });
+    }
+  }, [isEditMode, reminder]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -33,8 +50,12 @@ const ServiceReminderModal = ({ isOpen, onClose }) => {
     <ModalLayout
       isOpen={isOpen}
       onClose={onClose}
-      title="New Service Reminder"
-      description="Set up a recurring service reminder for your vehicle."
+      title={isEditMode ? "Edit Service Reminder" : "New Service Reminder"}
+      description={
+        isEditMode
+          ? "Edit the service reminder details."
+          : "Set up a recurring service reminder for your vehicle."
+      }
     >
       <form className="space-y-4">
         {/* Vehicle Selection */}
@@ -43,7 +64,12 @@ const ServiceReminderModal = ({ isOpen, onClose }) => {
           name="vehicle"
           value={formData.vehicle}
           onChange={handleChange}
-          options={["Select Vehicle", "2016 Ford F-150", "2018 Toyota Prius"]}
+          options={[
+            "Select Vehicle",
+            `${reminder?.vehicle.id} [${reminder?.vehicle.year} ${reminder?.vehicle.make} ${reminder?.vehicle.model}]`,
+            "2016 Ford F-150",
+            "2018 Toyota Prius",
+          ]}
         />
 
         {/* Service Task Selection */}
@@ -139,10 +165,17 @@ const ServiceReminderModal = ({ isOpen, onClose }) => {
         <div className="flex justify-end space-x-2">
           <button
             type="button"
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
             onClick={handleSubmit}
             className="px-4 py-2 bg-[#619B7D] text-white rounded-md"
           >
-            Save Service Reminder
+            {isEditMode ? "Save Changes" : "Save Service Reminder"}
           </button>
         </div>
       </form>

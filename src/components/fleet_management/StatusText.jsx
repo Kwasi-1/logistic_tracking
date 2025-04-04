@@ -16,6 +16,7 @@ const StatusText = ({ text, textClassName = "" }) => {
         "delivered",
         "approved",
         "booked",
+        "on-time",
         "actioned",
         "yes",
       ].includes(lowerStatus)
@@ -35,6 +36,7 @@ const StatusText = ({ text, textClassName = "" }) => {
         "return",
         "rejected",
         "overdue",
+        "late",
         "failure",
       ].includes(lowerStatus)
     ) {
